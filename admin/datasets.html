@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dataset Management - Admin | PLAP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/tailwind-config.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <!-- Header -->
+    <header class="bg-gray-900 text-white sticky top-0 z-50">
+        <div class="flex items-center justify-between px-4 h-14">
+            <div class="flex items-center gap-4">
+                <a href="../index.html" class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-primary-500 rounded flex items-center justify-center">
+                        <i class="fas fa-landmark text-white text-sm"></i>
+                    </div>
+                    <span class="font-bold">PLAP Admin</span>
+                </a>
+            </div>
+            <div class="flex items-center gap-4">
+                <button class="text-gray-400 hover:text-white relative">
+                    <i class="fas fa-bell"></i>
+                    <span class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-xs rounded-full flex items-center justify-center">3</span>
+                </button>
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center text-sm font-medium">AD</div>
+                    <span class="text-sm hidden md:inline">Admin</span>
+                    <a href="../login.html" class="text-gray-400 hover:text-white ml-2"><i class="fas fa-sign-out-alt"></i></a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex">
+        <!-- Sidebar -->
+        <aside class="w-56 bg-gray-900 min-h-screen fixed left-0 top-14 hidden lg:block">
+            <nav class="p-3">
+                <a href="dashboard.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white text-sm mb-1">
+                    <i class="fas fa-tachometer-alt w-4"></i> Dashboard
+                </a>
+                <a href="datasets.html" class="flex items-center gap-3 px-3 py-2 rounded-lg bg-gray-800 text-white text-sm mb-1">
+                    <i class="fas fa-database w-4"></i> Datasets
+                </a>
+                <a href="users.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white text-sm mb-1">
+                    <i class="fas fa-users w-4"></i> Users
+                </a>
+                <a href="logs.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white text-sm mb-1">
+                    <i class="fas fa-history w-4"></i> Download Logs
+                </a>
+                <div class="border-t border-gray-800 my-3"></div>
+                <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white text-sm mb-1">
+                    <i class="fas fa-cog w-4"></i> Settings
+                </a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white text-sm">
+                    <i class="fas fa-sync w-4"></i> ETL Status
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 lg:ml-56 p-6">
+            <div class="max-w-7xl mx-auto">
+                <!-- Header -->
+                <div class="flex items-center justify-between mb-6">
+                    <h1 class="text-2xl font-bold text-gray-800">Dataset Management</h1>
+                    <div class="flex gap-3">
+                        <button class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 flex items-center gap-2">
+                            <i class="fas fa-sync"></i> Run ETL
+                        </button>
+                        <a href="add-dataset.html" class="bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-700 flex items-center gap-2">
+                            <i class="fas fa-plus"></i> Add Dataset
+                        </a>
+                    </div>
+                </div>
+
+                <!-- ETL Status Cards -->
+                <div class="grid md:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-white rounded-xl p-4 shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm">Total Datasets</p>
+                                <p class="text-2xl font-bold text-gray-800">5</p>
+                            </div>
+                            <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-database text-blue-600"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm">Total Records</p>
+                                <p class="text-2xl font-bold text-gray-800">25.5M</p>
+                            </div>
+                            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-table text-green-600"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm">Last ETL Run</p>
+                                <p class="text-2xl font-bold text-gray-800">2h ago</p>
+                            </div>
+                            <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-clock text-purple-600"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm">ETL Status</p>
+                                <p class="text-2xl font-bold text-green-600">Healthy</p>
+                            </div>
+                            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-check-circle text-green-600"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dataset Cards -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+                    <!-- Registry Transactions -->
+                    <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                        <div class="p-4 border-b bg-gradient-to-r from-blue-500 to-blue-600">
+                            <div class="flex items-center justify-between text-white">
+                                <div class="flex items-center gap-3">
+                                    <i class="fas fa-file-contract text-2xl"></i>
+                                    <h3 class="font-semibold">Registry Transactions</h3>
+                                </div>
+                                <span class="bg-white/20 px-2 py-1 rounded text-xs">ESORS</span>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <div class="space-y-3">
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-500">Records</span>
+                                    <span class="font-medium">2,547,892</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-500">Date Range</span>
+                                    <span class="font-medium">2015-2024</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-500">Last Updated</span>
+                                    <span class="font-medium">Dec 4, 2024 08:30</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-500">Status</span>
+                                    <span class="text-green-600 font-medium"><i class="fas fa-check-circle mr-1"></i>Active</span>
+                                </div>
+                            </div>
+                            <div class="mt-4 pt-4 border-t flex justify-between">
+                                <button class="text-primary-600 text-sm hover:text-primary-800"><i class="fas fa-cog mr-1"></i>Configure</button>
+                                <button class="text-primary-600 text-sm hover:text-primary-800"><i class="fas fa-sync mr-1"></i>Refresh</button>
+                                <button class="text-gray-400 text-sm hover:text-gray-600"><i class="fas fa-eye mr-1"></i>Preview</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Land Ownership -->
+                    <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                        <div class="p-4 border-b bg-gradient-to-r from-green-500 to-green-600">
+                            <div class="flex items-center justify-between text-white">
+                                <div class="flex items-center gap-3">
+                                    <i class="fas fa-map text-2xl"></i>
+                                    <h3 class="font-semibold">Land Ownership</h3>
+                                </div>
+                                <span class="bg-white/20 px-2 py-1 rounded text-xs">CLRMIS</span>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <div class="space-y-3">
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-500">Records</span>
+                                    <span class="font-medium">15,234,567</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-500">Date Range</span>
+                                    <span class="font-medium">Current Snapshot</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-500">Last Updated</span>
+                                    <span class="font-medium">Dec 4, 2024 06:00</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-500">Status</span>
+                                    <span class="text-green-600 font-medium"><i class="fas fa-check-circle mr-1"></i>Active</span>
+                                </div>
+                            </div>
+                            <div class="mt-4 pt-4 border-t flex justify-between">
+                                <button class="text-primary-600 text-sm hover:text-primary-800"><i class="fas fa-cog mr-1"></i>Configure</button>
+                                <button class="text-primary-600 text-sm hover:text-primary-800"><i class="fas fa-sync mr-1"></i>Refresh</button>
+                                <button class="text-gray-400 text-sm hover:text-gray-600"><i class="fas fa-eye mr-1"></i>Preview</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mutation Trends -->
+                    <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                        <div class="p-4 border-b bg-gradient-to-r from-amber-500 to-amber-600">
+                            <div class="flex items-center justify-between text-white">
+                                <div class="flex items-center gap-3">
+                                    <i class="fas fa-exchange-alt text-2xl"></i>
+                                    <h3 class="font-semibold">Mutation Trends</h3>
+                                </div>
+                                <span class="bg-white/20 px-2 py-1 rounded text-xs">CLRMIS</span>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <div class="space-y-3">
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-500">Records</span>
+                                    <span class="font-medium">7,892,341</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-500">Date Range</span>
+                                    <span class="font-medium">2010-2024</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-500">Last Updated</span>
+                                    <span class="font-medium">Dec 3, 2024 23:45</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-500">Status</span>
+                                    <span class="text-green-600 font-medium"><i class="fas fa-check-circle mr-1"></i>Active</span>
+                                </div>
+                            </div>
+                            <div class="mt-4 pt-4 border-t flex justify-between">
+                                <button class="text-primary-600 text-sm hover:text-primary-800"><i class="fas fa-cog mr-1"></i>Configure</button>
+                                <button class="text-primary-600 text-sm hover:text-primary-800"><i class="fas fa-sync mr-1"></i>Refresh</button>
+                                <button class="text-gray-400 text-sm hover:text-gray-600"><i class="fas fa-eye mr-1"></i>Preview</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Franchisee Operations -->
+                    <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                        <div class="p-4 border-b bg-gradient-to-r from-purple-500 to-purple-600">
+                            <div class="flex items-center justify-between text-white">
+                                <div class="flex items-center gap-3">
+                                    <i class="fas fa-building text-2xl"></i>
+                                    <h3 class="font-semibold">Franchisee Operations</h3>
+                                </div>
+                                <span class="bg-white/20 px-2 py-1 rounded text-xs">API</span>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <div class="space-y-3">
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-500">Records</span>
+                                    <span class="font-medium">1,234,567</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-500">Date Range</span>
+                                    <span class="font-medium">2018-2024</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-500">Last Updated</span>
+                                    <span class="font-medium">Dec 4, 2024 07:15</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-500">Status</span>
+                                    <span class="text-green-600 font-medium"><i class="fas fa-check-circle mr-1"></i>Active</span>
+                                </div>
+                            </div>
+                            <div class="mt-4 pt-4 border-t flex justify-between">
+                                <button class="text-primary-600 text-sm hover:text-primary-800"><i class="fas fa-cog mr-1"></i>Configure</button>
+                                <button class="text-primary-600 text-sm hover:text-primary-800"><i class="fas fa-sync mr-1"></i>Refresh</button>
+                                <button class="text-gray-400 text-sm hover:text-gray-600"><i class="fas fa-eye mr-1"></i>Preview</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Attendance Data (Government Only) -->
+                    <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                        <div class="p-4 border-b bg-gradient-to-r from-red-500 to-red-600">
+                            <div class="flex items-center justify-between text-white">
+                                <div class="flex items-center gap-3">
+                                    <i class="fas fa-user-clock text-2xl"></i>
+                                    <h3 class="font-semibold">Attendance Data</h3>
+                                </div>
+                                <span class="bg-white/20 px-2 py-1 rounded text-xs">AMS</span>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <div class="space-y-3">
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-500">Records</span>
+                                    <span class="font-medium">2,456,789</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-500">Date Range</span>
+                                    <span class="font-medium">2020-2024</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-500">Last Updated</span>
+                                    <span class="font-medium">Dec 4, 2024 09:00</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-500">Access</span>
+                                    <span class="text-amber-600 font-medium"><i class="fas fa-lock mr-1"></i>Gov Only</span>
+                                </div>
+                            </div>
+                            <div class="mt-4 pt-4 border-t flex justify-between">
+                                <button class="text-primary-600 text-sm hover:text-primary-800"><i class="fas fa-cog mr-1"></i>Configure</button>
+                                <button class="text-primary-600 text-sm hover:text-primary-800"><i class="fas fa-sync mr-1"></i>Refresh</button>
+                                <button class="text-gray-400 text-sm hover:text-gray-600"><i class="fas fa-eye mr-1"></i>Preview</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ETL Job History -->
+                <div class="bg-white rounded-xl shadow-sm">
+                    <div class="p-4 border-b flex items-center justify-between">
+                        <h2 class="font-semibold text-gray-800">Recent ETL Jobs</h2>
+                        <button class="text-primary-600 text-sm hover:text-primary-800">View All Jobs</button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="text-left px-4 py-3 text-sm font-medium text-gray-600">Job ID</th>
+                                    <th class="text-left px-4 py-3 text-sm font-medium text-gray-600">Dataset</th>
+                                    <th class="text-left px-4 py-3 text-sm font-medium text-gray-600">Started</th>
+                                    <th class="text-left px-4 py-3 text-sm font-medium text-gray-600">Duration</th>
+                                    <th class="text-left px-4 py-3 text-sm font-medium text-gray-600">Records</th>
+                                    <th class="text-left px-4 py-3 text-sm font-medium text-gray-600">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y">
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-mono text-gray-600">ETL-2024-1204-001</td>
+                                    <td class="px-4 py-3 text-sm text-gray-800">Registry Transactions</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Dec 4, 08:30 AM</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">12m 34s</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">+1,234</td>
+                                    <td class="px-4 py-3"><span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs">Success</span></td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-mono text-gray-600">ETL-2024-1204-002</td>
+                                    <td class="px-4 py-3 text-sm text-gray-800">Land Ownership</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Dec 4, 06:00 AM</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">45m 12s</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Full Refresh</td>
+                                    <td class="px-4 py-3"><span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs">Success</span></td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-mono text-gray-600">ETL-2024-1203-003</td>
+                                    <td class="px-4 py-3 text-sm text-gray-800">Mutation Trends</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Dec 3, 11:45 PM</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">23m 56s</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">+5,678</td>
+                                    <td class="px-4 py-3"><span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs">Success</span></td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-mono text-gray-600">ETL-2024-1203-002</td>
+                                    <td class="px-4 py-3 text-sm text-gray-800">Franchisee Operations</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Dec 3, 07:15 PM</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">8m 45s</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">+892</td>
+                                    <td class="px-4 py-3"><span class="bg-amber-100 text-amber-700 px-2 py-1 rounded-full text-xs">Partial</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

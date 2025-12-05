@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample Weights Documentation - Punjab Land Analytics Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/tailwind-config.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- MathJax for formulas -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-gray-200 fixed w-full z-30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="../index.html" class="flex items-center">
+                        <div class="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-landmark text-white text-lg"></i>
+                        </div>
+                        <div class="ml-3">
+                            <span class="text-xl font-bold text-gray-900">PLAP</span>
+                            <span class="text-xs text-gray-500 block -mt-1">Punjab Land Analytics</span>
+                        </div>
+                    </a>
+                    <div class="hidden md:flex ml-10 space-x-4">
+                        <a href="../explore.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Explore Data</a>
+                        <a href="../extract.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Create Extract</a>
+                        <a href="analysis.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Analysis</a>
+                        <a href="time-series.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Time Series</a>
+                        <a href="../codebook.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Codebook</a>
+                        <a href="api.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">API</a>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="saved-queries.html" class="text-gray-600 hover:text-primary-600">
+                        <i class="fas fa-bookmark"></i>
+                    </a>
+                    <div class="relative">
+                        <button class="flex items-center space-x-2 text-gray-700 hover:text-primary-600">
+                            <div class="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
+                                <span class="text-primary-700 font-medium text-sm">DR</span>
+                            </div>
+                            <span class="text-sm font-medium">Dr. Researcher</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Breadcrumb -->
+            <nav class="text-sm text-gray-500 mb-6">
+                <a href="../index.html" class="hover:text-primary-600">Home</a>
+                <span class="mx-2">/</span>
+                <a href="../documentation.html" class="hover:text-primary-600">Documentation</a>
+                <span class="mx-2">/</span>
+                <span class="text-gray-900">Sample Weights</span>
+            </nav>
+
+            <!-- Header -->
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-gray-900">Sample Weights & Variance Estimation</h1>
+                <p class="text-gray-600 mt-2">Understanding and applying weights for accurate statistical inference in PLAP data</p>
+            </div>
+
+            <!-- Key Message -->
+            <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+                <div class="flex">
+                    <i class="fas fa-exclamation-triangle text-red-500 mt-0.5 mr-3"></i>
+                    <div>
+                        <h3 class="font-medium text-red-900">Important: Always Use Weights</h3>
+                        <p class="text-red-800 text-sm mt-1">
+                            PLAP data uses stratified sampling in survey-based datasets. <strong>You must apply sample weights</strong> to obtain
+                            population-representative estimates. Unweighted analyses may produce biased results.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Overview -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">Overview</h2>
+                <div class="prose text-gray-700">
+                    <p class="mb-4">
+                        Sample weights account for differences in the probability of selection and adjust for non-response.
+                        They allow you to generalize from the sample to the target population. PLAP provides several types of weights
+                        depending on the dataset and analysis requirements.
+                    </p>
+                    <p>
+                        For variance estimation, PLAP provides <strong>replicate weights</strong> that account for the complex survey design.
+                        Using replicate weights produces correct standard errors that reflect the true uncertainty in estimates.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Tabs Navigation -->
+            <div class="border-b border-gray-200 mb-6">
+                <nav class="flex space-x-8">
+                    <button onclick="showTab('types')" class="tab-btn border-b-2 border-primary-500 text-primary-600 py-3 px-1 text-sm font-medium" data-tab="types">
+                        Weight Types
+                    </button>
+                    <button onclick="showTab('usage')" class="tab-btn border-b-2 border-transparent text-gray-500 hover:text-gray-700 py-3 px-1 text-sm font-medium" data-tab="usage">
+                        How to Use Weights
+                    </button>
+                    <button onclick="showTab('replicate')" class="tab-btn border-b-2 border-transparent text-gray-500 hover:text-gray-700 py-3 px-1 text-sm font-medium" data-tab="replicate">
+                        Replicate Weights
+                    </button>
+                    <button onclick="showTab('software')" class="tab-btn border-b-2 border-transparent text-gray-500 hover:text-gray-700 py-3 px-1 text-sm font-medium" data-tab="software">
+                        Software Examples
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Weight Types Tab -->
+            <div id="types-tab" class="tab-content">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
+                    <div class="p-4 border-b border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900">Available Weight Variables</h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Variable</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Use When</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Available In</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600 font-medium">TXNWT</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">Transaction-level weight</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Analyzing individual transactions</td>
+                                    <td class="px-4 py-3 text-sm text-gray-500">Registry, E-Stamp samples</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600 font-medium">PROPWT</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">Property-level weight</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Analyzing properties (not transactions)</td>
+                                    <td class="px-4 py-3 text-sm text-gray-500">Property survey data</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600 font-medium">HHWT</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">Household weight</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Household-level estimates</td>
+                                    <td class="px-4 py-3 text-sm text-gray-500">Land ownership surveys</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600 font-medium">PERWT</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">Person weight</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Person-level estimates (landowners)</td>
+                                    <td class="px-4 py-3 text-sm text-gray-500">Individual owner data</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600 font-medium">DISTSTR</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">District stratum identifier</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Variance estimation (strata)</td>
+                                    <td class="px-4 py-3 text-sm text-gray-500">All sampled datasets</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600 font-medium">CLUSTER</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">Primary sampling unit</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Variance estimation (clusters)</td>
+                                    <td class="px-4 py-3 text-sm text-gray-500">All sampled datasets</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Weight Construction -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Weight Construction</h3>
+                    <p class="text-gray-600 mb-4">
+                        Sample weights in PLAP are constructed as the product of three components:
+                    </p>
+
+                    <div class="bg-gray-50 rounded-lg p-6 mb-4">
+                        <div class="text-center text-lg">
+                            \[ W_i = \frac{1}{\pi_i} \times A_i \times C_i \]
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <div class="font-mono text-primary-600 font-medium">1/π<sub>i</sub></div>
+                            <div class="text-sm font-medium text-gray-900 mt-1">Base Weight</div>
+                            <div class="text-sm text-gray-600 mt-1">
+                                Inverse of selection probability. Accounts for stratified sampling design.
+                            </div>
+                        </div>
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <div class="font-mono text-primary-600 font-medium">A<sub>i</sub></div>
+                            <div class="text-sm font-medium text-gray-900 mt-1">Non-response Adjustment</div>
+                            <div class="text-sm text-gray-600 mt-1">
+                                Adjusts for differential non-response by tehsil and property type.
+                            </div>
+                        </div>
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <div class="font-mono text-primary-600 font-medium">C<sub>i</sub></div>
+                            <div class="text-sm font-medium text-gray-900 mt-1">Post-stratification</div>
+                            <div class="text-sm text-gray-600 mt-1">
+                                Calibrates to known population totals (district transaction counts).
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Census vs Sample -->
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <div class="flex">
+                        <i class="fas fa-info-circle text-blue-500 mt-0.5 mr-3"></i>
+                        <div>
+                            <h3 class="font-medium text-blue-900">Census Data vs. Sample Data</h3>
+                            <p class="text-blue-800 text-sm mt-1">
+                                <strong>Census datasets</strong> (complete administrative records like E-Registry) contain all transactions and do not require weights
+                                for point estimates. However, you may still want to use design-based approaches for inference.
+                            </p>
+                            <p class="text-blue-800 text-sm mt-2">
+                                <strong>Sample datasets</strong> (surveys, quality audits) always require weights. Check the dataset documentation to determine the data type.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- How to Use Weights Tab -->
+            <div id="usage-tab" class="tab-content hidden">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Weighted Statistics</h3>
+                    <p class="text-gray-600 mb-4">
+                        When calculating statistics from PLAP sample data, apply weights to each observation. Here are the formulas for common weighted statistics:
+                    </p>
+
+                    <!-- Weighted Mean -->
+                    <div class="border-b border-gray-200 pb-4 mb-4">
+                        <h4 class="font-medium text-gray-900 mb-2">Weighted Mean</h4>
+                        <div class="bg-gray-50 rounded-lg p-4 text-center">
+                            \[ \bar{x}_w = \frac{\sum_{i=1}^{n} w_i x_i}{\sum_{i=1}^{n} w_i} \]
+                        </div>
+                        <p class="text-sm text-gray-600 mt-2">
+                            Where \(w_i\) is the weight for observation \(i\) and \(x_i\) is the value.
+                        </p>
+                    </div>
+
+                    <!-- Weighted Variance -->
+                    <div class="border-b border-gray-200 pb-4 mb-4">
+                        <h4 class="font-medium text-gray-900 mb-2">Weighted Variance</h4>
+                        <div class="bg-gray-50 rounded-lg p-4 text-center">
+                            \[ s^2_w = \frac{\sum_{i=1}^{n} w_i (x_i - \bar{x}_w)^2}{\sum_{i=1}^{n} w_i - 1} \]
+                        </div>
+                    </div>
+
+                    <!-- Weighted Proportion -->
+                    <div>
+                        <h4 class="font-medium text-gray-900 mb-2">Weighted Proportion</h4>
+                        <div class="bg-gray-50 rounded-lg p-4 text-center">
+                            \[ \hat{p}_w = \frac{\sum_{i=1}^{n} w_i \cdot \mathbb{1}_{[x_i = c]}}{\sum_{i=1}^{n} w_i} \]
+                        </div>
+                        <p class="text-sm text-gray-600 mt-2">
+                            Where \(\mathbb{1}_{[x_i = c]}\) is 1 if observation \(i\) is in category \(c\), 0 otherwise.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Selecting the Right Weight -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Selecting the Correct Weight</h3>
+
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="bg-primary-100 text-primary-700 rounded-full w-8 h-8 flex items-center justify-center font-medium mr-3 flex-shrink-0">1</div>
+                            <div>
+                                <h4 class="font-medium text-gray-900">Identify your unit of analysis</h4>
+                                <p class="text-gray-600 text-sm mt-1">
+                                    What are you trying to estimate? Transactions, properties, households, or persons?
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-primary-100 text-primary-700 rounded-full w-8 h-8 flex items-center justify-center font-medium mr-3 flex-shrink-0">2</div>
+                            <div>
+                                <h4 class="font-medium text-gray-900">Match the weight to your analysis unit</h4>
+                                <ul class="text-gray-600 text-sm mt-1 list-disc ml-4 space-y-1">
+                                    <li>Transaction analysis → Use <code class="bg-gray-100 px-1 rounded">TXNWT</code></li>
+                                    <li>Property analysis → Use <code class="bg-gray-100 px-1 rounded">PROPWT</code></li>
+                                    <li>Household analysis → Use <code class="bg-gray-100 px-1 rounded">HHWT</code></li>
+                                    <li>Person analysis → Use <code class="bg-gray-100 px-1 rounded">PERWT</code></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-primary-100 text-primary-700 rounded-full w-8 h-8 flex items-center justify-center font-medium mr-3 flex-shrink-0">3</div>
+                            <div>
+                                <h4 class="font-medium text-gray-900">Check for subpopulation weights</h4>
+                                <p class="text-gray-600 text-sm mt-1">
+                                    Some datasets include specialized weights (e.g., <code class="bg-gray-100 px-1 rounded">AGRI_WT</code> for agricultural properties).
+                                    Use these when analyzing specific subpopulations.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Common Mistakes -->
+                <div class="bg-amber-50 border border-amber-200 rounded-lg p-4">
+                    <h3 class="font-medium text-amber-900 mb-2"><i class="fas fa-exclamation-circle mr-2"></i>Common Mistakes to Avoid</h3>
+                    <ul class="text-amber-800 text-sm space-y-2">
+                        <li><i class="fas fa-times text-red-500 mr-2"></i>Using unweighted counts as population estimates</li>
+                        <li><i class="fas fa-times text-red-500 mr-2"></i>Summing weights to get population totals (use weighted sums of variables instead)</li>
+                        <li><i class="fas fa-times text-red-500 mr-2"></i>Using person weights when analyzing households</li>
+                        <li><i class="fas fa-times text-red-500 mr-2"></i>Ignoring weights when subsetting data (weights still apply to subpopulations)</li>
+                        <li><i class="fas fa-times text-red-500 mr-2"></i>Using simple random sample formulas for standard errors</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Replicate Weights Tab -->
+            <div id="replicate-tab" class="tab-content hidden">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">About Replicate Weights</h3>
+                    <p class="text-gray-600 mb-4">
+                        Replicate weights enable proper variance estimation that accounts for the complex survey design (stratification and clustering).
+                        PLAP uses the <strong>Successive Difference Replication (SDR)</strong> method with 80 replicate weights.
+                    </p>
+
+                    <div class="bg-gray-50 rounded-lg p-4 mb-4">
+                        <h4 class="font-medium text-gray-900 mb-2">Replicate Weight Variables</h4>
+                        <div class="font-mono text-sm text-gray-700">
+                            REPWT1, REPWT2, REPWT3, ... , REPWT80
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SDR Formula -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Variance Estimation Formula</h3>
+                    <p class="text-gray-600 mb-4">
+                        The variance of an estimate \(\hat{\theta}\) using SDR replicate weights is:
+                    </p>
+
+                    <div class="bg-gray-50 rounded-lg p-6 text-center mb-4">
+                        \[ \text{Var}(\hat{\theta}) = \frac{4}{R} \sum_{r=1}^{R} (\hat{\theta}_r - \hat{\theta})^2 \]
+                    </div>
+
+                    <div class="text-gray-600 text-sm">
+                        <p>Where:</p>
+                        <ul class="list-disc ml-6 mt-2 space-y-1">
+                            <li>\(\hat{\theta}\) = estimate using the full sample weight</li>
+                            <li>\(\hat{\theta}_r\) = estimate using replicate weight \(r\)</li>
+                            <li>\(R\) = number of replicates (80)</li>
+                            <li>The factor 4 is the SDR coefficient (varies by method)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Replicate Weight Procedure -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Step-by-Step Procedure</h3>
+
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="bg-primary-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-medium mr-3 flex-shrink-0">1</div>
+                            <div>
+                                <h4 class="font-medium text-gray-900">Calculate estimate with full sample weight</h4>
+                                <p class="text-gray-600 text-sm mt-1">
+                                    Compute your statistic using TXNWT (or appropriate weight). This is \(\hat{\theta}\).
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-primary-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-medium mr-3 flex-shrink-0">2</div>
+                            <div>
+                                <h4 class="font-medium text-gray-900">Calculate estimate with each replicate weight</h4>
+                                <p class="text-gray-600 text-sm mt-1">
+                                    Repeat calculation 80 times, using REPWT1 through REPWT80. These are \(\hat{\theta}_1\) through \(\hat{\theta}_{80}\).
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-primary-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-medium mr-3 flex-shrink-0">3</div>
+                            <div>
+                                <h4 class="font-medium text-gray-900">Calculate variance</h4>
+                                <p class="text-gray-600 text-sm mt-1">
+                                    Apply the SDR variance formula above.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="bg-primary-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-medium mr-3 flex-shrink-0">4</div>
+                            <div>
+                                <h4 class="font-medium text-gray-900">Calculate standard error</h4>
+                                <p class="text-gray-600 text-sm mt-1">
+                                    \(SE(\hat{\theta}) = \sqrt{\text{Var}(\hat{\theta})}\)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- When to Use Replicate Weights -->
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <h3 class="font-medium text-blue-900 mb-2">When to Use Replicate Weights</h3>
+                    <ul class="text-blue-800 text-sm space-y-1">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Calculating confidence intervals</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Hypothesis testing</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Regression with complex survey data</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Any analysis requiring standard errors</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Software Examples Tab -->
+            <div id="software-tab" class="tab-content hidden">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Software Implementation</h3>
+                    <p class="text-gray-600 mb-4">
+                        Most statistical software packages support survey weights and replicate variance estimation.
+                        Below are examples for commonly used tools.
+                    </p>
+                </div>
+
+                <!-- R Example -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-blue-100 p-2 rounded-lg mr-3">
+                            <i class="fab fa-r-project text-blue-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900">R (survey package)</h3>
+                    </div>
+                    <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+                        <pre class="text-green-400 text-sm"><code>library(survey)
+
+# Load PLAP data
+plap_data <- read.csv("plap_extract.csv")
+
+# Define survey design with replicate weights
+plap_design <- svrepdesign(
+  data = plap_data,
+  weights = ~TXNWT,
+  repweights = "REPWT[0-9]+",
+  type = "successive-difference",
+  mse = TRUE
+)
+
+# Calculate weighted mean
+svymean(~TRANSACTION_VALUE, plap_design)
+
+# Calculate weighted regression
+svyglm(TRANSACTION_VALUE ~ PROPERTY_TYPE + DISTRICT,
+       design = plap_design)</code></pre>
+                    </div>
+                </div>
+
+                <!-- Python Example -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-yellow-100 p-2 rounded-lg mr-3">
+                            <i class="fab fa-python text-yellow-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900">Python</h3>
+                    </div>
+                    <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+                        <pre class="text-green-400 text-sm"><code>import pandas as pd
+import numpy as np
+
+# Load data
+df = pd.read_csv("plap_extract.csv")
+
+# Weighted mean
+def weighted_mean(values, weights):
+    return np.sum(values * weights) / np.sum(weights)
+
+mean_value = weighted_mean(df['TRANSACTION_VALUE'], df['TXNWT'])
+
+# SDR variance estimation
+def sdr_variance(values, main_weight, rep_weights):
+    main_est = weighted_mean(values, main_weight)
+    rep_ests = [weighted_mean(values, df[w]) for w in rep_weights]
+    variance = (4 / len(rep_ests)) * sum((r - main_est)**2 for r in rep_ests)
+    return variance
+
+rep_cols = [f'REPWT{i}' for i in range(1, 81)]
+variance = sdr_variance(df['TRANSACTION_VALUE'], df['TXNWT'], rep_cols)
+se = np.sqrt(variance)
+
+print(f"Mean: {mean_value:,.0f}, SE: {se:,.0f}")</code></pre>
+                    </div>
+                </div>
+
+                <!-- Stata Example -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-blue-100 p-2 rounded-lg mr-3">
+                            <i class="fas fa-chart-bar text-blue-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900">Stata</h3>
+                    </div>
+                    <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+                        <pre class="text-green-400 text-sm"><code>* Load data
+use "plap_extract.dta", clear
+
+* Set up survey design with replicate weights
+svyset [pweight=TXNWT], sdrweight(REPWT1-REPWT80) vce(sdr) mse
+
+* Weighted mean with standard error
+svy: mean TRANSACTION_VALUE
+
+* Weighted regression
+svy: regress TRANSACTION_VALUE i.PROPERTY_TYPE i.DISTRICT
+
+* Weighted tabulation
+svy: tabulate PROPERTY_TYPE, count se</code></pre>
+                    </div>
+                </div>
+
+                <!-- SPSS Example -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-purple-100 p-2 rounded-lg mr-3">
+                            <i class="fas fa-calculator text-purple-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900">SPSS</h3>
+                    </div>
+                    <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+                        <pre class="text-green-400 text-sm"><code>* Define complex sample design
+CSPLAN ANALYSIS
+  /PLAN FILE='plap_csplan.csaplan'
+  /PLANVARS ANALYSISWEIGHT=TXNWT
+  /SRSESTIMATOR TYPE=WR
+  /PRINT PLAN
+  /DESIGN
+  /ESTIMATOR TYPE=WR.
+
+* Apply the plan
+CSSELECT
+  /PLAN FILE='plap_csplan.csaplan'.
+
+* Weighted descriptives
+CSDESCRIPTIVES
+  /PLAN FILE='plap_csplan.csaplan'
+  /SUMMARY VARIABLES=TRANSACTION_VALUE
+  /MEAN.
+
+* Weighted regression
+CSGLM TRANSACTION_VALUE BY PROPERTY_TYPE DISTRICT
+  /PLAN FILE='plap_csplan.csaplan'
+  /MODEL PROPERTY_TYPE DISTRICT
+  /STATISTICS PARAMETER.</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white mt-16">
+        <div class="max-w-7xl mx-auto px-4 py-8">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-landmark text-white"></i>
+                    </div>
+                    <div>
+                        <div class="font-semibold">Punjab Land Analytics Portal</div>
+                        <div class="text-sm text-gray-400">Punjab Land Revenue Authority</div>
+                    </div>
+                </div>
+                <div class="text-sm text-gray-400">
+                    © 2024 Government of Punjab. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+            // Remove active state from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('border-primary-500', 'text-primary-600');
+                btn.classList.add('border-transparent', 'text-gray-500');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.remove('hidden');
+            // Add active state to button
+            document.querySelector(`[data-tab="${tabName}"]`).classList.remove('border-transparent', 'text-gray-500');
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('border-primary-500', 'text-primary-600');
+        }
+    </script>
+</body>
+</html>

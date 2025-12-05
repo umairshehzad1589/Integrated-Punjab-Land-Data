@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download History - Punjab Land Analytics Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/tailwind-config.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="flex items-center justify-between px-4 h-16">
+            <a href="../index.html" class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center">
+                    <i class="fas fa-landmark text-white text-sm"></i>
+                </div>
+                <span class="font-bold text-primary-700">PLAP</span>
+            </a>
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm">DR</div>
+                <a href="../login.html" class="text-gray-400 hover:text-red-500 ml-2"><i class="fas fa-sign-out-alt"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white shadow-lg min-h-screen fixed left-0 top-16 hidden lg:block">
+            <nav class="p-4">
+                <a href="dashboard.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100">
+                    <i class="fas fa-home w-5"></i> Dashboard
+                </a>
+                <a href="../explore.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 mt-1">
+                    <i class="fas fa-search w-5"></i> Explore Data
+                </a>
+                <a href="download.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 mt-1">
+                    <i class="fas fa-download w-5"></i> Download Data
+                </a>
+                <a href="history.html" class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary-50 text-primary-700 font-medium mt-1">
+                    <i class="fas fa-history w-5"></i> History
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 lg:ml-64 p-6">
+            <div class="max-w-6xl mx-auto">
+                <div class="flex items-center justify-between mb-6">
+                    <h1 class="text-2xl font-bold text-gray-800">Download History</h1>
+                    <div class="flex items-center gap-3">
+                        <div class="relative">
+                            <input type="text" placeholder="Search downloads..." class="border rounded-lg pl-10 pr-4 py-2 w-64">
+                            <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                        </div>
+                        <select class="border rounded-lg px-3 py-2">
+                            <option>All Time</option>
+                            <option>Last 7 Days</option>
+                            <option>Last 30 Days</option>
+                            <option>Last 90 Days</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="grid md:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-white rounded-xl p-4 shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm">Total Downloads</p>
+                                <p class="text-2xl font-bold text-gray-800">23</p>
+                            </div>
+                            <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-download text-blue-600"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm">This Month</p>
+                                <p class="text-2xl font-bold text-gray-800">8</p>
+                            </div>
+                            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-calendar text-green-600"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm">Total Records</p>
+                                <p class="text-2xl font-bold text-gray-800">245K</p>
+                            </div>
+                            <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-database text-purple-600"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm">Quota Remaining</p>
+                                <p class="text-2xl font-bold text-gray-800">77/100</p>
+                            </div>
+                            <div class="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-chart-pie text-amber-600"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Download History Table -->
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                    <div class="p-4 border-b flex items-center justify-between">
+                        <h2 class="font-semibold text-gray-800">All Downloads</h2>
+                        <button class="text-primary-600 text-sm hover:text-primary-800">
+                            <i class="fas fa-file-export mr-1"></i> Export List
+                        </button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="text-left px-4 py-3 text-sm font-medium text-gray-600">Date</th>
+                                    <th class="text-left px-4 py-3 text-sm font-medium text-gray-600">Dataset</th>
+                                    <th class="text-left px-4 py-3 text-sm font-medium text-gray-600">Filters Applied</th>
+                                    <th class="text-left px-4 py-3 text-sm font-medium text-gray-600">Records</th>
+                                    <th class="text-left px-4 py-3 text-sm font-medium text-gray-600">Format</th>
+                                    <th class="text-left px-4 py-3 text-sm font-medium text-gray-600">Terminology</th>
+                                    <th class="text-left px-4 py-3 text-sm font-medium text-gray-600">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y">
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-3 text-sm text-gray-600">Dec 3, 2024</td>
+                                    <td class="px-4 py-3">
+                                        <span class="font-medium text-gray-800">Registry Transactions</span>
+                                    </td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">
+                                        <span class="bg-gray-100 px-2 py-1 rounded text-xs">Lahore</span>
+                                        <span class="bg-gray-100 px-2 py-1 rounded text-xs ml-1">2023-2024</span>
+                                    </td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">15,420</td>
+                                    <td class="px-4 py-3">
+                                        <span class="text-green-600"><i class="fas fa-file-csv mr-1"></i>CSV</span>
+                                    </td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Punjab</td>
+                                    <td class="px-4 py-3">
+                                        <button class="text-primary-600 hover:text-primary-800 mr-2" title="Re-download">
+                                            <i class="fas fa-redo"></i>
+                                        </button>
+                                        <button class="text-gray-400 hover:text-gray-600" title="View Details">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-3 text-sm text-gray-600">Dec 1, 2024</td>
+                                    <td class="px-4 py-3">
+                                        <span class="font-medium text-gray-800">Land Ownership</span>
+                                    </td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">
+                                        <span class="bg-gray-100 px-2 py-1 rounded text-xs">All Districts</span>
+                                        <span class="bg-gray-100 px-2 py-1 rounded text-xs ml-1">Agricultural</span>
+                                    </td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">68,230</td>
+                                    <td class="px-4 py-3">
+                                        <span class="text-blue-600"><i class="fas fa-file-excel mr-1"></i>Excel</span>
+                                    </td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">LADM</td>
+                                    <td class="px-4 py-3">
+                                        <button class="text-primary-600 hover:text-primary-800 mr-2" title="Re-download">
+                                            <i class="fas fa-redo"></i>
+                                        </button>
+                                        <button class="text-gray-400 hover:text-gray-600" title="View Details">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-3 text-sm text-gray-600">Nov 28, 2024</td>
+                                    <td class="px-4 py-3">
+                                        <span class="font-medium text-gray-800">Mutation Trends</span>
+                                    </td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">
+                                        <span class="bg-gray-100 px-2 py-1 rounded text-xs">Faisalabad</span>
+                                        <span class="bg-gray-100 px-2 py-1 rounded text-xs ml-1">Inheritance</span>
+                                    </td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">23,150</td>
+                                    <td class="px-4 py-3">
+                                        <span class="text-green-600"><i class="fas fa-file-csv mr-1"></i>CSV</span>
+                                    </td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Punjab</td>
+                                    <td class="px-4 py-3">
+                                        <button class="text-primary-600 hover:text-primary-800 mr-2" title="Re-download">
+                                            <i class="fas fa-redo"></i>
+                                        </button>
+                                        <button class="text-gray-400 hover:text-gray-600" title="View Details">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-3 text-sm text-gray-600">Nov 25, 2024</td>
+                                    <td class="px-4 py-3">
+                                        <span class="font-medium text-gray-800">Registry Transactions</span>
+                                    </td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">
+                                        <span class="bg-gray-100 px-2 py-1 rounded text-xs">Rawalpindi</span>
+                                        <span class="bg-gray-100 px-2 py-1 rounded text-xs ml-1">Sale</span>
+                                    </td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">42,890</td>
+                                    <td class="px-4 py-3">
+                                        <span class="text-green-600"><i class="fas fa-file-csv mr-1"></i>CSV</span>
+                                    </td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">LADM</td>
+                                    <td class="px-4 py-3">
+                                        <button class="text-primary-600 hover:text-primary-800 mr-2" title="Re-download">
+                                            <i class="fas fa-redo"></i>
+                                        </button>
+                                        <button class="text-gray-400 hover:text-gray-600" title="View Details">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-3 text-sm text-gray-600">Nov 20, 2024</td>
+                                    <td class="px-4 py-3">
+                                        <span class="font-medium text-gray-800">Land Ownership</span>
+                                    </td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">
+                                        <span class="bg-gray-100 px-2 py-1 rounded text-xs">Multan</span>
+                                        <span class="bg-gray-100 px-2 py-1 rounded text-xs ml-1">2020-2024</span>
+                                    </td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">31,200</td>
+                                    <td class="px-4 py-3">
+                                        <span class="text-blue-600"><i class="fas fa-file-excel mr-1"></i>Excel</span>
+                                    </td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Punjab</td>
+                                    <td class="px-4 py-3">
+                                        <button class="text-primary-600 hover:text-primary-800 mr-2" title="Re-download">
+                                            <i class="fas fa-redo"></i>
+                                        </button>
+                                        <button class="text-gray-400 hover:text-gray-600" title="View Details">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-3 text-sm text-gray-600">Nov 15, 2024</td>
+                                    <td class="px-4 py-3">
+                                        <span class="font-medium text-gray-800">Mutation Trends</span>
+                                    </td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">
+                                        <span class="bg-gray-100 px-2 py-1 rounded text-xs">All Districts</span>
+                                        <span class="bg-gray-100 px-2 py-1 rounded text-xs ml-1">Gift</span>
+                                    </td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">18,540</td>
+                                    <td class="px-4 py-3">
+                                        <span class="text-green-600"><i class="fas fa-file-csv mr-1"></i>CSV</span>
+                                    </td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">LADM</td>
+                                    <td class="px-4 py-3">
+                                        <button class="text-primary-600 hover:text-primary-800 mr-2" title="Re-download">
+                                            <i class="fas fa-redo"></i>
+                                        </button>
+                                        <button class="text-gray-400 hover:text-gray-600" title="View Details">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Pagination -->
+                    <div class="p-4 border-t flex items-center justify-between">
+                        <p class="text-sm text-gray-600">Showing 1-6 of 23 downloads</p>
+                        <div class="flex gap-2">
+                            <button class="px-3 py-1 border rounded text-gray-400" disabled>Previous</button>
+                            <button class="px-3 py-1 bg-primary-500 text-white rounded">1</button>
+                            <button class="px-3 py-1 border rounded hover:bg-gray-50">2</button>
+                            <button class="px-3 py-1 border rounded hover:bg-gray-50">3</button>
+                            <button class="px-3 py-1 border rounded hover:bg-gray-50">4</button>
+                            <button class="px-3 py-1 border rounded hover:bg-gray-50">Next</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Saved Queries Section -->
+                <div class="bg-white rounded-xl shadow-sm mt-6 p-6">
+                    <h2 class="font-semibold text-gray-800 mb-4">Saved Queries</h2>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="border rounded-lg p-4 hover:border-primary-300 cursor-pointer">
+                            <div class="flex items-start justify-between">
+                                <div>
+                                    <h4 class="font-medium text-gray-800">Lahore Sales Analysis</h4>
+                                    <p class="text-sm text-gray-500 mt-1">Registry Transactions | Lahore | Sale | 2020-2024</p>
+                                </div>
+                                <button class="text-gray-400 hover:text-red-500">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                            <div class="mt-3 flex gap-2">
+                                <button class="text-primary-600 text-sm hover:text-primary-800">
+                                    <i class="fas fa-play mr-1"></i>Run Query
+                                </button>
+                                <button class="text-gray-500 text-sm hover:text-gray-700 ml-4">
+                                    <i class="fas fa-edit mr-1"></i>Edit
+                                </button>
+                            </div>
+                        </div>
+                        <div class="border rounded-lg p-4 hover:border-primary-300 cursor-pointer">
+                            <div class="flex items-start justify-between">
+                                <div>
+                                    <h4 class="font-medium text-gray-800">Agricultural Land Trends</h4>
+                                    <p class="text-sm text-gray-500 mt-1">Land Ownership | All Districts | Agricultural</p>
+                                </div>
+                                <button class="text-gray-400 hover:text-red-500">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                            <div class="mt-3 flex gap-2">
+                                <button class="text-primary-600 text-sm hover:text-primary-800">
+                                    <i class="fas fa-play mr-1"></i>Run Query
+                                </button>
+                                <button class="text-gray-500 text-sm hover:text-gray-700 ml-4">
+                                    <i class="fas fa-edit mr-1"></i>Edit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Punjab Land Analytics Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="js/tailwind-config.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-16">
+                <a href="index.html" class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center">
+                        <i class="fas fa-landmark text-white"></i>
+                    </div>
+                    <h1 class="text-lg font-bold text-primary-800">PLAP</h1>
+                </a>
+                <nav class="hidden md:flex items-center gap-6">
+                    <a href="index.html" class="text-gray-600 hover:text-primary-600">Home</a>
+                    <a href="explore.html" class="text-gray-600 hover:text-primary-600">Explore Data</a>
+                    <a href="extract.html" class="text-gray-600 hover:text-primary-600">Create Extract</a>
+                    <a href="tabulator.html" class="text-gray-600 hover:text-primary-600">Tabulator</a>
+                    <a href="codebook.html" class="text-gray-600 hover:text-primary-600">Codebook</a>
+                    <a href="documentation.html" class="text-gray-600 hover:text-primary-600">Documentation</a>
+                </nav>
+                <div class="hidden md:flex items-center gap-3">
+                    <a href="login.html" class="text-primary-600 hover:text-primary-800 font-medium">Login</a>
+                    <a href="register.html" class="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700">Register</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <div class="bg-primary-600 text-white py-12">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-3xl font-bold mb-2">Contact Us</h1>
+            <p class="text-primary-100">Get in touch with the PLAP team</p>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <div class="container mx-auto px-4 py-12">
+        <div class="max-w-5xl mx-auto">
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Contact Form -->
+                <div class="md:col-span-2">
+                    <div class="bg-white rounded-xl shadow-sm p-8">
+                        <h2 class="text-xl font-bold text-gray-800 mb-6">Send us a Message</h2>
+                        <form>
+                            <div class="grid md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
+                                    <input type="text" class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+                                    <input type="email" class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Subject *</label>
+                                <select class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                                    <option>General Inquiry</option>
+                                    <option>Technical Support</option>
+                                    <option>Data Access Request</option>
+                                    <option>Research Collaboration</option>
+                                    <option>Bug Report</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Message *</label>
+                                <textarea rows="5" class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"></textarea>
+                            </div>
+                            <button type="submit" class="bg-primary-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-700 transition">
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="space-y-6">
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <h3 class="font-semibold text-gray-800 mb-4">Contact Information</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-3">
+                                <div class="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-map-marker-alt text-primary-600"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-gray-800">Address</p>
+                                    <p class="text-sm text-gray-600">Arfa Software Technology Park,<br>Ferozepur Road, Lahore</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-envelope text-primary-600"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-gray-800">Email</p>
+                                    <p class="text-sm text-gray-600">research@plra.punjab.gov.pk</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-phone text-primary-600"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-gray-800">Phone</p>
+                                    <p class="text-sm text-gray-600">042-111-222-333</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-primary-50 rounded-xl p-6 border border-primary-200">
+                        <h3 class="font-semibold text-primary-800 mb-2">Office Hours</h3>
+                        <p class="text-sm text-primary-700">
+                            Monday - Friday: 9:00 AM - 5:00 PM<br>
+                            Saturday: 9:00 AM - 1:00 PM<br>
+                            Sunday: Closed
+                        </p>
+                    </div>
+
+                    <div class="bg-gray-100 rounded-xl p-6">
+                        <h3 class="font-semibold text-gray-800 mb-2">For Researchers</h3>
+                        <p class="text-sm text-gray-600 mb-3">
+                            Academic inquiries and research collaboration requests are welcome.
+                        </p>
+                        <a href="register.html" class="text-primary-600 text-sm font-medium hover:text-primary-800">
+                            Register for a researcher account <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-primary-900 text-gray-300 py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2024 Punjab Land Records Authority. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

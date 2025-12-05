@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geographic Standardization - Punjab Land Analytics Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/tailwind-config.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-gray-200 fixed w-full z-30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="../index.html" class="flex items-center">
+                        <div class="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-landmark text-white text-lg"></i>
+                        </div>
+                        <div class="ml-3">
+                            <span class="text-xl font-bold text-gray-900">PLAP</span>
+                            <span class="text-xs text-gray-500 block -mt-1">Punjab Land Analytics</span>
+                        </div>
+                    </a>
+                    <div class="hidden md:flex ml-10 space-x-4">
+                        <a href="../explore.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Explore Data</a>
+                        <a href="../extract.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Create Extract</a>
+                        <a href="analysis.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Analysis</a>
+                        <a href="time-series.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Time Series</a>
+                        <a href="../codebook.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Codebook</a>
+                        <a href="api.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">API</a>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="saved-queries.html" class="text-gray-600 hover:text-primary-600">
+                        <i class="fas fa-bookmark"></i>
+                    </a>
+                    <div class="relative">
+                        <button class="flex items-center space-x-2 text-gray-700 hover:text-primary-600">
+                            <div class="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
+                                <span class="text-primary-700 font-medium text-sm">DR</span>
+                            </div>
+                            <span class="text-sm font-medium">Dr. Researcher</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Breadcrumb -->
+            <nav class="text-sm text-gray-500 mb-6">
+                <a href="../index.html" class="hover:text-primary-600">Home</a>
+                <span class="mx-2">/</span>
+                <a href="../documentation.html" class="hover:text-primary-600">Documentation</a>
+                <span class="mx-2">/</span>
+                <span class="text-gray-900">Geographic Standardization</span>
+            </nav>
+
+            <!-- Header -->
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-gray-900">Geographic Standardization</h1>
+                <p class="text-gray-600 mt-2">Understanding administrative boundary changes and geographic crosswalks in Punjab land data</p>
+            </div>
+
+            <!-- Overview -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">Overview</h2>
+                <p class="text-gray-700 mb-4">
+                    Punjab's administrative boundaries have changed significantly over time. Districts have been split, tehsils reorganized,
+                    and sub-registrar jurisdictions modified. PLAP provides standardized geographic identifiers and crosswalks to enable
+                    consistent time-series analysis despite these boundary changes.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                    <div class="bg-gray-50 rounded-lg p-4 text-center">
+                        <div class="text-3xl font-bold text-primary-600">36</div>
+                        <div class="text-sm text-gray-600 mt-1">Districts (2024)</div>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-4 text-center">
+                        <div class="text-3xl font-bold text-primary-600">144</div>
+                        <div class="text-sm text-gray-600 mt-1">Tehsils (2024)</div>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-4 text-center">
+                        <div class="text-3xl font-bold text-primary-600">25,914</div>
+                        <div class="text-sm text-gray-600 mt-1">Mauzas (Villages)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs Navigation -->
+            <div class="border-b border-gray-200 mb-6">
+                <nav class="flex space-x-8">
+                    <button onclick="showTab('hierarchy')" class="tab-btn border-b-2 border-primary-500 text-primary-600 py-3 px-1 text-sm font-medium" data-tab="hierarchy">
+                        Administrative Hierarchy
+                    </button>
+                    <button onclick="showTab('changes')" class="tab-btn border-b-2 border-transparent text-gray-500 hover:text-gray-700 py-3 px-1 text-sm font-medium" data-tab="changes">
+                        Boundary Changes
+                    </button>
+                    <button onclick="showTab('crosswalks')" class="tab-btn border-b-2 border-transparent text-gray-500 hover:text-gray-700 py-3 px-1 text-sm font-medium" data-tab="crosswalks">
+                        Geographic Crosswalks
+                    </button>
+                    <button onclick="showTab('codes')" class="tab-btn border-b-2 border-transparent text-gray-500 hover:text-gray-700 py-3 px-1 text-sm font-medium" data-tab="codes">
+                        Standard Codes
+                    </button>
+                    <button onclick="showTab('ladm')" class="tab-btn border-b-2 border-transparent text-gray-500 hover:text-gray-700 py-3 px-1 text-sm font-medium" data-tab="ladm">
+                        LADM Mapping
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Administrative Hierarchy Tab -->
+            <div id="hierarchy-tab" class="tab-content">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Punjab Administrative Structure</h3>
+                    <p class="text-gray-600 mb-6">
+                        Punjab uses a hierarchical administrative structure for land management. Understanding this hierarchy is essential for accurate data analysis.
+                    </p>
+
+                    <!-- Hierarchy Visualization -->
+                    <div class="bg-gray-50 rounded-lg p-6">
+                        <div class="flex flex-col items-center space-y-4">
+                            <!-- Province Level -->
+                            <div class="bg-primary-600 text-white px-6 py-3 rounded-lg font-medium">
+                                Province (Punjab)
+                            </div>
+                            <div class="w-px h-6 bg-gray-300"></div>
+
+                            <!-- Division Level -->
+                            <div class="flex items-center space-x-4">
+                                <div class="bg-primary-500 text-white px-4 py-2 rounded-lg text-sm">Division (9)</div>
+                                <div class="text-gray-500 text-sm">e.g., Lahore, Faisalabad, Multan</div>
+                            </div>
+                            <div class="w-px h-6 bg-gray-300"></div>
+
+                            <!-- District Level -->
+                            <div class="flex items-center space-x-4">
+                                <div class="bg-primary-400 text-white px-4 py-2 rounded-lg text-sm">District (36)</div>
+                                <div class="text-gray-500 text-sm">e.g., Lahore, Kasur, Sheikhupura</div>
+                            </div>
+                            <div class="w-px h-6 bg-gray-300"></div>
+
+                            <!-- Tehsil Level -->
+                            <div class="flex items-center space-x-4">
+                                <div class="bg-primary-300 text-primary-900 px-4 py-2 rounded-lg text-sm">Tehsil (144)</div>
+                                <div class="text-gray-500 text-sm">e.g., Lahore Cantt, Model Town, Shalimar</div>
+                            </div>
+                            <div class="w-px h-6 bg-gray-300"></div>
+
+                            <!-- Mauza Level -->
+                            <div class="flex items-center space-x-4">
+                                <div class="bg-primary-200 text-primary-900 px-4 py-2 rounded-lg text-sm">Mauza (25,914)</div>
+                                <div class="text-gray-500 text-sm">Village/Settlement unit with unique identifier</div>
+                            </div>
+                            <div class="w-px h-6 bg-gray-300"></div>
+
+                            <!-- Khasra Level -->
+                            <div class="flex items-center space-x-4">
+                                <div class="bg-primary-100 text-primary-900 px-4 py-2 rounded-lg text-sm">Khasra (Parcel)</div>
+                                <div class="text-gray-500 text-sm">Individual land parcel with unique number</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Variable Descriptions -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="p-4 border-b border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900">Geographic Variables</h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Variable</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Format</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Example</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600">DIVISION</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">Division code (standardized)</td>
+                                    <td class="px-4 py-3 text-sm text-gray-500">2-digit numeric</td>
+                                    <td class="px-4 py-3 text-sm font-mono">01 (Lahore)</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600">DISTRICT</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">District code (current boundaries)</td>
+                                    <td class="px-4 py-3 text-sm text-gray-500">3-digit numeric</td>
+                                    <td class="px-4 py-3 text-sm font-mono">001 (Lahore)</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600">DISTRICT_1990</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">District code (1990 boundaries)</td>
+                                    <td class="px-4 py-3 text-sm text-gray-500">3-digit numeric</td>
+                                    <td class="px-4 py-3 text-sm font-mono">001</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600">TEHSIL</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">Tehsil code (current boundaries)</td>
+                                    <td class="px-4 py-3 text-sm text-gray-500">4-digit numeric</td>
+                                    <td class="px-4 py-3 text-sm font-mono">0101 (Lahore Cantt)</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600">MAUZA_CODE</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">Unique mauza identifier</td>
+                                    <td class="px-4 py-3 text-sm text-gray-500">9-digit numeric</td>
+                                    <td class="px-4 py-3 text-sm font-mono">010101234</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600">MAUZA_NAME</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">Mauza name (romanized)</td>
+                                    <td class="px-4 py-3 text-sm text-gray-500">String</td>
+                                    <td class="px-4 py-3 text-sm">Kot Lakhpat</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600">SR_OFFICE</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">Sub-Registrar office code</td>
+                                    <td class="px-4 py-3 text-sm text-gray-500">5-digit numeric</td>
+                                    <td class="px-4 py-3 text-sm font-mono">01001</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Boundary Changes Tab -->
+            <div id="changes-tab" class="tab-content hidden">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Historical Boundary Changes</h3>
+                    <p class="text-gray-600 mb-4">
+                        Major administrative boundary changes in Punjab that affect land data analysis. PLAP provides crosswalk tables to map between different boundary definitions.
+                    </p>
+                </div>
+
+                <!-- Timeline -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-6">District Creation Timeline</h3>
+
+                    <div class="space-y-6">
+                        <!-- 2009 Changes -->
+                        <div class="border-l-4 border-primary-500 pl-4">
+                            <div class="flex items-center">
+                                <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">2009</span>
+                            </div>
+                            <div class="mt-3 space-y-2">
+                                <div class="flex items-start">
+                                    <i class="fas fa-plus-circle text-green-500 mt-1 mr-2"></i>
+                                    <div>
+                                        <span class="font-medium">Chiniot District</span>
+                                        <span class="text-gray-500 text-sm ml-2">Created from Jhang District</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2005 Changes -->
+                        <div class="border-l-4 border-primary-400 pl-4">
+                            <div class="flex items-center">
+                                <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">2005</span>
+                            </div>
+                            <div class="mt-3 space-y-2">
+                                <div class="flex items-start">
+                                    <i class="fas fa-plus-circle text-green-500 mt-1 mr-2"></i>
+                                    <div>
+                                        <span class="font-medium">Nankana Sahib District</span>
+                                        <span class="text-gray-500 text-sm ml-2">Created from Sheikhupura District</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 1998 Changes -->
+                        <div class="border-l-4 border-primary-300 pl-4">
+                            <div class="flex items-center">
+                                <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">1998</span>
+                            </div>
+                            <div class="mt-3 space-y-2">
+                                <div class="flex items-start">
+                                    <i class="fas fa-plus-circle text-green-500 mt-1 mr-2"></i>
+                                    <div>
+                                        <span class="font-medium">Chakwal District</span>
+                                        <span class="text-gray-500 text-sm ml-2">Created from Jhelum District</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <i class="fas fa-plus-circle text-green-500 mt-1 mr-2"></i>
+                                    <div>
+                                        <span class="font-medium">Hafizabad District</span>
+                                        <span class="text-gray-500 text-sm ml-2">Created from Gujranwala District</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <i class="fas fa-plus-circle text-green-500 mt-1 mr-2"></i>
+                                    <div>
+                                        <span class="font-medium">Mandi Bahauddin District</span>
+                                        <span class="text-gray-500 text-sm ml-2">Created from Gujrat District</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 1991 Changes -->
+                        <div class="border-l-4 border-primary-200 pl-4">
+                            <div class="flex items-center">
+                                <span class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium">1991</span>
+                            </div>
+                            <div class="mt-3 space-y-2">
+                                <div class="flex items-start">
+                                    <i class="fas fa-plus-circle text-green-500 mt-1 mr-2"></i>
+                                    <div>
+                                        <span class="font-medium">Khushab District</span>
+                                        <span class="text-gray-500 text-sm ml-2">Created from Sargodha District</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <i class="fas fa-plus-circle text-green-500 mt-1 mr-2"></i>
+                                    <div>
+                                        <span class="font-medium">Lodhran District</span>
+                                        <span class="text-gray-500 text-sm ml-2">Created from Multan District</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <i class="fas fa-plus-circle text-green-500 mt-1 mr-2"></i>
+                                    <div>
+                                        <span class="font-medium">Narowal District</span>
+                                        <span class="text-gray-500 text-sm ml-2">Created from Sialkot District</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tehsil Changes -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Recent Tehsil Reorganizations</h3>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Year</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Change</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">District</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Affected Mauzas</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-4 py-3 text-sm text-gray-900">2022</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">New tehsil Shalimar created</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">Lahore</td>
+                                    <td class="px-4 py-3 text-sm text-gray-500">47 mauzas</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm text-gray-900">2021</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">Tehsil Kamoke split</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">Gujranwala</td>
+                                    <td class="px-4 py-3 text-sm text-gray-500">82 mauzas</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm text-gray-900">2020</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">Tehsil Shakargarh reorganized</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">Narowal</td>
+                                    <td class="px-4 py-3 text-sm text-gray-500">35 mauzas</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Geographic Crosswalks Tab -->
+            <div id="crosswalks-tab" class="tab-content hidden">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">About Geographic Crosswalks</h3>
+                    <p class="text-gray-600 mb-4">
+                        Crosswalk tables map geographic units between different time periods. They allow you to aggregate or disaggregate data
+                        to maintain consistent boundaries across time series analysis.
+                    </p>
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                        <div class="flex">
+                            <i class="fas fa-info-circle text-blue-500 mt-0.5 mr-3"></i>
+                            <div>
+                                <h4 class="font-medium text-blue-900">How Crosswalks Work</h4>
+                                <p class="text-blue-800 text-sm mt-1">
+                                    When a district is split, the crosswalk provides <strong>allocation weights</strong> based on mauza-level data
+                                    to distribute historical aggregates to new boundaries, or combine new data to match old boundaries.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Available Crosswalks -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
+                    <div class="p-4 border-b border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900">Available Crosswalk Tables</h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Crosswalk</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">From</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">To</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Records</th>
+                                    <th class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-medium text-gray-900">district_crosswalk_1990_2024</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">1990 Boundaries</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">2024 Boundaries</td>
+                                    <td class="px-4 py-3 text-sm text-gray-500">36 → 36</td>
+                                    <td class="px-4 py-3 text-center">
+                                        <button class="text-primary-600 hover:text-primary-800 text-sm mr-2">View</button>
+                                        <button class="text-primary-600 hover:text-primary-800 text-sm">Download</button>
+                                    </td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-medium text-gray-900">tehsil_crosswalk_2010_2024</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">2010 Boundaries</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">2024 Boundaries</td>
+                                    <td class="px-4 py-3 text-sm text-gray-500">138 → 144</td>
+                                    <td class="px-4 py-3 text-center">
+                                        <button class="text-primary-600 hover:text-primary-800 text-sm mr-2">View</button>
+                                        <button class="text-primary-600 hover:text-primary-800 text-sm">Download</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-medium text-gray-900">mauza_district_mapping</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">Mauza Code</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">All District Definitions</td>
+                                    <td class="px-4 py-3 text-sm text-gray-500">25,914</td>
+                                    <td class="px-4 py-3 text-center">
+                                        <button class="text-primary-600 hover:text-primary-800 text-sm mr-2">View</button>
+                                        <button class="text-primary-600 hover:text-primary-800 text-sm">Download</button>
+                                    </td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-medium text-gray-900">sr_office_tehsil_mapping</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">Sub-Registrar Office</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">Tehsil</td>
+                                    <td class="px-4 py-3 text-sm text-gray-500">312</td>
+                                    <td class="px-4 py-3 text-center">
+                                        <button class="text-primary-600 hover:text-primary-800 text-sm mr-2">View</button>
+                                        <button class="text-primary-600 hover:text-primary-800 text-sm">Download</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Sample Crosswalk Data -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Sample: Nankana Sahib Split from Sheikhupura</h3>
+                    <p class="text-gray-600 text-sm mb-4">
+                        In 2005, Nankana Sahib was carved out from Sheikhupura. The crosswalk shows how to allocate historical Sheikhupura data
+                        to the two new districts based on mauza-level record counts.
+                    </p>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200 text-sm">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-3 py-2 text-left font-medium text-gray-500">Original (Pre-2005)</th>
+                                    <th class="px-3 py-2 text-left font-medium text-gray-500">Current District</th>
+                                    <th class="px-3 py-2 text-right font-medium text-gray-500">Mauzas</th>
+                                    <th class="px-3 py-2 text-right font-medium text-gray-500">Allocation Weight</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-3 py-2 text-gray-900" rowspan="2">Sheikhupura (Old)</td>
+                                    <td class="px-3 py-2 text-gray-700">Sheikhupura (Current)</td>
+                                    <td class="px-3 py-2 text-right text-gray-900">487</td>
+                                    <td class="px-3 py-2 text-right text-gray-900">0.643</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-3 py-2 text-gray-700">Nankana Sahib</td>
+                                    <td class="px-3 py-2 text-right text-gray-900">271</td>
+                                    <td class="px-3 py-2 text-right text-gray-900">0.357</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Standard Codes Tab -->
+            <div id="codes-tab" class="tab-content hidden">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Standard Geographic Codes</h3>
+                    <p class="text-gray-600 mb-4">
+                        PLAP uses standardized numeric codes for all geographic units. These codes are consistent across all datasets and time periods.
+                    </p>
+                </div>
+
+                <!-- Division Codes -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
+                    <div class="p-4 border-b border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900">Division Codes</h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Code</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Division Name</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Districts</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Headquarters</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-mono font-medium text-primary-600">01</td>
+                                    <td class="px-4 py-3 text-sm text-gray-900">Lahore</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Lahore, Kasur, Sheikhupura, Nankana Sahib</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Lahore</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-mono font-medium text-primary-600">02</td>
+                                    <td class="px-4 py-3 text-sm text-gray-900">Gujranwala</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Gujranwala, Gujrat, Sialkot, Narowal, Hafizabad, M.B.Din</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Gujranwala</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-mono font-medium text-primary-600">03</td>
+                                    <td class="px-4 py-3 text-sm text-gray-900">Rawalpindi</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Rawalpindi, Attock, Chakwal, Jhelum</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Rawalpindi</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-mono font-medium text-primary-600">04</td>
+                                    <td class="px-4 py-3 text-sm text-gray-900">Sargodha</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Sargodha, Khushab, Mianwali, Bhakkar</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Sargodha</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-mono font-medium text-primary-600">05</td>
+                                    <td class="px-4 py-3 text-sm text-gray-900">Faisalabad</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Faisalabad, Jhang, Chiniot, T.T.Singh</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Faisalabad</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-mono font-medium text-primary-600">06</td>
+                                    <td class="px-4 py-3 text-sm text-gray-900">Multan</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Multan, Khanewal, Lodhran, Vehari</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Multan</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-mono font-medium text-primary-600">07</td>
+                                    <td class="px-4 py-3 text-sm text-gray-900">Bahawalpur</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Bahawalpur, Bahawalnagar, Rahim Yar Khan</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Bahawalpur</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-mono font-medium text-primary-600">08</td>
+                                    <td class="px-4 py-3 text-sm text-gray-900">D.G. Khan</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">D.G. Khan, Layyah, Muzaffargarh, Rajanpur</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Dera Ghazi Khan</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-mono font-medium text-primary-600">09</td>
+                                    <td class="px-4 py-3 text-sm text-gray-900">Sahiwal</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Sahiwal, Pakpattan, Okara</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Sahiwal</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Download Codes -->
+                <div class="flex space-x-4">
+                    <button class="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700">
+                        <i class="fas fa-download mr-2"></i>Download All Division Codes (CSV)
+                    </button>
+                    <button class="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50">
+                        <i class="fas fa-download mr-2"></i>Download All District Codes (CSV)
+                    </button>
+                    <button class="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50">
+                        <i class="fas fa-download mr-2"></i>Download All Tehsil Codes (CSV)
+                    </button>
+                </div>
+            </div>
+
+            <!-- LADM Mapping Tab -->
+            <div id="ladm-tab" class="tab-content hidden">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <div class="flex items-start">
+                        <div class="bg-blue-100 p-3 rounded-lg mr-4">
+                            <i class="fas fa-globe text-blue-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-2">ISO 19152 LADM Compliance</h3>
+                            <p class="text-gray-600">
+                                PLAP geographic data is mapped to the Land Administration Domain Model (ISO 19152) to enable
+                                international comparability and integration with global land information systems.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LADM Mapping Table -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
+                    <div class="p-4 border-b border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900">Punjab → LADM Spatial Unit Mapping</h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Punjab Term</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">LADM Class</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">ISO 19152 Reference</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-medium text-gray-900">Mauza</td>
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600">LA_SpatialUnitGroup</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">6.5.2</td>
+                                    <td class="px-4 py-3 text-sm text-gray-500">Administrative grouping of parcels</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-medium text-gray-900">Khasra</td>
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600">LA_Parcel</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">6.5.3</td>
+                                    <td class="px-4 py-3 text-sm text-gray-500">Basic spatial unit (2D)</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-medium text-gray-900">Sub-Khasra</td>
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600">LA_Parcel</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">6.5.3</td>
+                                    <td class="px-4 py-3 text-sm text-gray-500">Subdivided parcel</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-medium text-gray-900">Khewat</td>
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600">LA_BAUnit</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">6.4</td>
+                                    <td class="px-4 py-3 text-sm text-gray-500">Ownership grouping</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-medium text-gray-900">Khatooni</td>
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600">LA_RRR</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">6.3</td>
+                                    <td class="px-4 py-3 text-sm text-gray-500">Cultivation/possession rights</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-medium text-gray-900">Registry Deed</td>
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600">LA_AdministrativeSource</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">6.6.2</td>
+                                    <td class="px-4 py-3 text-sm text-gray-500">Transfer document</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-medium text-gray-900">Mutation (Intiqal)</td>
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600">LA_AdministrativeSource</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">6.6.2</td>
+                                    <td class="px-4 py-3 text-sm text-gray-500">Record of rights update</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- INSPIRE Directive -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">European INSPIRE Directive Compatibility</h3>
+                    <p class="text-gray-600 text-sm mb-4">
+                        For researchers requiring INSPIRE-compliant data, PLAP provides mapping to INSPIRE Cadastral Parcels theme.
+                    </p>
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <pre class="text-sm font-mono text-gray-700 overflow-x-auto">&lt;CadastralParcel&gt;
+  &lt;inspireId&gt;
+    &lt;Identifier&gt;
+      &lt;localId&gt;PK.PB.LHR.0101.12345&lt;/localId&gt;
+      &lt;namespace&gt;urn:plap:cadastre&lt;/namespace&gt;
+    &lt;/Identifier&gt;
+  &lt;/inspireId&gt;
+  &lt;areaValue uom="m2"&gt;4046.86&lt;/areaValue&gt;
+  &lt;nationalCadastralReference&gt;
+    Mauza Kot Lakhpat, Khasra 123/4
+  &lt;/nationalCadastralReference&gt;
+&lt;/CadastralParcel&gt;</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white mt-16">
+        <div class="max-w-7xl mx-auto px-4 py-8">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-landmark text-white"></i>
+                    </div>
+                    <div>
+                        <div class="font-semibold">Punjab Land Analytics Portal</div>
+                        <div class="text-sm text-gray-400">Punjab Land Revenue Authority</div>
+                    </div>
+                </div>
+                <div class="text-sm text-gray-400">
+                    © 2024 Government of Punjab. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+            // Remove active state from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('border-primary-500', 'text-primary-600');
+                btn.classList.add('border-transparent', 'text-gray-500');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.remove('hidden');
+            // Add active state to button
+            document.querySelector(`[data-tab="${tabName}"]`).classList.remove('border-transparent', 'text-gray-500');
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('border-primary-500', 'text-primary-600');
+        }
+    </script>
+</body>
+</html>

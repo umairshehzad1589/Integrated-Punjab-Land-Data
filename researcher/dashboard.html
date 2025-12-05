@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Researcher Dashboard - Punjab Land Analytics Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/tailwind-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="flex items-center justify-between px-4 h-16">
+            <div class="flex items-center gap-4">
+                <button class="lg:hidden text-gray-600" onclick="toggleSidebar()">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+                <a href="../index.html" class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center">
+                        <i class="fas fa-landmark text-white text-sm"></i>
+                    </div>
+                    <span class="font-bold text-primary-700 hidden md:inline">PLAP</span>
+                </a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <button class="text-gray-500 hover:text-gray-700 relative">
+                    <i class="fas fa-bell text-lg"></i>
+                    <span class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">2</span>
+                </button>
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                        DR
+                    </div>
+                    <div class="hidden md:block text-right">
+                        <p class="text-sm font-medium text-gray-800">Dr. Researcher</p>
+                        <p class="text-xs text-gray-500">Researcher</p>
+                    </div>
+                    <a href="../login.html" class="text-gray-400 hover:text-red-500 ml-2" title="Logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="w-64 bg-white shadow-lg min-h-screen fixed left-0 top-16 z-40 transform -translate-x-full lg:translate-x-0 transition-transform">
+            <nav class="p-4">
+                <div class="mb-6">
+                    <p class="text-xs text-gray-500 uppercase font-semibold mb-2">Main Menu</p>
+                    <a href="dashboard.html" class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary-50 text-primary-700 font-medium">
+                        <i class="fas fa-home w-5"></i>
+                        Dashboard
+                    </a>
+                    <a href="../explore.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 mt-1">
+                        <i class="fas fa-search w-5"></i>
+                        Explore Data
+                    </a>
+                    <a href="../visualizations.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 mt-1">
+                        <i class="fas fa-chart-bar w-5"></i>
+                        Visualizations
+                    </a>
+                    <a href="../datasets.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 mt-1">
+                        <i class="fas fa-database w-5"></i>
+                        Datasets
+                    </a>
+                </div>
+
+                <div class="mb-6">
+                    <p class="text-xs text-gray-500 uppercase font-semibold mb-2">Downloads</p>
+                    <a href="download.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100">
+                        <i class="fas fa-download w-5"></i>
+                        Download Data
+                    </a>
+                    <a href="history.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 mt-1">
+                        <i class="fas fa-history w-5"></i>
+                        Download History
+                    </a>
+                </div>
+
+                <div class="mb-6">
+                    <p class="text-xs text-gray-500 uppercase font-semibold mb-2">Account</p>
+                    <a href="profile.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100">
+                        <i class="fas fa-user w-5"></i>
+                        My Profile
+                    </a>
+                    <a href="../documentation.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 mt-1">
+                        <i class="fas fa-book w-5"></i>
+                        Documentation
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 lg:ml-64 p-6">
+            <!-- Welcome Banner -->
+            <div class="bg-gradient-to-r from-primary-500 to-primary-700 rounded-xl p-6 text-white mb-6">
+                <h2 class="text-2xl font-bold mb-2">Welcome back, Dr. Researcher!</h2>
+                <p class="text-primary-100">Your research account gives you access to detailed land data and downloads.</p>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="grid md:grid-cols-4 gap-4 mb-6">
+                <div class="bg-white rounded-xl shadow-sm p-5">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500">Downloads This Month</p>
+                            <p class="text-2xl font-bold text-gray-800">23</p>
+                        </div>
+                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-download text-blue-600"></i>
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <span class="text-xs text-gray-500">Limit: 100/month</span>
+                        <div class="w-full bg-gray-200 rounded-full h-1.5 mt-1">
+                            <div class="bg-blue-500 h-1.5 rounded-full" style="width: 23%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm p-5">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500">Records Downloaded</p>
+                            <p class="text-2xl font-bold text-gray-800">1.2M</p>
+                        </div>
+                        <div class="w-12 h-12 bg-land-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-database text-land-600"></i>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">Lifetime total</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm p-5">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500">Saved Queries</p>
+                            <p class="text-2xl font-bold text-gray-800">8</p>
+                        </div>
+                        <div class="w-12 h-12 bg-accent-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-bookmark text-accent-600"></i>
+                        </div>
+                    </div>
+                    <a href="#" class="text-xs text-primary-600 mt-2 inline-block">View all</a>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm p-5">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500">Account Type</p>
+                            <p class="text-xl font-bold text-gray-800">Researcher</p>
+                        </div>
+                        <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-graduation-cap text-purple-600"></i>
+                        </div>
+                    </div>
+                    <span class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded mt-2 inline-block">Active</span>
+                </div>
+            </div>
+
+            <!-- Quick Actions & Recent Activity -->
+            <div class="grid lg:grid-cols-3 gap-6 mb-6">
+                <!-- Quick Actions -->
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <h3 class="font-semibold text-gray-800 mb-4">Quick Actions</h3>
+                    <div class="space-y-3">
+                        <a href="../explore.html" class="flex items-center gap-3 p-3 bg-primary-50 rounded-lg hover:bg-primary-100 transition">
+                            <i class="fas fa-search text-primary-600 w-5"></i>
+                            <span class="text-primary-700 font-medium">Explore & Filter Data</span>
+                        </a>
+                        <a href="download.html" class="flex items-center gap-3 p-3 bg-land-50 rounded-lg hover:bg-land-100 transition">
+                            <i class="fas fa-download text-land-600 w-5"></i>
+                            <span class="text-land-700 font-medium">Download Dataset</span>
+                        </a>
+                        <a href="../visualizations.html" class="flex items-center gap-3 p-3 bg-accent-50 rounded-lg hover:bg-accent-100 transition">
+                            <i class="fas fa-chart-bar text-accent-600 w-5"></i>
+                            <span class="text-accent-700 font-medium">View Visualizations</span>
+                        </a>
+                        <a href="../documentation.html" class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
+                            <i class="fas fa-book text-gray-600 w-5"></i>
+                            <span class="text-gray-700 font-medium">Read Documentation</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Recent Downloads -->
+                <div class="lg:col-span-2 bg-white rounded-xl shadow-sm p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-semibold text-gray-800">Recent Downloads</h3>
+                        <a href="history.html" class="text-sm text-primary-600 hover:text-primary-800">View All</a>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="text-gray-500 border-b">
+                                <tr>
+                                    <th class="text-left py-2">Dataset</th>
+                                    <th class="text-left py-2">Date</th>
+                                    <th class="text-left py-2">Records</th>
+                                    <th class="text-left py-2">Format</th>
+                                    <th class="text-left py-2"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y">
+                                <tr>
+                                    <td class="py-3">
+                                        <div class="flex items-center gap-2">
+                                            <i class="fas fa-file-csv text-land-500"></i>
+                                            <span>Registry Transactions</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 text-gray-600">Dec 1, 2024</td>
+                                    <td class="py-3 text-gray-600">45,230</td>
+                                    <td class="py-3"><span class="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs">CSV</span></td>
+                                    <td class="py-3"><a href="#" class="text-primary-600 hover:text-primary-800"><i class="fas fa-redo"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3">
+                                        <div class="flex items-center gap-2">
+                                            <i class="fas fa-file-excel text-blue-500"></i>
+                                            <span>Mutation Trends</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 text-gray-600">Nov 28, 2024</td>
+                                    <td class="py-3 text-gray-600">78,450</td>
+                                    <td class="py-3"><span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded text-xs">Excel</span></td>
+                                    <td class="py-3"><a href="#" class="text-primary-600 hover:text-primary-800"><i class="fas fa-redo"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3">
+                                        <div class="flex items-center gap-2">
+                                            <i class="fas fa-file-csv text-land-500"></i>
+                                            <span>Land Ownership Patterns</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 text-gray-600">Nov 25, 2024</td>
+                                    <td class="py-3 text-gray-600">125,000</td>
+                                    <td class="py-3"><span class="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs">CSV</span></td>
+                                    <td class="py-3"><a href="#" class="text-primary-600 hover:text-primary-800"><i class="fas fa-redo"></i></a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Available Datasets -->
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <h3 class="font-semibold text-gray-800 mb-4">Available Datasets</h3>
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="border rounded-lg p-4 hover:border-primary-300 transition">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-file-contract text-primary-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Registry Transactions</h4>
+                                <p class="text-xs text-gray-500">2.5M records</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-3">Property sales, gifts, mortgages from E-Registry</p>
+                        <a href="download.html" class="text-sm text-primary-600 hover:text-primary-800 font-medium">
+                            Download <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+
+                    <div class="border rounded-lg p-4 hover:border-primary-300 transition">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 bg-land-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-map text-land-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Land Ownership</h4>
+                                <p class="text-xs text-gray-500">15M records</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-3">Aggregated ownership patterns from CLRMIS</p>
+                        <a href="download.html" class="text-sm text-primary-600 hover:text-primary-800 font-medium">
+                            Download <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+
+                    <div class="border rounded-lg p-4 hover:border-primary-300 transition">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 bg-accent-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-exchange-alt text-accent-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Mutation Trends</h4>
+                                <p class="text-xs text-gray-500">8M records</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-3">Land transfer patterns over time</p>
+                        <a href="download.html" class="text-sm text-primary-600 hover:text-primary-800 font-medium">
+                            Download <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('-translate-x-full');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Data - Punjab Land Analytics Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="js/tailwind-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-gray-200 fixed w-full z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center">
+                        <div class="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-landmark text-white text-lg"></i>
+                        </div>
+                        <div class="ml-3">
+                            <span class="text-xl font-bold text-gray-900">PLAP</span>
+                            <span class="text-xs text-gray-500 block -mt-1">Punjab Land Analytics</span>
+                        </div>
+                    </a>
+                    <div class="hidden md:flex ml-10 space-x-4">
+                        <a href="index.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Home</a>
+                        <a href="explore.html" class="text-primary-600 border-b-2 border-primary-600 px-3 py-2 text-sm font-medium">Explore Data</a>
+                        <a href="extract.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Create Extract</a>
+                        <a href="tabulator.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Tabulator</a>
+                        <a href="codebook.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Codebook</a>
+                        <a href="documentation.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Documentation</a>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="auth/login.html" class="text-gray-600 hover:text-primary-600 font-medium text-sm">Login</a>
+                    <a href="auth/register.html" class="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 text-sm font-medium">Register</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="flex pt-16">
+        <!-- Sidebar Filters -->
+        <aside id="filterSidebar" class="w-72 bg-white shadow-lg min-h-screen fixed left-0 top-16 overflow-y-auto pb-20 hidden lg:block border-r border-gray-200">
+            <div class="p-4 border-b bg-gray-50">
+                <div class="flex items-center justify-between">
+                    <h2 class="font-bold text-gray-800">
+                        <i class="fas fa-filter mr-2 text-primary-600"></i>
+                        Filters
+                    </h2>
+                    <button class="text-sm text-primary-600 hover:text-primary-800">Clear All</button>
+                </div>
+            </div>
+
+            <!-- Dataset Selection -->
+            <div class="p-4 border-b">
+                <label class="block font-medium text-gray-700 mb-2">Dataset</label>
+                <select class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                    <option value="registry">E-Registry Transactions</option>
+                    <option value="mutation">Mutation Records</option>
+                    <option value="stamp">E-Stamp Issuance</option>
+                </select>
+            </div>
+
+            <!-- Territory Filter -->
+            <div class="p-4 border-b">
+                <label class="block font-medium text-gray-700 mb-2">
+                    <i class="fas fa-map-marker-alt mr-1 text-gray-400"></i>
+                    Territory
+                </label>
+
+                <div class="space-y-3">
+                    <div>
+                        <label class="text-sm text-gray-600">Division</label>
+                        <select class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mt-1">
+                            <option value="">All Divisions</option>
+                            <option value="lahore">Lahore</option>
+                            <option value="rawalpindi">Rawalpindi</option>
+                            <option value="faisalabad">Faisalabad</option>
+                            <option value="multan">Multan</option>
+                            <option value="gujranwala">Gujranwala</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="text-sm text-gray-600">District</label>
+                        <select class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mt-1" multiple size="4">
+                            <option value="lahore" selected>Lahore</option>
+                            <option value="faisalabad" selected>Faisalabad</option>
+                            <option value="rawalpindi">Rawalpindi</option>
+                            <option value="multan">Multan</option>
+                        </select>
+                        <p class="text-xs text-gray-500 mt-1">Ctrl+Click for multiple</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Time Period Filter -->
+            <div class="p-4 border-b">
+                <label class="block font-medium text-gray-700 mb-2">
+                    <i class="fas fa-calendar mr-1 text-gray-400"></i>
+                    Time Period
+                </label>
+
+                <div class="space-y-3">
+                    <div class="flex gap-2">
+                        <div class="flex-1">
+                            <label class="text-sm text-gray-600">From</label>
+                            <select class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mt-1">
+                                <option value="2019">2019</option>
+                                <option value="2020" selected>2020</option>
+                                <option value="2021">2021</option>
+                                <option value="2022">2022</option>
+                            </select>
+                        </div>
+                        <div class="flex-1">
+                            <label class="text-sm text-gray-600">To</label>
+                            <select class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mt-1">
+                                <option value="2022">2022</option>
+                                <option value="2023">2023</option>
+                                <option value="2024" selected>2024</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Property Type Filter -->
+            <div class="p-4 border-b">
+                <label class="block font-medium text-gray-700 mb-2">
+                    <i class="fas fa-home mr-1 text-gray-400"></i>
+                    Property Type
+                </label>
+
+                <div class="space-y-2">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" checked class="rounded text-primary-600 focus:ring-primary-500">
+                        <span class="text-sm">Agricultural</span>
+                        <span class="text-xs text-gray-400 ml-auto">45,230</span>
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" checked class="rounded text-primary-600 focus:ring-primary-500">
+                        <span class="text-sm">Residential</span>
+                        <span class="text-xs text-gray-400 ml-auto">32,150</span>
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" class="rounded text-primary-600 focus:ring-primary-500">
+                        <span class="text-sm">Commercial</span>
+                        <span class="text-xs text-gray-400 ml-auto">12,890</span>
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" class="rounded text-primary-600 focus:ring-primary-500">
+                        <span class="text-sm">Industrial</span>
+                        <span class="text-xs text-gray-400 ml-auto">5,420</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Transaction Type Filter -->
+            <div class="p-4 border-b">
+                <label class="block font-medium text-gray-700 mb-2">
+                    <i class="fas fa-exchange-alt mr-1 text-gray-400"></i>
+                    Transaction Type
+                </label>
+
+                <div class="space-y-2">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" checked class="rounded text-primary-600 focus:ring-primary-500">
+                        <span class="text-sm">Sale (Bai)</span>
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" checked class="rounded text-primary-600 focus:ring-primary-500">
+                        <span class="text-sm">Gift (Hiba)</span>
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" class="rounded text-primary-600 focus:ring-primary-500">
+                        <span class="text-sm">Mortgage (Rehn)</span>
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" class="rounded text-primary-600 focus:ring-primary-500">
+                        <span class="text-sm">Inheritance (Wirasat)</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Apply Button -->
+            <div class="p-4">
+                <button class="w-full bg-primary-600 text-white py-3 rounded-lg font-medium hover:bg-primary-700 transition">
+                    <i class="fas fa-search mr-2"></i>
+                    Apply Filters
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 lg:ml-72">
+            <!-- Toolbar -->
+            <div class="bg-white border-b sticky top-16 z-40">
+                <div class="p-4">
+                    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                        <!-- Left: Filter Toggle (mobile) + Results Count -->
+                        <div class="flex items-center gap-4">
+                            <button class="lg:hidden bg-primary-600 text-white px-4 py-2 rounded-lg" onclick="toggleFilterSidebar()">
+                                <i class="fas fa-filter mr-2"></i>
+                                Filters
+                            </button>
+                            <div>
+                                <span class="text-gray-600">Showing</span>
+                                <span class="font-bold text-primary-600">68,380</span>
+                                <span class="text-gray-600">records</span>
+                            </div>
+                        </div>
+
+                        <!-- Center: View Switcher -->
+                        <div class="flex items-center gap-1 bg-gray-100 rounded-lg p-1">
+                            <button onclick="switchView('table')" id="tableBtn" class="view-btn px-4 py-2 rounded-md bg-white shadow-sm text-primary-600 font-medium text-sm">
+                                <i class="fas fa-table mr-2"></i>
+                                Table
+                            </button>
+                            <button onclick="switchView('chart')" id="chartBtn" class="view-btn px-4 py-2 rounded-md text-gray-600 hover:bg-gray-200 text-sm">
+                                <i class="fas fa-chart-bar mr-2"></i>
+                                Chart
+                            </button>
+                            <button onclick="switchView('map')" id="mapBtn" class="view-btn px-4 py-2 rounded-md text-gray-600 hover:bg-gray-200 text-sm">
+                                <i class="fas fa-map mr-2"></i>
+                                Map
+                            </button>
+                        </div>
+
+                        <!-- Right: Actions -->
+                        <div class="flex items-center gap-4">
+                            <button class="text-gray-600 hover:text-primary-600" title="Download (Login Required)">
+                                <i class="fas fa-download text-lg"></i>
+                            </button>
+                            <button class="text-gray-600 hover:text-primary-600" title="Fullscreen">
+                                <i class="fas fa-expand text-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Applied Filters Tags -->
+                    <div class="flex flex-wrap gap-2 mt-4">
+                        <span class="bg-primary-100 text-primary-700 px-3 py-1 rounded-full text-sm flex items-center gap-2">
+                            Districts: Lahore, Faisalabad
+                            <button class="hover:text-primary-900">&times;</button>
+                        </span>
+                        <span class="bg-primary-100 text-primary-700 px-3 py-1 rounded-full text-sm flex items-center gap-2">
+                            Years: 2020-2024
+                            <button class="hover:text-primary-900">&times;</button>
+                        </span>
+                        <span class="bg-primary-100 text-primary-700 px-3 py-1 rounded-full text-sm flex items-center gap-2">
+                            Types: Sale, Gift
+                            <button class="hover:text-primary-900">&times;</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Views -->
+            <div class="p-4">
+                <!-- Table View -->
+                <div id="tableView" class="view-content">
+                    <div class="bg-white rounded-xl shadow-sm border overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead class="bg-gray-50 border-b">
+                                    <tr>
+                                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Year</th>
+                                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">District</th>
+                                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Tehsil</th>
+                                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Transaction Type</th>
+                                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Property Type</th>
+                                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Location</th>
+                                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Value Range (PKR)</th>
+                                        <th class="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">Count</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-200">
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-4 py-3 text-sm text-gray-800">2024</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">Lahore</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">Model Town</td>
+                                        <td class="px-4 py-3 text-sm">
+                                            <span class="bg-primary-100 text-primary-700 px-2 py-1 rounded text-xs">Sale</span>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">Residential</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">Urban</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">10M - 50M</td>
+                                        <td class="px-4 py-3 text-sm font-medium text-gray-800 text-right">1,245</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-4 py-3 text-sm text-gray-800">2024</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">Lahore</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">Cantt</td>
+                                        <td class="px-4 py-3 text-sm">
+                                            <span class="bg-primary-100 text-primary-700 px-2 py-1 rounded text-xs">Sale</span>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">Residential</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">Urban</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">5M - 10M</td>
+                                        <td class="px-4 py-3 text-sm font-medium text-gray-800 text-right">987</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-4 py-3 text-sm text-gray-800">2024</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">Lahore</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">Raiwind</td>
+                                        <td class="px-4 py-3 text-sm">
+                                            <span class="bg-amber-100 text-amber-700 px-2 py-1 rounded text-xs">Gift</span>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">Agricultural</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">Rural</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">1M - 5M</td>
+                                        <td class="px-4 py-3 text-sm font-medium text-gray-800 text-right">654</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-4 py-3 text-sm text-gray-800">2024</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">Faisalabad</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">City</td>
+                                        <td class="px-4 py-3 text-sm">
+                                            <span class="bg-primary-100 text-primary-700 px-2 py-1 rounded text-xs">Sale</span>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">Commercial</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">Urban</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">50M+</td>
+                                        <td class="px-4 py-3 text-sm font-medium text-gray-800 text-right">432</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-4 py-3 text-sm text-gray-800">2024</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">Faisalabad</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">Madina Town</td>
+                                        <td class="px-4 py-3 text-sm">
+                                            <span class="bg-purple-100 text-purple-700 px-2 py-1 rounded text-xs">Inheritance</span>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">Residential</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">Urban</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">5M - 10M</td>
+                                        <td class="px-4 py-3 text-sm font-medium text-gray-800 text-right">321</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-4 py-3 text-sm text-gray-800">2023</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">Lahore</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">Model Town</td>
+                                        <td class="px-4 py-3 text-sm">
+                                            <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs">Mortgage</span>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">Residential</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">Urban</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">10M - 50M</td>
+                                        <td class="px-4 py-3 text-sm font-medium text-gray-800 text-right">289</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-4 py-3 text-sm text-gray-800">2023</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">Lahore</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">City</td>
+                                        <td class="px-4 py-3 text-sm">
+                                            <span class="bg-primary-100 text-primary-700 px-2 py-1 rounded text-xs">Sale</span>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">Commercial</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">Urban</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">50M+</td>
+                                        <td class="px-4 py-3 text-sm font-medium text-gray-800 text-right">567</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-4 py-3 text-sm text-gray-800">2023</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">Faisalabad</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">Samanabad</td>
+                                        <td class="px-4 py-3 text-sm">
+                                            <span class="bg-amber-100 text-amber-700 px-2 py-1 rounded text-xs">Gift</span>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">Residential</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">Urban</td>
+                                        <td class="px-4 py-3 text-sm text-gray-800">1M - 5M</td>
+                                        <td class="px-4 py-3 text-sm font-medium text-gray-800 text-right">234</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Pagination -->
+                        <div class="bg-gray-50 border-t px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-4">
+                            <div class="flex items-center gap-2 text-sm text-gray-600">
+                                <span>Show</span>
+                                <select class="border rounded px-2 py-1">
+                                    <option>25</option>
+                                    <option selected>50</option>
+                                    <option>100</option>
+                                </select>
+                                <span>entries</span>
+                            </div>
+
+                            <div class="flex items-center gap-1">
+                                <button class="px-3 py-1 rounded border bg-white hover:bg-gray-100 text-gray-600 disabled:opacity-50" disabled>
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <button class="px-3 py-1 rounded border bg-primary-600 text-white">1</button>
+                                <button class="px-3 py-1 rounded border bg-white hover:bg-gray-100 text-gray-600">2</button>
+                                <button class="px-3 py-1 rounded border bg-white hover:bg-gray-100 text-gray-600">3</button>
+                                <span class="px-2 text-gray-400">...</span>
+                                <button class="px-3 py-1 rounded border bg-white hover:bg-gray-100 text-gray-600">1368</button>
+                                <button class="px-3 py-1 rounded border bg-white hover:bg-gray-100 text-gray-600">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+
+                            <div class="text-sm text-gray-600">
+                                Showing 1-50 of 68,380
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart View -->
+                <div id="chartView" class="view-content hidden">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Transactions by Year -->
+                        <div class="bg-white rounded-xl shadow-sm border p-6">
+                            <h3 class="font-semibold text-gray-800 mb-4">Transactions by Year</h3>
+                            <div id="yearChart" style="height: 300px;"></div>
+                        </div>
+
+                        <!-- Transactions by Type -->
+                        <div class="bg-white rounded-xl shadow-sm border p-6">
+                            <h3 class="font-semibold text-gray-800 mb-4">Transaction Type Distribution</h3>
+                            <div id="typeChart" style="height: 300px;"></div>
+                        </div>
+
+                        <!-- Transactions by District -->
+                        <div class="bg-white rounded-xl shadow-sm border p-6">
+                            <h3 class="font-semibold text-gray-800 mb-4">Transactions by District</h3>
+                            <div id="districtChart" style="height: 300px;"></div>
+                        </div>
+
+                        <!-- Property Type Distribution -->
+                        <div class="bg-white rounded-xl shadow-sm border p-6">
+                            <h3 class="font-semibold text-gray-800 mb-4">Property Type Distribution</h3>
+                            <div id="propertyChart" style="height: 300px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Map View -->
+                <div id="mapView" class="view-content hidden">
+                    <div class="bg-white rounded-xl shadow-sm border overflow-hidden">
+                        <div class="p-4 border-b">
+                            <div class="flex items-center justify-between">
+                                <h3 class="font-semibold text-gray-800">Geographic Distribution</h3>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-sm text-gray-500">Color by:</span>
+                                    <select class="border border-gray-300 rounded px-2 py-1 text-sm">
+                                        <option>Transaction Count</option>
+                                        <option>Total Value</option>
+                                        <option>Average Value</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative" style="height: 500px;">
+                            <!-- Placeholder Map -->
+                            <div class="absolute inset-0 bg-gradient-to-br from-primary-50 to-primary-100 flex items-center justify-center">
+                                <div class="text-center">
+                                    <div class="w-32 h-32 bg-white rounded-full shadow-lg flex items-center justify-center mx-auto mb-4">
+                                        <i class="fas fa-map text-primary-600 text-5xl"></i>
+                                    </div>
+                                    <h4 class="text-xl font-semibold text-gray-800 mb-2">Punjab District Map</h4>
+                                    <p class="text-gray-600 mb-4">Interactive choropleth visualization</p>
+
+                                    <!-- Mini legend -->
+                                    <div class="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-lg shadow">
+                                        <span class="text-xs text-gray-500">Low</span>
+                                        <div class="flex">
+                                            <div class="w-6 h-4 bg-primary-100"></div>
+                                            <div class="w-6 h-4 bg-primary-200"></div>
+                                            <div class="w-6 h-4 bg-primary-300"></div>
+                                            <div class="w-6 h-4 bg-primary-400"></div>
+                                            <div class="w-6 h-4 bg-primary-600"></div>
+                                        </div>
+                                        <span class="text-xs text-gray-500">High</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- District Labels (Simulated) -->
+                            <div class="absolute top-1/4 left-1/3 bg-white px-2 py-1 rounded shadow text-xs font-medium">
+                                Lahore<br><span class="text-primary-600">35,420</span>
+                            </div>
+                            <div class="absolute top-1/3 right-1/3 bg-white px-2 py-1 rounded shadow text-xs font-medium">
+                                Faisalabad<br><span class="text-primary-600">18,234</span>
+                            </div>
+                            <div class="absolute bottom-1/3 left-1/4 bg-white px-2 py-1 rounded shadow text-xs font-medium">
+                                Multan<br><span class="text-primary-600">12,567</span>
+                            </div>
+                            <div class="absolute top-1/4 right-1/4 bg-white px-2 py-1 rounded shadow text-xs font-medium">
+                                Rawalpindi<br><span class="text-primary-600">8,901</span>
+                            </div>
+                        </div>
+
+                        <!-- Map Stats -->
+                        <div class="p-4 bg-gray-50 border-t grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div class="text-center">
+                                <div class="text-lg font-bold text-primary-600">36</div>
+                                <div class="text-xs text-gray-500">Districts</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-lg font-bold text-primary-600">68,380</div>
+                                <div class="text-xs text-gray-500">Total Transactions</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-lg font-bold text-primary-600">Lahore</div>
+                                <div class="text-xs text-gray-500">Highest Volume</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-lg font-bold text-primary-600">52%</div>
+                                <div class="text-xs text-gray-500">Urban Transactions</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Download CTA -->
+                <div class="mt-6 bg-primary-50 border border-primary-200 rounded-xl p-6 flex flex-col md:flex-row items-center justify-between gap-4">
+                    <div>
+                        <h4 class="font-semibold text-primary-800">Want to download this data?</h4>
+                        <p class="text-primary-600 text-sm">Create a free researcher account to download filtered datasets in CSV or Excel format.</p>
+                    </div>
+                    <a href="auth/register.html" class="bg-primary-600 text-white px-6 py-2 rounded-lg hover:bg-primary-700 transition font-medium whitespace-nowrap">
+                        Register for Free
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Mobile Filter Overlay -->
+    <div id="filterOverlay" class="fixed inset-0 bg-black/50 z-50 hidden lg:hidden" onclick="toggleFilterSidebar()"></div>
+    <div id="mobileFilter" class="fixed left-0 top-0 bottom-0 w-80 bg-white z-50 transform -translate-x-full transition-transform lg:hidden overflow-y-auto">
+        <div class="p-4 border-b bg-gray-50 flex items-center justify-between">
+            <h2 class="font-bold text-gray-800">
+                <i class="fas fa-filter mr-2 text-primary-600"></i>
+                Filters
+            </h2>
+            <button onclick="toggleFilterSidebar()" class="text-gray-500">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+        <div class="p-4">
+            <p class="text-gray-600 text-sm">Filter controls here (same as sidebar)</p>
+            <button class="w-full bg-primary-600 text-white py-3 rounded-lg font-medium mt-4" onclick="toggleFilterSidebar()">
+                Apply Filters
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white mt-16 lg:ml-72">
+        <div class="max-w-7xl mx-auto px-4 py-8">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-landmark text-white"></i>
+                    </div>
+                    <div>
+                        <div class="font-semibold">Punjab Land Analytics Portal</div>
+                        <div class="text-sm text-gray-400">Punjab Land Revenue Authority</div>
+                    </div>
+                </div>
+                <div class="text-sm text-gray-400">
+                    © 2024 Government of Punjab. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let chartsInitialized = false;
+
+        function toggleFilterSidebar() {
+            const overlay = document.getElementById('filterOverlay');
+            const mobileFilter = document.getElementById('mobileFilter');
+            overlay.classList.toggle('hidden');
+            mobileFilter.classList.toggle('-translate-x-full');
+        }
+
+        function switchView(view) {
+            // Hide all views
+            document.querySelectorAll('.view-content').forEach(el => el.classList.add('hidden'));
+
+            // Show selected view
+            document.getElementById(view + 'View').classList.remove('hidden');
+
+            // Update button states
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.classList.remove('bg-white', 'shadow-sm', 'text-primary-600', 'font-medium');
+                btn.classList.add('text-gray-600');
+            });
+            document.getElementById(view + 'Btn').classList.remove('text-gray-600');
+            document.getElementById(view + 'Btn').classList.add('bg-white', 'shadow-sm', 'text-primary-600', 'font-medium');
+
+            // Initialize charts when chart view is shown
+            if (view === 'chart' && !chartsInitialized) {
+                initCharts();
+                chartsInitialized = true;
+            }
+        }
+
+        function initCharts() {
+            // Year Chart
+            var yearOptions = {
+                series: [{
+                    name: 'Transactions',
+                    data: [12500, 14200, 15800, 17500, 19200]
+                }],
+                chart: {
+                    type: 'bar',
+                    height: 300,
+                    toolbar: { show: false }
+                },
+                colors: ['#16a34a'],
+                plotOptions: {
+                    bar: { borderRadius: 4 }
+                },
+                xaxis: {
+                    categories: ['2020', '2021', '2022', '2023', '2024']
+                },
+                yaxis: {
+                    labels: {
+                        formatter: function(val) {
+                            return (val / 1000).toFixed(0) + 'K';
+                        }
+                    }
+                }
+            };
+            new ApexCharts(document.querySelector("#yearChart"), yearOptions).render();
+
+            // Type Chart
+            var typeOptions = {
+                series: [45, 25, 15, 10, 5],
+                chart: {
+                    type: 'donut',
+                    height: 300
+                },
+                labels: ['Sale', 'Gift', 'Mortgage', 'Inheritance', 'Other'],
+                colors: ['#16a34a', '#f59e0b', '#3b82f6', '#8b5cf6', '#64748b'],
+                legend: {
+                    position: 'bottom'
+                }
+            };
+            new ApexCharts(document.querySelector("#typeChart"), typeOptions).render();
+
+            // District Chart
+            var districtOptions = {
+                series: [{
+                    name: 'Transactions',
+                    data: [35420, 18234, 12567, 8901, 5890, 4567]
+                }],
+                chart: {
+                    type: 'bar',
+                    height: 300,
+                    toolbar: { show: false }
+                },
+                colors: ['#16a34a'],
+                plotOptions: {
+                    bar: {
+                        horizontal: true,
+                        borderRadius: 4
+                    }
+                },
+                xaxis: {
+                    categories: ['Lahore', 'Faisalabad', 'Multan', 'Rawalpindi', 'Gujranwala', 'Sialkot']
+                },
+                yaxis: {
+                    labels: {
+                        formatter: function(val) {
+                            return (val / 1000).toFixed(0) + 'K';
+                        }
+                    }
+                }
+            };
+            new ApexCharts(document.querySelector("#districtChart"), districtOptions).render();
+
+            // Property Type Chart
+            var propertyOptions = {
+                series: [45, 35, 15, 5],
+                chart: {
+                    type: 'pie',
+                    height: 300
+                },
+                labels: ['Agricultural', 'Residential', 'Commercial', 'Industrial'],
+                colors: ['#16a34a', '#3b82f6', '#f59e0b', '#8b5cf6'],
+                legend: {
+                    position: 'bottom'
+                }
+            };
+            new ApexCharts(document.querySelector("#propertyChart"), propertyOptions).render();
+        }
+    </script>
+</body>
+</html>

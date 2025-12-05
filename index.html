@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Punjab Land Analytics Portal - PLRA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="js/tailwind-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .hero-pattern {
+            background-color: #166534;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .stat-card {
+            transition: transform 0.2s ease-in-out;
+        }
+        .stat-card:hover {
+            transform: translateY(-4px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-gray-200 fixed w-full z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center">
+                        <div class="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-landmark text-white text-lg"></i>
+                        </div>
+                        <div class="ml-3">
+                            <span class="text-xl font-bold text-gray-900">PLAP</span>
+                            <span class="text-xs text-gray-500 block -mt-1">Punjab Land Analytics</span>
+                        </div>
+                    </a>
+                    <div class="hidden md:flex ml-10 space-x-4">
+                        <a href="index.html" class="text-primary-600 border-b-2 border-primary-600 px-3 py-2 text-sm font-medium">Home</a>
+                        <a href="explore.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Explore Data</a>
+                        <a href="extract.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Create Extract</a>
+                        <a href="tabulator.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Tabulator</a>
+                        <a href="codebook.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Codebook</a>
+                        <a href="documentation.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Documentation</a>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="auth/login.html" class="text-gray-600 hover:text-primary-600 font-medium text-sm">Login</a>
+                    <a href="auth/register.html" class="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 text-sm font-medium">Register</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-pattern text-white pt-16">
+        <div class="py-16 md:py-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-4xl mx-auto text-center">
+                    <div class="inline-flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full mb-6">
+                        <i class="fas fa-chart-line"></i>
+                        <span class="text-sm">Research-Oriented Land Data Platform</span>
+                    </div>
+                    <h2 class="text-3xl md:text-5xl font-bold mb-6">Punjab's Land Data<br>For Research & Policy</h2>
+                    <p class="text-lg md:text-xl text-primary-100 mb-8 max-w-2xl mx-auto">
+                        Access anonymized, research-friendly land records from Punjab. Explore trends,
+                        analyze patterns, and download data for academic research and policy analysis.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <a href="explore.html" class="bg-white text-primary-700 px-8 py-3 rounded-lg font-semibold text-lg transition hover:bg-primary-50 inline-flex items-center justify-center gap-2">
+                            <i class="fas fa-search"></i>
+                            Explore Data
+                        </a>
+                        <a href="extract.html" class="bg-primary-500 hover:bg-primary-400 border border-white/30 text-white px-8 py-3 rounded-lg font-semibold text-lg transition inline-flex items-center justify-center gap-2">
+                            <i class="fas fa-download"></i>
+                            Create Extract
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mt-12 md:mt-16 max-w-5xl mx-auto">
+                    <div class="stat-card bg-white/10 backdrop-blur rounded-xl p-4 md:p-6 text-center border border-white/20">
+                        <div class="text-2xl md:text-4xl font-bold text-white">36</div>
+                        <div class="text-sm md:text-base text-primary-100 mt-1">Districts Covered</div>
+                    </div>
+                    <div class="stat-card bg-white/10 backdrop-blur rounded-xl p-4 md:p-6 text-center border border-white/20">
+                        <div class="text-2xl md:text-4xl font-bold text-white">15M+</div>
+                        <div class="text-sm md:text-base text-primary-100 mt-1">Land Records</div>
+                    </div>
+                    <div class="stat-card bg-white/10 backdrop-blur rounded-xl p-4 md:p-6 text-center border border-white/20">
+                        <div class="text-2xl md:text-4xl font-bold text-white">10+</div>
+                        <div class="text-sm md:text-base text-primary-100 mt-1">Years of Data</div>
+                    </div>
+                    <div class="stat-card bg-white/10 backdrop-blur rounded-xl p-4 md:p-6 text-center border border-white/20">
+                        <div class="text-2xl md:text-4xl font-bold text-white">5</div>
+                        <div class="text-sm md:text-base text-primary-100 mt-1">Research Datasets</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Visualizations -->
+    <section class="py-12 md:py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <h3 class="text-2xl md:text-3xl font-bold text-gray-800">Land Activity Overview</h3>
+                <p class="text-gray-600 mt-2">Explore trends in Punjab's land transactions</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 max-w-6xl mx-auto">
+                <!-- Chart 1: Year-wise Transactions -->
+                <div class="bg-gray-50 rounded-xl p-6 shadow-sm border">
+                    <div class="flex justify-between items-center mb-4">
+                        <h4 class="font-semibold text-gray-800">Year-wise Registrations</h4>
+                        <span class="text-xs bg-primary-600 text-white px-2 py-1 rounded">2015-2024</span>
+                    </div>
+                    <div id="yearlyChart"></div>
+                </div>
+
+                <!-- Chart 2: Transaction Types -->
+                <div class="bg-gray-50 rounded-xl p-6 shadow-sm border">
+                    <div class="flex justify-between items-center mb-4">
+                        <h4 class="font-semibold text-gray-800">Transaction Types Distribution</h4>
+                        <span class="text-xs bg-primary-600 text-white px-2 py-1 rounded">2024</span>
+                    </div>
+                    <div id="typeChart"></div>
+                </div>
+            </div>
+
+            <div class="text-center mt-8">
+                <a href="explore.html" class="inline-flex items-center gap-2 text-primary-600 hover:text-primary-800 font-medium">
+                    Explore More Data
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Datasets Section -->
+    <section class="py-12 md:py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <h3 class="text-2xl md:text-3xl font-bold text-gray-800">Available Datasets</h3>
+                <p class="text-gray-600 mt-2">Anonymized, research-ready data for download</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                <!-- Dataset Card 1 -->
+                <div class="bg-white rounded-xl shadow-sm border hover:shadow-md transition p-6">
+                    <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-file-contract text-primary-600 text-xl"></i>
+                    </div>
+                    <h4 class="font-semibold text-lg text-gray-800 mb-2">E-Registry Transactions</h4>
+                    <p class="text-gray-600 text-sm mb-4">Property sales, gifts, mortgages, and other registered transactions across Punjab.</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">2015-2024</span>
+                        <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">2.5M Records</span>
+                    </div>
+                    <a href="codebook.html" class="text-primary-600 hover:text-primary-800 text-sm font-medium inline-flex items-center gap-1">
+                        View Codebook <i class="fas fa-chevron-right text-xs"></i>
+                    </a>
+                </div>
+
+                <!-- Dataset Card 2 -->
+                <div class="bg-white rounded-xl shadow-sm border hover:shadow-md transition p-6">
+                    <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-map text-primary-600 text-xl"></i>
+                    </div>
+                    <h4 class="font-semibold text-lg text-gray-800 mb-2">Mutation Records</h4>
+                    <p class="text-gray-600 text-sm mb-4">Land transfer patterns including inheritance, partition, and ownership changes.</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">2020-2024</span>
+                        <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">1.2M Records</span>
+                    </div>
+                    <a href="codebook.html" class="text-primary-600 hover:text-primary-800 text-sm font-medium inline-flex items-center gap-1">
+                        View Codebook <i class="fas fa-chevron-right text-xs"></i>
+                    </a>
+                </div>
+
+                <!-- Dataset Card 3 -->
+                <div class="bg-white rounded-xl shadow-sm border hover:shadow-md transition p-6">
+                    <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-stamp text-primary-600 text-xl"></i>
+                    </div>
+                    <h4 class="font-semibold text-lg text-gray-800 mb-2">E-Stamp Data</h4>
+                    <p class="text-gray-600 text-sm mb-4">Stamp duty collection and e-stamp issuance patterns by region and type.</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">2018-2024</span>
+                        <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">5.6M Records</span>
+                    </div>
+                    <a href="codebook.html" class="text-primary-600 hover:text-primary-800 text-sm font-medium inline-flex items-center gap-1">
+                        View Codebook <i class="fas fa-chevron-right text-xs"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-12 md:py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <h3 class="text-2xl md:text-3xl font-bold text-gray-800">Research Tools</h3>
+                <p class="text-gray-600 mt-2">Professional-grade tools for data analysis</p>
+            </div>
+
+            <div class="grid md:grid-cols-4 gap-6 max-w-5xl mx-auto">
+                <a href="researcher/analysis.html" class="bg-gray-50 rounded-xl p-6 text-center hover:shadow-md transition border">
+                    <div class="w-14 h-14 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-chart-bar text-primary-600 text-xl"></i>
+                    </div>
+                    <h4 class="font-semibold text-gray-800 mb-2">Statistical Analysis</h4>
+                    <p class="text-gray-600 text-sm">Means, correlations, cross-tabs</p>
+                </a>
+
+                <a href="researcher/regression.html" class="bg-gray-50 rounded-xl p-6 text-center hover:shadow-md transition border">
+                    <div class="w-14 h-14 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-calculator text-primary-600 text-xl"></i>
+                    </div>
+                    <h4 class="font-semibold text-gray-800 mb-2">Regression Tools</h4>
+                    <p class="text-gray-600 text-sm">OLS, Logit, Probit models</p>
+                </a>
+
+                <a href="researcher/time-series.html" class="bg-gray-50 rounded-xl p-6 text-center hover:shadow-md transition border">
+                    <div class="w-14 h-14 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-chart-line text-primary-600 text-xl"></i>
+                    </div>
+                    <h4 class="font-semibold text-gray-800 mb-2">Time Series</h4>
+                    <p class="text-gray-600 text-sm">Trend analysis over time</p>
+                </a>
+
+                <a href="researcher/api.html" class="bg-gray-50 rounded-xl p-6 text-center hover:shadow-md transition border">
+                    <div class="w-14 h-14 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-code text-primary-600 text-xl"></i>
+                    </div>
+                    <h4 class="font-semibold text-gray-800 mb-2">API Access</h4>
+                    <p class="text-gray-600 text-sm">Programmatic data access</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- User Types -->
+    <section class="py-12 md:py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <h3 class="text-2xl md:text-3xl font-bold text-gray-800">Who Can Use This Portal?</h3>
+                <p class="text-gray-600 mt-2">Different access levels for different needs</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                <!-- Public -->
+                <div class="bg-white rounded-xl shadow-sm border p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-users text-gray-600"></i>
+                        </div>
+                        <h4 class="font-semibold text-lg text-gray-800">General Public</h4>
+                    </div>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-primary-500"></i>
+                            View summary statistics
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-primary-500"></i>
+                            Browse visualizations
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-primary-500"></i>
+                            No registration required
+                        </li>
+                        <li class="flex items-center gap-2 text-gray-400">
+                            <i class="fas fa-times"></i>
+                            No data download
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Researchers -->
+                <div class="bg-white rounded-xl shadow-sm border p-6 ring-2 ring-primary-500">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-graduation-cap text-primary-600"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg text-gray-800">Researchers</h4>
+                            <span class="text-xs bg-primary-100 text-primary-600 px-2 py-0.5 rounded">Most Popular</span>
+                        </div>
+                    </div>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-primary-500"></i>
+                            Full data exploration
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-primary-500"></i>
+                            Advanced filtering
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-primary-500"></i>
+                            Download CSV/Excel
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-primary-500"></i>
+                            Free registration
+                        </li>
+                    </ul>
+                    <a href="auth/register.html" class="block mt-4 bg-primary-600 text-white text-center py-2 rounded-lg hover:bg-primary-700 transition text-sm font-medium">
+                        Register Now
+                    </a>
+                </div>
+
+                <!-- Government -->
+                <div class="bg-white rounded-xl shadow-sm border p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-building-columns text-amber-600"></i>
+                        </div>
+                        <h4 class="font-semibold text-lg text-gray-800">Government Officials</h4>
+                    </div>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-primary-500"></i>
+                            Executive dashboards
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-primary-500"></i>
+                            Extended data access
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-primary-500"></i>
+                            Higher download limits
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check text-primary-500"></i>
+                            Approval required
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-12 md:py-16 bg-primary-600">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">Ready to Start Your Research?</h3>
+            <p class="text-primary-100 mb-8 max-w-2xl mx-auto">
+                Join researchers and policymakers using Punjab's land data for evidence-based analysis.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="auth/register.html" class="bg-white text-primary-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">
+                    Create Free Account
+                </a>
+                <a href="explore.html" class="border border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white/10 transition">
+                    Explore Without Login
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white">
+        <div class="max-w-7xl mx-auto px-4 py-12">
+            <div class="grid md:grid-cols-4 gap-8">
+                <!-- About -->
+                <div>
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-landmark text-white"></i>
+                        </div>
+                        <span class="font-bold text-white">PLAP</span>
+                    </div>
+                    <p class="text-sm text-gray-400">
+                        Punjab Land Analytics Portal is an initiative of PLRA to provide research-oriented access to land data.
+                    </p>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h5 class="font-semibold text-white mb-4">Quick Links</h5>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="explore.html" class="text-gray-400 hover:text-white">Explore Data</a></li>
+                        <li><a href="extract.html" class="text-gray-400 hover:text-white">Create Extract</a></li>
+                        <li><a href="codebook.html" class="text-gray-400 hover:text-white">Codebook</a></li>
+                        <li><a href="documentation.html" class="text-gray-400 hover:text-white">Documentation</a></li>
+                    </ul>
+                </div>
+
+                <!-- Research Tools -->
+                <div>
+                    <h5 class="font-semibold text-white mb-4">Research Tools</h5>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="researcher/analysis.html" class="text-gray-400 hover:text-white">Statistical Analysis</a></li>
+                        <li><a href="researcher/regression.html" class="text-gray-400 hover:text-white">Regression</a></li>
+                        <li><a href="researcher/api.html" class="text-gray-400 hover:text-white">API Access</a></li>
+                        <li><a href="researcher/libraries.html" class="text-gray-400 hover:text-white">R/Python Libraries</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h5 class="font-semibold text-white mb-4">Contact</h5>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-center gap-2 text-gray-400">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Arfa Software Technology Park, Lahore
+                        </li>
+                        <li class="flex items-center gap-2 text-gray-400">
+                            <i class="fas fa-envelope"></i>
+                            research@plra.punjab.gov.pk
+                        </li>
+                        <li class="flex items-center gap-2 text-gray-400">
+                            <i class="fas fa-phone"></i>
+                            042-111-222-333
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-700 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center text-sm">
+                <p class="text-gray-400">&copy; 2024 Punjab Land Records Authority. All rights reserved.</p>
+                <div class="flex items-center gap-4 mt-4 md:mt-0 text-gray-400">
+                    <a href="#" class="hover:text-white">Privacy Policy</a>
+                    <a href="#" class="hover:text-white">Terms of Use</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Year-wise Registrations Chart
+        var yearlyOptions = {
+            series: [{
+                name: 'Registrations',
+                data: [125000, 142000, 158000, 175000, 192000, 210000, 185000, 225000, 248000, 275000]
+            }],
+            chart: {
+                type: 'area',
+                height: 280,
+                toolbar: { show: false },
+                fontFamily: 'inherit'
+            },
+            colors: ['#16a34a'],
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    shadeIntensity: 1,
+                    opacityFrom: 0.4,
+                    opacityTo: 0.1,
+                }
+            },
+            stroke: {
+                curve: 'smooth',
+                width: 2
+            },
+            xaxis: {
+                categories: ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'],
+                labels: { style: { fontSize: '12px' } }
+            },
+            yaxis: {
+                labels: {
+                    formatter: function(val) {
+                        return (val / 1000) + 'K';
+                    },
+                    style: { fontSize: '12px' }
+                }
+            },
+            grid: { borderColor: '#e5e7eb' },
+            dataLabels: { enabled: false },
+            tooltip: {
+                y: {
+                    formatter: function(val) {
+                        return val.toLocaleString() + ' registrations';
+                    }
+                }
+            }
+        };
+        new ApexCharts(document.querySelector("#yearlyChart"), yearlyOptions).render();
+
+        // Transaction Types Chart
+        var typeOptions = {
+            series: [45, 25, 15, 10, 5],
+            chart: {
+                type: 'donut',
+                height: 280,
+                fontFamily: 'inherit'
+            },
+            labels: ['Sale (Bai)', 'Gift (Hiba)', 'Mortgage (Rehn)', 'Inheritance (Wirasat)', 'Other'],
+            colors: ['#16a34a', '#22c55e', '#4ade80', '#86efac', '#bbf7d0'],
+            legend: {
+                position: 'bottom',
+                fontSize: '12px'
+            },
+            dataLabels: {
+                enabled: true,
+                formatter: function(val) {
+                    return val.toFixed(0) + '%';
+                }
+            },
+            plotOptions: {
+                pie: {
+                    donut: {
+                        size: '55%',
+                        labels: {
+                            show: true,
+                            total: {
+                                show: true,
+                                label: 'Total',
+                                fontSize: '14px',
+                                formatter: function(w) {
+                                    return '275K';
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        };
+        new ApexCharts(document.querySelector("#typeChart"), typeOptions).render();
+    </script>
+</body>
+</html>

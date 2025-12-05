@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizations - Punjab Land Analytics Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="js/tailwind-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-gray-200 fixed w-full z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center">
+                        <div class="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-landmark text-white text-lg"></i>
+                        </div>
+                        <div class="ml-3">
+                            <span class="text-xl font-bold text-gray-900">PLAP</span>
+                            <span class="text-xs text-gray-500 block -mt-1">Punjab Land Analytics</span>
+                        </div>
+                    </a>
+                    <div class="hidden md:flex ml-10 space-x-4">
+                        <a href="index.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Home</a>
+                        <a href="explore.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Explore Data</a>
+                        <a href="extract.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Create Extract</a>
+                        <a href="tabulator.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Tabulator</a>
+                        <a href="codebook.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Codebook</a>
+                        <a href="documentation.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Documentation</a>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="login.html" class="text-gray-600 hover:text-primary-600 font-medium text-sm">Login</a>
+                    <a href="register.html" class="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 text-sm font-medium">Register</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="bg-primary-600 text-white py-8 pt-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-2xl md:text-3xl font-bold">Data Visualizations</h2>
+            <p class="text-primary-100 mt-2">Interactive charts and maps for Punjab land data analysis</p>
+        </div>
+    </div>
+
+    <!-- Filters Bar -->
+    <div class="bg-white border-b sticky top-16 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex flex-wrap items-center gap-4">
+                <div class="flex items-center gap-2">
+                    <label class="text-sm text-gray-600">District:</label>
+                    <select class="border rounded-lg px-3 py-2 text-sm">
+                        <option>All Districts</option>
+                        <option selected>Lahore</option>
+                        <option>Faisalabad</option>
+                        <option>Rawalpindi</option>
+                        <option>Multan</option>
+                    </select>
+                </div>
+                <div class="flex items-center gap-2">
+                    <label class="text-sm text-gray-600">Year:</label>
+                    <select class="border rounded-lg px-3 py-2 text-sm">
+                        <option>All Years</option>
+                        <option selected>2024</option>
+                        <option>2023</option>
+                        <option>2022</option>
+                        <option>2021</option>
+                        <option>2020</option>
+                    </select>
+                </div>
+                <button class="bg-primary-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-primary-700">
+                    <i class="fas fa-sync-alt mr-2"></i>
+                    Update Charts
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Row 1: Key Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-primary-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-500">Total Registrations</p>
+                        <p class="text-2xl font-bold text-gray-800">275,430</p>
+                        <p class="text-xs text-success-600 mt-1">
+                            <i class="fas fa-arrow-up"></i> 12.5% from last year
+                        </p>
+                    </div>
+                    <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-file-signature text-primary-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-success-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-500">Total Mutations</p>
+                        <p class="text-2xl font-bold text-gray-800">182,650</p>
+                        <p class="text-xs text-success-600 mt-1">
+                            <i class="fas fa-arrow-up"></i> 8.3% from last year
+                        </p>
+                    </div>
+                    <div class="w-12 h-12 bg-success-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-exchange-alt text-success-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-accent-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-500">Total Land Area</p>
+                        <p class="text-2xl font-bold text-gray-800">45.2M</p>
+                        <p class="text-xs text-gray-500 mt-1">Acres Registered</p>
+                    </div>
+                    <div class="w-12 h-12 bg-accent-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-map text-accent-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-purple-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-500">Avg Transaction Value</p>
+                        <p class="text-2xl font-bold text-gray-800">12.8M</p>
+                        <p class="text-xs text-red-500 mt-1">
+                            <i class="fas fa-arrow-down"></i> 3.2% from last year
+                        </p>
+                    </div>
+                    <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-coins text-purple-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 2: Main Charts -->
+        <div class="grid lg:grid-cols-2 gap-6 mb-8">
+            <!-- Year-wise Trend -->
+            <div class="bg-white rounded-xl shadow-sm border p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h3 class="font-semibold text-gray-800">Registration Trends (2015-2024)</h3>
+                        <p class="text-sm text-gray-500">Year-wise property registration volume</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="p-2 text-gray-400 hover:text-primary-600" title="Download">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        <button class="p-2 text-gray-400 hover:text-primary-600" title="Fullscreen">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="trendChart"></div>
+            </div>
+
+            <!-- District Comparison -->
+            <div class="bg-white rounded-xl shadow-sm border p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h3 class="font-semibold text-gray-800">Top Districts by Activity</h3>
+                        <p class="text-sm text-gray-500">Registration volume by district (2024)</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="p-2 text-gray-400 hover:text-primary-600" title="Download">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="districtChart"></div>
+            </div>
+        </div>
+
+        <!-- Row 3: Distribution Charts -->
+        <div class="grid lg:grid-cols-3 gap-6 mb-8">
+            <!-- Transaction Types -->
+            <div class="bg-white rounded-xl shadow-sm border p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-semibold text-gray-800">Transaction Types</h3>
+                    <span class="text-xs bg-primary-100 text-primary-700 px-2 py-1 rounded">2024</span>
+                </div>
+                <div id="transactionTypesChart"></div>
+            </div>
+
+            <!-- Land Types -->
+            <div class="bg-white rounded-xl shadow-sm border p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-semibold text-gray-800">Land Classification</h3>
+                    <span class="text-xs bg-success-100 text-success-700 px-2 py-1 rounded">All Time</span>
+                </div>
+                <div id="landTypesChart"></div>
+            </div>
+
+            <!-- Urban vs Rural -->
+            <div class="bg-white rounded-xl shadow-sm border p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-semibold text-gray-800">Urban vs Rural</h3>
+                    <span class="text-xs bg-accent-100 text-accent-700 px-2 py-1 rounded">2024</span>
+                </div>
+                <div id="locationChart"></div>
+            </div>
+        </div>
+
+        <!-- Row 4: Geographic Heat Map -->
+        <div class="bg-white rounded-xl shadow-sm border p-6 mb-8">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <h3 class="font-semibold text-gray-800">Geographic Distribution</h3>
+                    <p class="text-sm text-gray-500">Registration intensity by district</p>
+                </div>
+                <div class="flex items-center gap-4">
+                    <select class="border rounded-lg px-3 py-2 text-sm">
+                        <option>Registration Volume</option>
+                        <option>Transaction Value</option>
+                        <option>Land Area</option>
+                    </select>
+                    <button class="p-2 text-gray-400 hover:text-primary-600" title="Fullscreen">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="mapChart" class="h-96 bg-gray-100 rounded-lg flex items-center justify-center relative overflow-hidden">
+                <!-- Placeholder Punjab Map -->
+                <svg viewBox="0 0 400 350" class="w-full h-full max-w-2xl">
+                    <!-- Simplified Punjab Districts -->
+                    <g fill="#dbeafe" stroke="#1e3a5f" stroke-width="0.5">
+                        <!-- Rawalpindi Division -->
+                        <path d="M180,20 L220,15 L250,30 L260,60 L240,80 L210,75 L180,50 Z" fill="#93c5fd" class="hover:fill-primary-400 cursor-pointer" title="Rawalpindi">
+                            <title>Rawalpindi: 18,450 registrations</title>
+                        </path>
+                        <path d="M140,30 L180,20 L180,50 L160,70 L130,60 Z" fill="#bfdbfe" class="hover:fill-primary-400 cursor-pointer">
+                            <title>Attock: 8,230 registrations</title>
+                        </path>
+                        <path d="M260,60 L290,50 L310,80 L300,110 L270,100 L240,80 Z" fill="#93c5fd" class="hover:fill-primary-400 cursor-pointer">
+                            <title>Jhelum: 12,340 registrations</title>
+                        </path>
+
+                        <!-- Lahore Division -->
+                        <path d="M240,130 L280,120 L300,150 L290,180 L250,190 L230,160 Z" fill="#1e3a5f" class="hover:fill-primary-400 cursor-pointer">
+                            <title>Lahore: 45,670 registrations</title>
+                        </path>
+                        <path d="M200,100 L240,90 L240,130 L230,160 L200,150 L190,120 Z" fill="#60a5fa" class="hover:fill-primary-400 cursor-pointer">
+                            <title>Sheikhupura: 22,340 registrations</title>
+                        </path>
+                        <path d="M280,120 L320,110 L340,140 L330,170 L300,150 Z" fill="#3b82f6" class="hover:fill-primary-400 cursor-pointer">
+                            <title>Kasur: 15,890 registrations</title>
+                        </path>
+
+                        <!-- Faisalabad Division -->
+                        <path d="M120,100 L160,90 L190,120 L180,160 L140,170 L110,140 Z" fill="#2563eb" class="hover:fill-primary-400 cursor-pointer">
+                            <title>Faisalabad: 38,920 registrations</title>
+                        </path>
+                        <path d="M160,90 L200,80 L200,100 L190,120 L160,110 Z" fill="#60a5fa" class="hover:fill-primary-400 cursor-pointer">
+                            <title>Chiniot: 9,450 registrations</title>
+                        </path>
+
+                        <!-- Gujranwala Division -->
+                        <path d="M210,75 L240,80 L240,90 L200,100 L190,85 Z" fill="#3b82f6" class="hover:fill-primary-400 cursor-pointer">
+                            <title>Gujranwala: 28,560 registrations</title>
+                        </path>
+                        <path d="M240,80 L270,100 L280,120 L240,130 L240,90 Z" fill="#60a5fa" class="hover:fill-primary-400 cursor-pointer">
+                            <title>Gujrat: 14,780 registrations</title>
+                        </path>
+                        <path d="M270,100 L300,110 L320,110 L280,120 Z" fill="#93c5fd" class="hover:fill-primary-400 cursor-pointer">
+                            <title>Sialkot: 16,890 registrations</title>
+                        </path>
+
+                        <!-- Multan Division -->
+                        <path d="M100,200 L140,190 L160,220 L150,260 L110,270 L90,240 Z" fill="#3b82f6" class="hover:fill-primary-400 cursor-pointer">
+                            <title>Multan: 32,450 registrations</title>
+                        </path>
+                        <path d="M140,190 L180,180 L200,210 L180,250 L160,220 Z" fill="#60a5fa" class="hover:fill-primary-400 cursor-pointer">
+                            <title>Khanewal: 12,340 registrations</title>
+                        </path>
+                        <path d="M150,260 L180,250 L190,280 L160,300 L130,290 Z" fill="#93c5fd" class="hover:fill-primary-400 cursor-pointer">
+                            <title>Vehari: 8,670 registrations</title>
+                        </path>
+
+                        <!-- Sargodha Division -->
+                        <path d="M80,80 L120,70 L140,100 L120,130 L90,120 L70,100 Z" fill="#60a5fa" class="hover:fill-primary-400 cursor-pointer">
+                            <title>Sargodha: 18,230 registrations</title>
+                        </path>
+                        <path d="M120,70 L160,60 L160,90 L140,100 L120,90 Z" fill="#93c5fd" class="hover:fill-primary-400 cursor-pointer">
+                            <title>Mianwali: 7,890 registrations</title>
+                        </path>
+
+                        <!-- Sahiwal Division -->
+                        <path d="M180,160 L230,160 L250,190 L230,220 L190,230 L170,200 Z" fill="#60a5fa" class="hover:fill-primary-400 cursor-pointer">
+                            <title>Sahiwal: 14,560 registrations</title>
+                        </path>
+                        <path d="M140,170 L180,160 L170,200 L150,210 L120,190 Z" fill="#93c5fd" class="hover:fill-primary-400 cursor-pointer">
+                            <title>Okara: 11,230 registrations</title>
+                        </path>
+
+                        <!-- Bahawalpur Division -->
+                        <path d="M110,270 L150,260 L160,300 L140,340 L100,330 L80,300 Z" fill="#93c5fd" class="hover:fill-primary-400 cursor-pointer">
+                            <title>Bahawalpur: 15,670 registrations</title>
+                        </path>
+                        <path d="M160,300 L200,290 L220,320 L200,350 L160,340 Z" fill="#bfdbfe" class="hover:fill-primary-400 cursor-pointer">
+                            <title>Bahawalnagar: 9,340 registrations</title>
+                        </path>
+                        <path d="M200,290 L240,280 L260,310 L240,340 L220,320 Z" fill="#dbeafe" class="hover:fill-primary-400 cursor-pointer">
+                            <title>Rahim Yar Khan: 11,450 registrations</title>
+                        </path>
+
+                        <!-- DG Khan Division -->
+                        <path d="M40,150 L80,140 L100,180 L90,220 L50,210 L30,180 Z" fill="#93c5fd" class="hover:fill-primary-400 cursor-pointer">
+                            <title>D.G. Khan: 12,890 registrations</title>
+                        </path>
+                        <path d="M50,210 L90,220 L100,260 L80,290 L40,280 L30,250 Z" fill="#bfdbfe" class="hover:fill-primary-400 cursor-pointer">
+                            <title>Rajanpur: 6,780 registrations</title>
+                        </path>
+                    </g>
+                </svg>
+
+                <!-- Legend -->
+                <div class="absolute bottom-4 right-4 bg-white/90 rounded-lg p-3 shadow-sm">
+                    <p class="text-xs font-medium text-gray-700 mb-2">Registrations</p>
+                    <div class="flex items-center gap-1">
+                        <div class="w-6 h-3 bg-blue-100 rounded"></div>
+                        <span class="text-xs text-gray-500">Low</span>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <div class="w-6 h-3 bg-blue-400 rounded"></div>
+                        <span class="text-xs text-gray-500">Medium</span>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <div class="w-6 h-3 bg-primary-500 rounded"></div>
+                        <span class="text-xs text-gray-500">High</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 5: Comparative Analysis -->
+        <div class="grid lg:grid-cols-2 gap-6 mb-8">
+            <!-- Monthly Comparison -->
+            <div class="bg-white rounded-xl shadow-sm border p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h3 class="font-semibold text-gray-800">Monthly Comparison</h3>
+                        <p class="text-sm text-gray-500">2023 vs 2024 registration volume</p>
+                    </div>
+                </div>
+                <div id="monthlyCompareChart"></div>
+            </div>
+
+            <!-- Value Distribution -->
+            <div class="bg-white rounded-xl shadow-sm border p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h3 class="font-semibold text-gray-800">Transaction Value Distribution</h3>
+                        <p class="text-sm text-gray-500">By value range (PKR)</p>
+                    </div>
+                </div>
+                <div id="valueDistChart"></div>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="bg-gradient-to-r from-primary-500 to-primary-700 rounded-xl p-8 text-center text-white">
+            <h3 class="text-2xl font-bold mb-2">Want to analyze this data further?</h3>
+            <p class="text-primary-100 mb-6">Download datasets to perform your own analysis using your preferred tools.</p>
+            <div class="flex justify-center gap-4">
+                <a href="explore.html" class="bg-white text-primary-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition">
+                    Explore with Filters
+                </a>
+                <a href="register.html" class="bg-accent-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-accent-600 transition">
+                    Download Data
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="border-t border-gray-700 pt-8 flex flex-col md:flex-row justify-between items-center text-sm">
+                <p class="text-gray-400">&copy; 2024 Punjab Land Records Authority. All rights reserved.</p>
+                <div class="flex items-center gap-4 mt-4 md:mt-0 text-gray-400">
+                    <a href="about.html" class="hover:text-white">About</a>
+                    <a href="contact.html" class="hover:text-white">Contact</a>
+                    <a href="terms.html" class="hover:text-white">Terms of Use</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Trend Chart
+        var trendOptions = {
+            series: [{
+                name: 'Registrations',
+                data: [125000, 142000, 158000, 175000, 192000, 210000, 185000, 225000, 248000, 275000]
+            }, {
+                name: 'Mutations',
+                data: [95000, 108000, 118000, 132000, 145000, 158000, 142000, 168000, 175000, 183000]
+            }],
+            chart: {
+                type: 'area',
+                height: 320,
+                toolbar: { show: false },
+                fontFamily: 'inherit'
+            },
+            colors: ['#009b5b', '#22c55e'],
+            fill: {
+                type: 'gradient',
+                gradient: { shadeIntensity: 1, opacityFrom: 0.4, opacityTo: 0.1 }
+            },
+            stroke: { curve: 'smooth', width: 2 },
+            xaxis: {
+                categories: ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024']
+            },
+            yaxis: {
+                labels: {
+                    formatter: function(val) { return (val / 1000) + 'K'; }
+                }
+            },
+            legend: { position: 'top' },
+            tooltip: {
+                y: { formatter: function(val) { return val.toLocaleString(); } }
+            }
+        };
+        new ApexCharts(document.querySelector("#trendChart"), trendOptions).render();
+
+        // District Chart
+        var districtOptions = {
+            series: [{
+                name: 'Registrations',
+                data: [45670, 38920, 32450, 28560, 22340, 18450, 16890, 15890, 14780, 14560]
+            }],
+            chart: {
+                type: 'bar',
+                height: 320,
+                toolbar: { show: false }
+            },
+            colors: ['#009b5b'],
+            plotOptions: {
+                bar: { horizontal: true, borderRadius: 4 }
+            },
+            xaxis: {
+                categories: ['Lahore', 'Faisalabad', 'Multan', 'Gujranwala', 'Sheikhupura', 'Rawalpindi', 'Sialkot', 'Kasur', 'Gujrat', 'Sahiwal']
+            },
+            dataLabels: {
+                enabled: true,
+                formatter: function(val) { return val.toLocaleString(); },
+                style: { fontSize: '11px' }
+            }
+        };
+        new ApexCharts(document.querySelector("#districtChart"), districtOptions).render();
+
+        // Transaction Types Chart
+        var transactionTypesOptions = {
+            series: [45, 25, 15, 10, 5],
+            chart: { type: 'donut', height: 280 },
+            labels: ['Sale', 'Gift', 'Mortgage', 'Inheritance', 'Other'],
+            colors: ['#009b5b', '#22c55e', '#f59e0b', '#a855f7', '#64748b'],
+            legend: { position: 'bottom', fontSize: '12px' },
+            plotOptions: {
+                pie: {
+                    donut: {
+                        size: '60%',
+                        labels: {
+                            show: true,
+                            total: { show: true, label: 'Total', formatter: function() { return '275K'; } }
+                        }
+                    }
+                }
+            }
+        };
+        new ApexCharts(document.querySelector("#transactionTypesChart"), transactionTypesOptions).render();
+
+        // Land Types Chart
+        var landTypesOptions = {
+            series: [55, 28, 12, 5],
+            chart: { type: 'pie', height: 280 },
+            labels: ['Agricultural', 'Residential', 'Commercial', 'Industrial'],
+            colors: ['#22c55e', '#009b5b', '#f59e0b', '#64748b'],
+            legend: { position: 'bottom', fontSize: '12px' }
+        };
+        new ApexCharts(document.querySelector("#landTypesChart"), landTypesOptions).render();
+
+        // Location Chart
+        var locationOptions = {
+            series: [42, 58],
+            chart: { type: 'donut', height: 280 },
+            labels: ['Urban', 'Rural'],
+            colors: ['#009b5b', '#22c55e'],
+            legend: { position: 'bottom', fontSize: '12px' },
+            plotOptions: {
+                pie: { donut: { size: '65%' } }
+            }
+        };
+        new ApexCharts(document.querySelector("#locationChart"), locationOptions).render();
+
+        // Monthly Compare Chart
+        var monthlyCompareOptions = {
+            series: [{
+                name: '2023',
+                data: [18500, 20200, 22100, 19800, 21500, 23200, 22800, 24100, 25600, 26200, 24800, 28500]
+            }, {
+                name: '2024',
+                data: [21200, 23500, 25800, 22400, 24900, 26800, 25200, 27500, 29100, 0, 0, 0]
+            }],
+            chart: {
+                type: 'bar',
+                height: 320,
+                toolbar: { show: false }
+            },
+            colors: ['#9ef5c4', '#009b5b'],
+            plotOptions: {
+                bar: { borderRadius: 4, columnWidth: '60%' }
+            },
+            xaxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            },
+            yaxis: {
+                labels: { formatter: function(val) { return (val / 1000) + 'K'; } }
+            },
+            legend: { position: 'top' }
+        };
+        new ApexCharts(document.querySelector("#monthlyCompareChart"), monthlyCompareOptions).render();
+
+        // Value Distribution Chart
+        var valueDistOptions = {
+            series: [{
+                name: 'Transactions',
+                data: [45000, 68000, 52000, 35000, 28000, 22000, 15000, 10000]
+            }],
+            chart: {
+                type: 'bar',
+                height: 320,
+                toolbar: { show: false }
+            },
+            colors: ['#d97706'],
+            plotOptions: {
+                bar: { borderRadius: 4, columnWidth: '70%' }
+            },
+            xaxis: {
+                categories: ['<1M', '1-5M', '5-10M', '10-25M', '25-50M', '50-100M', '100-500M', '>500M'],
+                title: { text: 'Value Range (PKR)' }
+            },
+            yaxis: {
+                labels: { formatter: function(val) { return (val / 1000) + 'K'; } }
+            },
+            dataLabels: { enabled: false }
+        };
+        new ApexCharts(document.querySelector("#valueDistChart"), valueDistOptions).render();
+    </script>
+</body>
+</html>

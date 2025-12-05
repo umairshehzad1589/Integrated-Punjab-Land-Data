@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saved Queries & Extract History - PLAP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/tailwind-config.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="flex items-center justify-between px-4 h-16">
+            <a href="../index.html" class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center">
+                    <i class="fas fa-landmark text-white text-sm"></i>
+                </div>
+                <span class="font-bold text-primary-700">PLAP</span>
+            </a>
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm">DR</div>
+                <a href="../login.html" class="text-gray-400 hover:text-red-500 ml-2"><i class="fas fa-sign-out-alt"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white shadow-lg min-h-screen fixed left-0 top-16 hidden lg:block">
+            <nav class="p-4">
+                <a href="dashboard.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100">
+                    <i class="fas fa-home w-5"></i> Dashboard
+                </a>
+                <a href="../explore.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 mt-1">
+                    <i class="fas fa-search w-5"></i> Explore Data
+                </a>
+                <a href="download.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 mt-1">
+                    <i class="fas fa-download w-5"></i> Download Data
+                </a>
+                <a href="saved-queries.html" class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary-50 text-primary-700 font-medium mt-1">
+                    <i class="fas fa-bookmark w-5"></i> Saved Queries
+                </a>
+                <a href="history.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 mt-1">
+                    <i class="fas fa-history w-5"></i> Download History
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 lg:ml-64 p-6">
+            <div class="max-w-6xl mx-auto">
+                <!-- Header -->
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800">Saved Queries & Extract History</h1>
+                        <p class="text-gray-500 text-sm mt-1">Manage your saved queries and re-run previous extracts</p>
+                    </div>
+                    <button class="bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-700">
+                        <i class="fas fa-plus mr-2"></i>New Query
+                    </button>
+                </div>
+
+                <!-- Tabs -->
+                <div class="bg-white rounded-xl shadow-sm mb-6">
+                    <div class="border-b">
+                        <nav class="flex">
+                            <button class="px-6 py-4 text-sm border-b-2 border-primary-500 text-primary-600 font-medium">
+                                <i class="fas fa-bookmark mr-2"></i>Saved Queries (5)
+                            </button>
+                            <button class="px-6 py-4 text-sm text-gray-500 hover:text-gray-700">
+                                <i class="fas fa-history mr-2"></i>Extract History (23)
+                            </button>
+                            <button class="px-6 py-4 text-sm text-gray-500 hover:text-gray-700">
+                                <i class="fas fa-code mr-2"></i>API Requests
+                            </button>
+                        </nav>
+                    </div>
+
+                    <!-- Saved Queries Content -->
+                    <div class="p-6">
+                        <div class="space-y-4">
+                            <!-- Query Card 1 -->
+                            <div class="border rounded-lg p-4 hover:border-primary-300 hover:shadow-sm transition">
+                                <div class="flex items-start justify-between">
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-3 mb-2">
+                                            <h3 class="font-semibold text-gray-800">Lahore Sales Analysis 2020-2024</h3>
+                                            <span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded text-xs">Registry Transactions</span>
+                                        </div>
+                                        <p class="text-sm text-gray-500 mb-3">
+                                            District: Lahore | Transaction Type: Sale | Years: 2020-2024 | Land Type: Residential, Commercial
+                                        </p>
+                                        <div class="flex items-center gap-4 text-xs text-gray-400">
+                                            <span><i class="fas fa-calendar mr-1"></i>Created: Nov 15, 2024</span>
+                                            <span><i class="fas fa-play mr-1"></i>Last run: Dec 3, 2024</span>
+                                            <span><i class="fas fa-database mr-1"></i>~45,000 records</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <button class="bg-primary-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-primary-700">
+                                            <i class="fas fa-play mr-1"></i>Run
+                                        </button>
+                                        <button class="border px-3 py-2 rounded-lg text-sm hover:bg-gray-50">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="border px-3 py-2 rounded-lg text-sm hover:bg-gray-50">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                        <button class="border px-3 py-2 rounded-lg text-sm text-red-500 hover:bg-red-50">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Expanded Query Details (Collapsible) -->
+                                <details class="mt-4">
+                                    <summary class="text-sm text-primary-600 cursor-pointer hover:text-primary-800">
+                                        View Query Details
+                                    </summary>
+                                    <div class="mt-3 bg-gray-50 rounded-lg p-4">
+                                        <div class="grid md:grid-cols-2 gap-4 text-sm">
+                                            <div>
+                                                <h4 class="font-medium text-gray-700 mb-2">Variables Selected (8)</h4>
+                                                <div class="flex flex-wrap gap-1">
+                                                    <span class="bg-gray-200 px-2 py-0.5 rounded text-xs">district_id</span>
+                                                    <span class="bg-gray-200 px-2 py-0.5 rounded text-xs">tehsil_id</span>
+                                                    <span class="bg-gray-200 px-2 py-0.5 rounded text-xs">transaction_type</span>
+                                                    <span class="bg-gray-200 px-2 py-0.5 rounded text-xs">transaction_date</span>
+                                                    <span class="bg-gray-200 px-2 py-0.5 rounded text-xs">land_area</span>
+                                                    <span class="bg-gray-200 px-2 py-0.5 rounded text-xs">transaction_value</span>
+                                                    <span class="bg-gray-200 px-2 py-0.5 rounded text-xs">land_type</span>
+                                                    <span class="bg-gray-200 px-2 py-0.5 rounded text-xs">stamp_duty</span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <h4 class="font-medium text-gray-700 mb-2">Filters Applied</h4>
+                                                <ul class="space-y-1 text-gray-600">
+                                                    <li><i class="fas fa-filter text-gray-400 w-4 mr-1"></i>District = Lahore (1)</li>
+                                                    <li><i class="fas fa-filter text-gray-400 w-4 mr-1"></i>Transaction Type = Sale</li>
+                                                    <li><i class="fas fa-filter text-gray-400 w-4 mr-1"></i>Year = 2020-2024</li>
+                                                    <li><i class="fas fa-filter text-gray-400 w-4 mr-1"></i>Land Type = Residential, Commercial</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="mt-3 pt-3 border-t flex items-center gap-4">
+                                            <span class="text-gray-500 text-sm">Format: CSV</span>
+                                            <span class="text-gray-500 text-sm">Terminology: Punjab Local</span>
+                                            <button class="text-primary-600 text-sm hover:text-primary-800 ml-auto">
+                                                <i class="fas fa-code mr-1"></i>View as API Request
+                                            </button>
+                                        </div>
+                                    </div>
+                                </details>
+                            </div>
+
+                            <!-- Query Card 2 -->
+                            <div class="border rounded-lg p-4 hover:border-primary-300 hover:shadow-sm transition">
+                                <div class="flex items-start justify-between">
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-3 mb-2">
+                                            <h3 class="font-semibold text-gray-800">Agricultural Land Mutations - All Punjab</h3>
+                                            <span class="bg-amber-100 text-amber-700 px-2 py-0.5 rounded text-xs">Mutation Trends</span>
+                                        </div>
+                                        <p class="text-sm text-gray-500 mb-3">
+                                            All Districts | Mutation Type: Inheritance, Gift | Years: 2015-2024 | Land Type: Agricultural
+                                        </p>
+                                        <div class="flex items-center gap-4 text-xs text-gray-400">
+                                            <span><i class="fas fa-calendar mr-1"></i>Created: Oct 28, 2024</span>
+                                            <span><i class="fas fa-play mr-1"></i>Last run: Nov 20, 2024</span>
+                                            <span><i class="fas fa-database mr-1"></i>~230,000 records</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <button class="bg-primary-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-primary-700">
+                                            <i class="fas fa-play mr-1"></i>Run
+                                        </button>
+                                        <button class="border px-3 py-2 rounded-lg text-sm hover:bg-gray-50">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="border px-3 py-2 rounded-lg text-sm hover:bg-gray-50">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                        <button class="border px-3 py-2 rounded-lg text-sm text-red-500 hover:bg-red-50">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Query Card 3 -->
+                            <div class="border rounded-lg p-4 hover:border-primary-300 hover:shadow-sm transition">
+                                <div class="flex items-start justify-between">
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-3 mb-2">
+                                            <h3 class="font-semibold text-gray-800">LADM Format Export - Faisalabad</h3>
+                                            <span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded text-xs">Registry Transactions</span>
+                                            <span class="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs">LADM</span>
+                                        </div>
+                                        <p class="text-sm text-gray-500 mb-3">
+                                            District: Faisalabad | All Transaction Types | Years: 2022-2024 | LADM Terminology
+                                        </p>
+                                        <div class="flex items-center gap-4 text-xs text-gray-400">
+                                            <span><i class="fas fa-calendar mr-1"></i>Created: Sep 15, 2024</span>
+                                            <span><i class="fas fa-play mr-1"></i>Last run: Sep 20, 2024</span>
+                                            <span><i class="fas fa-database mr-1"></i>~67,000 records</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <button class="bg-primary-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-primary-700">
+                                            <i class="fas fa-play mr-1"></i>Run
+                                        </button>
+                                        <button class="border px-3 py-2 rounded-lg text-sm hover:bg-gray-50">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="border px-3 py-2 rounded-lg text-sm hover:bg-gray-50">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                        <button class="border px-3 py-2 rounded-lg text-sm text-red-500 hover:bg-red-50">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Query Card 4 - Scheduled -->
+                            <div class="border-2 border-green-300 rounded-lg p-4 bg-green-50">
+                                <div class="flex items-start justify-between">
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-3 mb-2">
+                                            <h3 class="font-semibold text-gray-800">Monthly Registry Summary</h3>
+                                            <span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded text-xs">Registry Transactions</span>
+                                            <span class="bg-green-500 text-white px-2 py-0.5 rounded text-xs"><i class="fas fa-clock mr-1"></i>Scheduled</span>
+                                        </div>
+                                        <p class="text-sm text-gray-500 mb-3">
+                                            All Districts | All Types | Current Month | Auto-runs on 1st of each month
+                                        </p>
+                                        <div class="flex items-center gap-4 text-xs text-gray-400">
+                                            <span><i class="fas fa-calendar mr-1"></i>Created: Aug 1, 2024</span>
+                                            <span><i class="fas fa-clock mr-1"></i>Next run: Jan 1, 2025</span>
+                                            <span><i class="fas fa-check-circle text-green-500 mr-1"></i>4 successful runs</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <button class="bg-primary-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-primary-700">
+                                            <i class="fas fa-play mr-1"></i>Run Now
+                                        </button>
+                                        <button class="border bg-white px-3 py-2 rounded-lg text-sm hover:bg-gray-50">
+                                            <i class="fas fa-pause"></i>
+                                        </button>
+                                        <button class="border bg-white px-3 py-2 rounded-lg text-sm hover:bg-gray-50">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Extract Runs -->
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <h2 class="font-semibold text-gray-800 mb-4">Recent Extract Runs</h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="text-left px-4 py-3 font-medium text-gray-600">Query Name</th>
+                                    <th class="text-left px-4 py-3 font-medium text-gray-600">Run Date</th>
+                                    <th class="text-left px-4 py-3 font-medium text-gray-600">Records</th>
+                                    <th class="text-left px-4 py-3 font-medium text-gray-600">Duration</th>
+                                    <th class="text-left px-4 py-3 font-medium text-gray-600">Status</th>
+                                    <th class="text-left px-4 py-3 font-medium text-gray-600">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y">
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-3 font-medium">Lahore Sales Analysis 2020-2024</td>
+                                    <td class="px-4 py-3 text-gray-600">Dec 3, 2024 10:45 AM</td>
+                                    <td class="px-4 py-3">45,234</td>
+                                    <td class="px-4 py-3 text-gray-600">12s</td>
+                                    <td class="px-4 py-3"><span class="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs">Completed</span></td>
+                                    <td class="px-4 py-3">
+                                        <button class="text-primary-600 hover:text-primary-800 mr-2"><i class="fas fa-download"></i></button>
+                                        <button class="text-primary-600 hover:text-primary-800"><i class="fas fa-redo"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-3 font-medium">Monthly Registry Summary</td>
+                                    <td class="px-4 py-3 text-gray-600">Dec 1, 2024 02:00 AM</td>
+                                    <td class="px-4 py-3">156,789</td>
+                                    <td class="px-4 py-3 text-gray-600">45s</td>
+                                    <td class="px-4 py-3"><span class="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs">Completed</span></td>
+                                    <td class="px-4 py-3">
+                                        <button class="text-primary-600 hover:text-primary-800 mr-2"><i class="fas fa-download"></i></button>
+                                        <button class="text-primary-600 hover:text-primary-800"><i class="fas fa-redo"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-3 font-medium">Agricultural Land Mutations - All Punjab</td>
+                                    <td class="px-4 py-3 text-gray-600">Nov 20, 2024 03:30 PM</td>
+                                    <td class="px-4 py-3">234,567</td>
+                                    <td class="px-4 py-3 text-gray-600">1m 23s</td>
+                                    <td class="px-4 py-3"><span class="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs">Completed</span></td>
+                                    <td class="px-4 py-3">
+                                        <button class="text-primary-600 hover:text-primary-800 mr-2"><i class="fas fa-download"></i></button>
+                                        <button class="text-primary-600 hover:text-primary-800"><i class="fas fa-redo"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

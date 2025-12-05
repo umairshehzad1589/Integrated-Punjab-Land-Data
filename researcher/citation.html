@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citation Generator - PLAP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/tailwind-config.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="flex items-center justify-between px-4 h-16">
+            <a href="../index.html" class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center">
+                    <i class="fas fa-landmark text-white text-sm"></i>
+                </div>
+                <span class="font-bold text-primary-700">PLAP</span>
+            </a>
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm">DR</div>
+                <a href="../login.html" class="text-gray-400 hover:text-red-500 ml-2"><i class="fas fa-sign-out-alt"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white shadow-lg min-h-screen fixed left-0 top-16 hidden lg:block">
+            <nav class="p-4">
+                <a href="dashboard.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100">
+                    <i class="fas fa-home w-5"></i> Dashboard
+                </a>
+                <a href="download.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 mt-1">
+                    <i class="fas fa-download w-5"></i> Download
+                </a>
+                <a href="citation.html" class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary-50 text-primary-700 font-medium mt-1">
+                    <i class="fas fa-quote-left w-5"></i> Citation Generator
+                </a>
+                <a href="history.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 mt-1">
+                    <i class="fas fa-history w-5"></i> History
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 lg:ml-64 p-6">
+            <div class="max-w-4xl mx-auto">
+                <!-- Header -->
+                <div class="mb-6">
+                    <h1 class="text-2xl font-bold text-gray-800">Citation Generator</h1>
+                    <p class="text-gray-500 text-sm mt-1">Generate proper citations for PLAP data in your research</p>
+                </div>
+
+                <!-- Citation Requirement Notice -->
+                <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6">
+                    <div class="flex items-start gap-3">
+                        <i class="fas fa-info-circle text-blue-600 text-xl mt-0.5"></i>
+                        <div>
+                            <h3 class="font-medium text-blue-800">Citation Requirement</h3>
+                            <p class="text-sm text-blue-700 mt-1">
+                                As per the Terms of Use, you must cite PLAP in any publications, presentations, or reports
+                                that use data from this portal. Proper citation helps support the continued availability of this resource.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Citation Generator Form -->
+                <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-4">Generate Citation</h2>
+
+                    <div class="grid md:grid-cols-2 gap-4 mb-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Dataset Used *</label>
+                            <select id="dataset" class="w-full border rounded-lg px-3 py-2" onchange="generateCitation()">
+                                <option value="registry">Registry Transactions</option>
+                                <option value="ownership">Land Ownership Patterns</option>
+                                <option value="mutation">Mutation Trends</option>
+                                <option value="franchisee">Franchisee Operations</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Citation Style *</label>
+                            <select id="style" class="w-full border rounded-lg px-3 py-2" onchange="generateCitation()">
+                                <option value="apa">APA 7th Edition</option>
+                                <option value="mla">MLA 9th Edition</option>
+                                <option value="chicago">Chicago 17th Edition</option>
+                                <option value="harvard">Harvard</option>
+                                <option value="bibtex">BibTeX</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Access Date *</label>
+                            <input type="date" id="accessDate" class="w-full border rounded-lg px-3 py-2" value="2024-12-04" onchange="generateCitation()">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Extract ID (Optional)</label>
+                            <input type="text" id="extractId" class="w-full border rounded-lg px-3 py-2" placeholder="e.g., ext_abc123" onchange="generateCitation()">
+                        </div>
+                    </div>
+
+                    <!-- Generated Citation -->
+                    <div class="border-t pt-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="font-medium text-gray-800">Generated Citation</h3>
+                            <div class="flex gap-2">
+                                <button onclick="copyCitation()" class="text-primary-600 text-sm hover:text-primary-800">
+                                    <i class="fas fa-copy mr-1"></i>Copy
+                                </button>
+                                <button onclick="downloadCitation()" class="text-primary-600 text-sm hover:text-primary-800">
+                                    <i class="fas fa-download mr-1"></i>Download
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="citationBox" class="bg-gray-50 border rounded-lg p-4 font-serif text-gray-800">
+                            Punjab Land Records Authority. (2024). <em>Registry Transactions Dataset</em> [Data set].
+                            Punjab Land Analytics Portal. Retrieved December 4, 2024, from https://plap.punjab.gov.pk.
+                            https://doi.org/10.5281/plap.registry.2024
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dataset DOIs -->
+                <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-4">Dataset DOIs</h2>
+                    <p class="text-sm text-gray-600 mb-4">
+                        Each PLAP dataset has a unique Digital Object Identifier (DOI) for persistent citation.
+                    </p>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="text-left px-4 py-3 font-medium text-gray-600">Dataset</th>
+                                    <th class="text-left px-4 py-3 font-medium text-gray-600">DOI</th>
+                                    <th class="text-left px-4 py-3 font-medium text-gray-600">Version</th>
+                                    <th class="text-left px-4 py-3 font-medium text-gray-600">Last Updated</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y">
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-3 font-medium">Registry Transactions</td>
+                                    <td class="px-4 py-3">
+                                        <a href="#" class="text-primary-600 hover:text-primary-800 font-mono text-xs">
+                                            10.5281/plap.registry.2024
+                                        </a>
+                                    </td>
+                                    <td class="px-4 py-3">v2.1</td>
+                                    <td class="px-4 py-3 text-gray-600">Dec 1, 2024</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-3 font-medium">Land Ownership Patterns</td>
+                                    <td class="px-4 py-3">
+                                        <a href="#" class="text-primary-600 hover:text-primary-800 font-mono text-xs">
+                                            10.5281/plap.ownership.2024
+                                        </a>
+                                    </td>
+                                    <td class="px-4 py-3">v1.5</td>
+                                    <td class="px-4 py-3 text-gray-600">Nov 30, 2024</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-3 font-medium">Mutation Trends</td>
+                                    <td class="px-4 py-3">
+                                        <a href="#" class="text-primary-600 hover:text-primary-800 font-mono text-xs">
+                                            10.5281/plap.mutation.2024
+                                        </a>
+                                    </td>
+                                    <td class="px-4 py-3">v2.0</td>
+                                    <td class="px-4 py-3 text-gray-600">Dec 1, 2024</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-3 font-medium">Franchisee Operations</td>
+                                    <td class="px-4 py-3">
+                                        <a href="#" class="text-primary-600 hover:text-primary-800 font-mono text-xs">
+                                            10.5281/plap.franchisee.2024
+                                        </a>
+                                    </td>
+                                    <td class="px-4 py-3">v1.2</td>
+                                    <td class="px-4 py-3 text-gray-600">Nov 28, 2024</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Citation Examples by Style -->
+                <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-4">Citation Examples by Style</h2>
+
+                    <div class="space-y-4">
+                        <!-- APA -->
+                        <div class="border rounded-lg">
+                            <button class="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-gray-50" onclick="toggleExample('apa-example')">
+                                <span class="font-medium text-gray-800">APA 7th Edition</span>
+                                <i class="fas fa-chevron-down text-gray-400"></i>
+                            </button>
+                            <div id="apa-example" class="px-4 pb-4">
+                                <div class="bg-gray-50 rounded-lg p-4 font-serif text-sm">
+                                    Punjab Land Records Authority. (2024). <em>Registry Transactions Dataset</em> (Version 2.1) [Data set].
+                                    Punjab Land Analytics Portal. https://doi.org/10.5281/plap.registry.2024
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- MLA -->
+                        <div class="border rounded-lg">
+                            <button class="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-gray-50" onclick="toggleExample('mla-example')">
+                                <span class="font-medium text-gray-800">MLA 9th Edition</span>
+                                <i class="fas fa-chevron-down text-gray-400"></i>
+                            </button>
+                            <div id="mla-example" class="px-4 pb-4 hidden">
+                                <div class="bg-gray-50 rounded-lg p-4 font-serif text-sm">
+                                    Punjab Land Records Authority. "Registry Transactions Dataset." Version 2.1,
+                                    Punjab Land Analytics Portal, 2024, doi:10.5281/plap.registry.2024.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- BibTeX -->
+                        <div class="border rounded-lg">
+                            <button class="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-gray-50" onclick="toggleExample('bibtex-example')">
+                                <span class="font-medium text-gray-800">BibTeX</span>
+                                <i class="fas fa-chevron-down text-gray-400"></i>
+                            </button>
+                            <div id="bibtex-example" class="px-4 pb-4 hidden">
+                                <pre class="bg-gray-900 rounded-lg p-4 text-sm text-green-400 font-mono overflow-x-auto">@misc{plap_registry_2024,
+  author = {{Punjab Land Records Authority}},
+  title = {Registry Transactions Dataset},
+  year = {2024},
+  version = {2.1},
+  publisher = {Punjab Land Analytics Portal},
+  doi = {10.5281/plap.registry.2024},
+  url = {https://plap.punjab.gov.pk}
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Your Extract Citations -->
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-4">Your Extract Citations</h2>
+                    <p class="text-sm text-gray-600 mb-4">
+                        Citations for your recent data extracts, including specific extract IDs for reproducibility.
+                    </p>
+
+                    <div class="space-y-3">
+                        <div class="border rounded-lg p-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="font-medium text-gray-800">Extract: ext_4f8a2c1d</span>
+                                <span class="text-xs text-gray-500">Dec 3, 2024</span>
+                            </div>
+                            <div class="bg-gray-50 rounded p-3 text-sm font-serif mb-2">
+                                Punjab Land Records Authority. (2024). <em>Registry Transactions Dataset</em> [Data set; Extract ID: ext_4f8a2c1d].
+                                Punjab Land Analytics Portal. https://doi.org/10.5281/plap.registry.2024
+                            </div>
+                            <button class="text-primary-600 text-sm hover:text-primary-800">
+                                <i class="fas fa-copy mr-1"></i>Copy Citation
+                            </button>
+                        </div>
+
+                        <div class="border rounded-lg p-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="font-medium text-gray-800">Extract: ext_9b3e7f2a</span>
+                                <span class="text-xs text-gray-500">Nov 28, 2024</span>
+                            </div>
+                            <div class="bg-gray-50 rounded p-3 text-sm font-serif mb-2">
+                                Punjab Land Records Authority. (2024). <em>Mutation Trends Dataset</em> [Data set; Extract ID: ext_9b3e7f2a].
+                                Punjab Land Analytics Portal. https://doi.org/10.5281/plap.mutation.2024
+                            </div>
+                            <button class="text-primary-600 text-sm hover:text-primary-800">
+                                <i class="fas fa-copy mr-1"></i>Copy Citation
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function generateCitation() {
+            const dataset = document.getElementById('dataset').value;
+            const style = document.getElementById('style').value;
+            const date = document.getElementById('accessDate').value;
+            const extractId = document.getElementById('extractId').value;
+
+            const datasetNames = {
+                registry: 'Registry Transactions Dataset',
+                ownership: 'Land Ownership Patterns Dataset',
+                mutation: 'Mutation Trends Dataset',
+                franchisee: 'Franchisee Operations Dataset'
+            };
+
+            const formattedDate = new Date(date).toLocaleDateString('en-US', {
+                year: 'numeric', month: 'long', day: 'numeric'
+            });
+
+            let citation = '';
+            const extractNote = extractId ? ` [Data set; Extract ID: ${extractId}]` : ' [Data set]';
+
+            if (style === 'apa') {
+                citation = `Punjab Land Records Authority. (2024). <em>${datasetNames[dataset]}</em>${extractNote}. Punjab Land Analytics Portal. Retrieved ${formattedDate}, from https://plap.punjab.gov.pk. https://doi.org/10.5281/plap.${dataset}.2024`;
+            } else if (style === 'bibtex') {
+                citation = `@misc{plap_${dataset}_2024,\n  author = {{Punjab Land Records Authority}},\n  title = {${datasetNames[dataset]}},\n  year = {2024},\n  publisher = {Punjab Land Analytics Portal},\n  doi = {10.5281/plap.${dataset}.2024}\n}`;
+            }
+
+            document.getElementById('citationBox').innerHTML = citation;
+        }
+
+        function copyCitation() {
+            const text = document.getElementById('citationBox').innerText;
+            navigator.clipboard.writeText(text);
+            alert('Citation copied to clipboard!');
+        }
+
+        function downloadCitation() {
+            const text = document.getElementById('citationBox').innerText;
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'plap-citation.txt';
+            a.click();
+        }
+
+        function toggleExample(id) {
+            const el = document.getElementById(id);
+            el.classList.toggle('hidden');
+        }
+    </script>
+</body>
+</html>

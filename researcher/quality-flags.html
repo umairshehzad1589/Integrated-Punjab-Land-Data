@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Quality Flags - Punjab Land Analytics Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/tailwind-config.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-gray-200 fixed w-full z-30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="../index.html" class="flex items-center">
+                        <div class="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-landmark text-white text-lg"></i>
+                        </div>
+                        <div class="ml-3">
+                            <span class="text-xl font-bold text-gray-900">PLAP</span>
+                            <span class="text-xs text-gray-500 block -mt-1">Punjab Land Analytics</span>
+                        </div>
+                    </a>
+                    <div class="hidden md:flex ml-10 space-x-4">
+                        <a href="../explore.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Explore Data</a>
+                        <a href="../extract.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Create Extract</a>
+                        <a href="analysis.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Analysis</a>
+                        <a href="time-series.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Time Series</a>
+                        <a href="../codebook.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Codebook</a>
+                        <a href="api.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">API</a>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="saved-queries.html" class="text-gray-600 hover:text-primary-600">
+                        <i class="fas fa-bookmark"></i>
+                    </a>
+                    <div class="relative">
+                        <button class="flex items-center space-x-2 text-gray-700 hover:text-primary-600">
+                            <div class="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
+                                <span class="text-primary-700 font-medium text-sm">DR</span>
+                            </div>
+                            <span class="text-sm font-medium">Dr. Researcher</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Breadcrumb -->
+            <nav class="text-sm text-gray-500 mb-6">
+                <a href="../index.html" class="hover:text-primary-600">Home</a>
+                <span class="mx-2">/</span>
+                <a href="../documentation.html" class="hover:text-primary-600">Documentation</a>
+                <span class="mx-2">/</span>
+                <span class="text-gray-900">Data Quality Flags</span>
+            </nav>
+
+            <!-- Header -->
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-gray-900">Data Quality Flags</h1>
+                <p class="text-gray-600 mt-2">Understanding data quality indicators, allocation flags, and imputation methods in PLAP datasets</p>
+            </div>
+
+            <!-- Overview -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">Overview</h2>
+                <p class="text-gray-700 mb-4">
+                    PLAP provides comprehensive data quality indicators to help researchers understand the reliability of each observation
+                    and make informed decisions about data usage. Quality flags indicate whether values were directly observed, imputed,
+                    allocated, or derived from other sources.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
+                    <div class="bg-green-50 rounded-lg p-4 text-center">
+                        <div class="text-3xl font-bold text-green-600">87.3%</div>
+                        <div class="text-sm text-gray-600 mt-1">Directly Reported</div>
+                    </div>
+                    <div class="bg-blue-50 rounded-lg p-4 text-center">
+                        <div class="text-3xl font-bold text-blue-600">8.4%</div>
+                        <div class="text-sm text-gray-600 mt-1">Logically Imputed</div>
+                    </div>
+                    <div class="bg-amber-50 rounded-lg p-4 text-center">
+                        <div class="text-3xl font-bold text-amber-600">3.1%</div>
+                        <div class="text-sm text-gray-600 mt-1">Statistically Imputed</div>
+                    </div>
+                    <div class="bg-red-50 rounded-lg p-4 text-center">
+                        <div class="text-3xl font-bold text-red-600">1.2%</div>
+                        <div class="text-sm text-gray-600 mt-1">Missing/Not Applicable</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs Navigation -->
+            <div class="border-b border-gray-200 mb-6">
+                <nav class="flex space-x-8">
+                    <button onclick="showTab('flags')" class="tab-btn border-b-2 border-primary-500 text-primary-600 py-3 px-1 text-sm font-medium" data-tab="flags">
+                        Quality Flag Variables
+                    </button>
+                    <button onclick="showTab('allocation')" class="tab-btn border-b-2 border-transparent text-gray-500 hover:text-gray-700 py-3 px-1 text-sm font-medium" data-tab="allocation">
+                        Allocation Methods
+                    </button>
+                    <button onclick="showTab('imputation')" class="tab-btn border-b-2 border-transparent text-gray-500 hover:text-gray-700 py-3 px-1 text-sm font-medium" data-tab="imputation">
+                        Imputation Methods
+                    </button>
+                    <button onclick="showTab('usage')" class="tab-btn border-b-2 border-transparent text-gray-500 hover:text-gray-700 py-3 px-1 text-sm font-medium" data-tab="usage">
+                        Usage Guidelines
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Quality Flag Variables Tab -->
+            <div id="flags-tab" class="tab-content">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Understanding Quality Flags</h3>
+                    <p class="text-gray-600 mb-4">
+                        For most variables, PLAP provides a corresponding quality flag variable with the suffix <code class="bg-gray-100 px-1 rounded">_QF</code>.
+                        These flags indicate the source and reliability of each value.
+                    </p>
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                        <div class="flex">
+                            <i class="fas fa-info-circle text-blue-500 mt-0.5 mr-3"></i>
+                            <p class="text-blue-800 text-sm">
+                                <strong>Naming Convention:</strong> If the variable is <code class="bg-blue-100 px-1 rounded">TRANSACTION_VALUE</code>,
+                                its quality flag is <code class="bg-blue-100 px-1 rounded">TRANSACTION_VALUE_QF</code>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flag Code Table -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
+                    <div class="p-4 border-b border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900">Standard Quality Flag Codes</h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Code</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Label</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
+                                    <th class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase">Reliability</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600 font-medium">0</td>
+                                    <td class="px-4 py-3 text-sm text-gray-900">Not applicable</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Value is not applicable for this record (e.g., agricultural land area for urban property)</td>
+                                    <td class="px-4 py-3 text-center">
+                                        <span class="px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded-full">N/A</span>
+                                    </td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600 font-medium">1</td>
+                                    <td class="px-4 py-3 text-sm text-gray-900">Directly reported</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Value was recorded directly from source document/system</td>
+                                    <td class="px-4 py-3 text-center">
+                                        <span class="px-2 py-1 text-xs bg-green-100 text-green-700 rounded-full">High</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600 font-medium">2</td>
+                                    <td class="px-4 py-3 text-sm text-gray-900">Logically imputed</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Value derived from other fields using business rules (e.g., area from khasra dimensions)</td>
+                                    <td class="px-4 py-3 text-center">
+                                        <span class="px-2 py-1 text-xs bg-green-100 text-green-700 rounded-full">High</span>
+                                    </td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600 font-medium">3</td>
+                                    <td class="px-4 py-3 text-sm text-gray-900">Allocated from related record</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Value copied from a related record (e.g., same property, different transaction)</td>
+                                    <td class="px-4 py-3 text-center">
+                                        <span class="px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded-full">Medium</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600 font-medium">4</td>
+                                    <td class="px-4 py-3 text-sm text-gray-900">Hot-deck imputation</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Value imputed from a similar record (donor) in the dataset</td>
+                                    <td class="px-4 py-3 text-center">
+                                        <span class="px-2 py-1 text-xs bg-amber-100 text-amber-700 rounded-full">Medium</span>
+                                    </td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600 font-medium">5</td>
+                                    <td class="px-4 py-3 text-sm text-gray-900">Model-based imputation</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Value predicted using regression or machine learning model</td>
+                                    <td class="px-4 py-3 text-center">
+                                        <span class="px-2 py-1 text-xs bg-amber-100 text-amber-700 rounded-full">Medium</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600 font-medium">6</td>
+                                    <td class="px-4 py-3 text-sm text-gray-900">Mean/median substitution</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Value replaced with district/tehsil average</td>
+                                    <td class="px-4 py-3 text-center">
+                                        <span class="px-2 py-1 text-xs bg-red-100 text-red-700 rounded-full">Low</span>
+                                    </td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600 font-medium">7</td>
+                                    <td class="px-4 py-3 text-sm text-gray-900">Edited/Corrected</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Original value was edited due to detected error or inconsistency</td>
+                                    <td class="px-4 py-3 text-center">
+                                        <span class="px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded-full">Medium</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600 font-medium">9</td>
+                                    <td class="px-4 py-3 text-sm text-gray-900">Missing</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Value is missing and could not be imputed</td>
+                                    <td class="px-4 py-3 text-center">
+                                        <span class="px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded-full">N/A</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Variables with Quality Flags -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="p-4 border-b border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900">Variables with Quality Flags</h3>
+                    </div>
+                    <div class="p-4">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <h4 class="font-medium text-gray-900 mb-2">Transaction Variables</h4>
+                                <ul class="text-sm text-gray-600 space-y-1">
+                                    <li><code class="bg-gray-100 px-1 rounded">TRANSACTION_VALUE</code></li>
+                                    <li><code class="bg-gray-100 px-1 rounded">STAMP_DUTY</code></li>
+                                    <li><code class="bg-gray-100 px-1 rounded">CVT_AMOUNT</code></li>
+                                    <li><code class="bg-gray-100 px-1 rounded">REGISTRATION_FEE</code></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-900 mb-2">Property Variables</h4>
+                                <ul class="text-sm text-gray-600 space-y-1">
+                                    <li><code class="bg-gray-100 px-1 rounded">LAND_AREA</code></li>
+                                    <li><code class="bg-gray-100 px-1 rounded">BUILT_AREA</code></li>
+                                    <li><code class="bg-gray-100 px-1 rounded">MARKET_VALUE</code></li>
+                                    <li><code class="bg-gray-100 px-1 rounded">DC_RATE</code></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-900 mb-2">Owner Variables</h4>
+                                <ul class="text-sm text-gray-600 space-y-1">
+                                    <li><code class="bg-gray-100 px-1 rounded">OWNER_AGE</code></li>
+                                    <li><code class="bg-gray-100 px-1 rounded">OWNER_GENDER</code></li>
+                                    <li><code class="bg-gray-100 px-1 rounded">OWNERSHIP_SHARE</code></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Allocation Methods Tab -->
+            <div id="allocation-tab" class="tab-content hidden">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Allocation Flag Variables</h3>
+                    <p class="text-gray-600 mb-4">
+                        Allocation flags (suffix <code class="bg-gray-100 px-1 rounded">_AF</code>) indicate when a value has been distributed
+                        or shared across multiple records. This commonly occurs when a single transaction involves multiple properties or owners.
+                    </p>
+                </div>
+
+                <!-- Allocation Scenarios -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-blue-100 p-2 rounded-lg mr-3">
+                                <i class="fas fa-home text-blue-600"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-900">Multi-Property Transactions</h3>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">
+                            When a single deed covers multiple properties, the transaction value is allocated proportionally.
+                        </p>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="text-sm">
+                                <div class="font-medium text-gray-900 mb-2">Example:</div>
+                                <p class="text-gray-600">Deed covers 3 plots sold for PKR 30M total</p>
+                                <ul class="mt-2 space-y-1 text-gray-600">
+                                    <li>• Plot A (100 kanals): PKR 15M allocated</li>
+                                    <li>• Plot B (60 kanals): PKR 9M allocated</li>
+                                    <li>• Plot C (40 kanals): PKR 6M allocated</li>
+                                </ul>
+                                <p class="mt-2 text-gray-500">Each record has <code class="bg-gray-200 px-1 rounded">TRANSACTION_VALUE_AF = 1</code></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-green-100 p-2 rounded-lg mr-3">
+                                <i class="fas fa-users text-green-600"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-900">Multi-Owner Transactions</h3>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">
+                            When multiple owners are involved, ownership shares and values are allocated per owner.
+                        </p>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="text-sm">
+                                <div class="font-medium text-gray-900 mb-2">Example:</div>
+                                <p class="text-gray-600">Property inherited by 4 siblings</p>
+                                <ul class="mt-2 space-y-1 text-gray-600">
+                                    <li>• Sibling A: 35% share (male)</li>
+                                    <li>• Sibling B: 35% share (male)</li>
+                                    <li>• Sibling C: 15% share (female)</li>
+                                    <li>• Sibling D: 15% share (female)</li>
+                                </ul>
+                                <p class="mt-2 text-gray-500">Each record has <code class="bg-gray-200 px-1 rounded">OWNER_SHARE_AF = 1</code></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Allocation Flag Codes -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="p-4 border-b border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900">Allocation Flag Codes</h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Code</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Label</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600 font-medium">0</td>
+                                    <td class="px-4 py-3 text-sm text-gray-900">Not allocated</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Value applies directly to this record without distribution</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600 font-medium">1</td>
+                                    <td class="px-4 py-3 text-sm text-gray-900">Area-proportional allocation</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Value allocated based on land/property area ratios</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600 font-medium">2</td>
+                                    <td class="px-4 py-3 text-sm text-gray-900">Share-proportional allocation</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Value allocated based on ownership share percentages</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600 font-medium">3</td>
+                                    <td class="px-4 py-3 text-sm text-gray-900">Equal allocation</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Value divided equally when proportions are unknown</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600 font-medium">4</td>
+                                    <td class="px-4 py-3 text-sm text-gray-900">DC-rate weighted allocation</td>
+                                    <td class="px-4 py-3 text-sm text-gray-600">Value allocated using DC valuation ratios</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Imputation Methods Tab -->
+            <div id="imputation-tab" class="tab-content hidden">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Imputation Methodology</h3>
+                    <p class="text-gray-600 mb-4">
+                        Missing values in PLAP data are imputed using a hierarchical approach that prioritizes accuracy and consistency.
+                        The imputation method used for each value is recorded in the quality flag variable.
+                    </p>
+                </div>
+
+                <!-- Imputation Hierarchy -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Imputation Hierarchy</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="bg-green-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-medium mr-4 flex-shrink-0">1</div>
+                            <div class="flex-1">
+                                <h4 class="font-medium text-gray-900">Logical Derivation (QF=2)</h4>
+                                <p class="text-gray-600 text-sm mt-1">
+                                    Values that can be calculated from other fields using business rules.
+                                </p>
+                                <div class="bg-gray-50 rounded-lg p-3 mt-2">
+                                    <p class="text-sm text-gray-600">
+                                        <strong>Examples:</strong> Total area = length × width; CVT = 3% of transaction value;
+                                        Age = current year - birth year
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center font-medium mr-4 flex-shrink-0">2</div>
+                            <div class="flex-1">
+                                <h4 class="font-medium text-gray-900">Related Record (QF=3)</h4>
+                                <p class="text-gray-600 text-sm mt-1">
+                                    Values copied from a linked record (same property, same owner, or same transaction).
+                                </p>
+                                <div class="bg-gray-50 rounded-lg p-3 mt-2">
+                                    <p class="text-sm text-gray-600">
+                                        <strong>Examples:</strong> Property area from previous transaction of same khasra;
+                                        Owner details from NADRA verification in another deed
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="bg-amber-500 text-white rounded-full w-8 h-8 flex items-center justify-center font-medium mr-4 flex-shrink-0">3</div>
+                            <div class="flex-1">
+                                <h4 class="font-medium text-gray-900">Hot-Deck Imputation (QF=4)</h4>
+                                <p class="text-gray-600 text-sm mt-1">
+                                    Value borrowed from a "donor" record with similar characteristics.
+                                </p>
+                                <div class="bg-gray-50 rounded-lg p-3 mt-2">
+                                    <p class="text-sm text-gray-600">
+                                        <strong>Matching criteria:</strong> Same tehsil, same property type, similar area range,
+                                        same year. Donor selected randomly from eligible pool.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="bg-amber-400 text-white rounded-full w-8 h-8 flex items-center justify-center font-medium mr-4 flex-shrink-0">4</div>
+                            <div class="flex-1">
+                                <h4 class="font-medium text-gray-900">Model-Based Imputation (QF=5)</h4>
+                                <p class="text-gray-600 text-sm mt-1">
+                                    Value predicted using statistical models trained on complete cases.
+                                </p>
+                                <div class="bg-gray-50 rounded-lg p-3 mt-2">
+                                    <p class="text-sm text-gray-600">
+                                        <strong>Models used:</strong> OLS regression for continuous values (transaction value);
+                                        Logistic regression for binary values; Random forest for complex patterns
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center font-medium mr-4 flex-shrink-0">5</div>
+                            <div class="flex-1">
+                                <h4 class="font-medium text-gray-900">Mean/Median Substitution (QF=6)</h4>
+                                <p class="text-gray-600 text-sm mt-1">
+                                    Last resort: group average substituted when other methods fail.
+                                </p>
+                                <div class="bg-gray-50 rounded-lg p-3 mt-2">
+                                    <p class="text-sm text-gray-600">
+                                        <strong>Note:</strong> Use with caution. This method reduces variance and may bias analyses.
+                                        Consider excluding these cases in sensitivity analysis.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Imputation Rates -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="p-4 border-b border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900">Imputation Rates by Variable (2024 Data)</h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Variable</th>
+                                    <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Reported</th>
+                                    <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Logical</th>
+                                    <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Hot-Deck</th>
+                                    <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Model</th>
+                                    <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Mean</th>
+                                    <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Missing</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-medium text-gray-900">TRANSACTION_VALUE</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-900">95.2%</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-600">2.1%</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-600">1.8%</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-600">0.7%</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-600">0.1%</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-600">0.1%</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-medium text-gray-900">LAND_AREA</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-900">89.3%</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-600">7.2%</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-600">2.1%</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-600">0.9%</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-600">0.3%</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-600">0.2%</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-medium text-gray-900">OWNER_AGE</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-900">78.4%</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-600">12.3%</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-600">5.2%</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-600">2.1%</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-600">1.2%</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-600">0.8%</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-medium text-gray-900">OWNER_GENDER</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-900">92.1%</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-600">6.4%</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-600">—</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-600">1.2%</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-600">—</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-600">0.3%</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-medium text-gray-900">PROPERTY_TYPE</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-900">98.7%</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-600">0.8%</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-600">—</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-600">0.4%</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-600">—</td>
+                                    <td class="px-4 py-3 text-sm text-right text-gray-600">0.1%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Usage Guidelines Tab -->
+            <div id="usage-tab" class="tab-content hidden">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Best Practices for Using Quality Flags</h3>
+                    <p class="text-gray-600 mb-4">
+                        Quality flags enable you to make informed decisions about data usage and conduct sensitivity analyses.
+                    </p>
+                </div>
+
+                <!-- Recommendations -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                        <h3 class="text-lg font-semibold text-green-700 mb-4">
+                            <i class="fas fa-check-circle mr-2"></i>Recommended Practices
+                        </h3>
+                        <ul class="space-y-3 text-sm">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span class="text-gray-700">Include quality flags in your extract for key analysis variables</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span class="text-gray-700">Report imputation rates in methodology section of publications</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span class="text-gray-700">Conduct sensitivity analysis excluding low-quality records</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span class="text-gray-700">Use quality flags as control variables in regression models</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span class="text-gray-700">Check for patterns in missingness (MCAR, MAR, MNAR)</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                        <h3 class="text-lg font-semibold text-red-700 mb-4">
+                            <i class="fas fa-times-circle mr-2"></i>Practices to Avoid
+                        </h3>
+                        <ul class="space-y-3 text-sm">
+                            <li class="flex items-start">
+                                <i class="fas fa-times text-red-500 mt-1 mr-2"></i>
+                                <span class="text-gray-700">Ignoring quality flags entirely in your analysis</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-times text-red-500 mt-1 mr-2"></i>
+                                <span class="text-gray-700">Treating all imputed values as equivalent to reported values</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-times text-red-500 mt-1 mr-2"></i>
+                                <span class="text-gray-700">Using mean-imputed values (QF=6) for variance estimation</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-times text-red-500 mt-1 mr-2"></i>
+                                <span class="text-gray-700">Deleting all imputed cases (loses information unnecessarily)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-times text-red-500 mt-1 mr-2"></i>
+                                <span class="text-gray-700">Assuming missing data is random without testing</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Code Examples -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Example: Filtering by Quality</h3>
+                    <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+                        <pre class="text-green-400 text-sm"><code># R example: Analyze only high-quality transaction values
+library(dplyr)
+
+plap_data %>%
+  # Keep only directly reported or logically imputed values
+  filter(TRANSACTION_VALUE_QF %in% c(1, 2)) %>%
+  group_by(DISTRICT) %>%
+  summarize(
+    n = n(),
+    mean_value = weighted.mean(TRANSACTION_VALUE, TXNWT),
+    pct_reported = mean(TRANSACTION_VALUE_QF == 1) * 100
+  )
+
+# Sensitivity analysis: Compare results with/without imputed values
+full_analysis <- plap_data %>%
+  summarize(mean = weighted.mean(TRANSACTION_VALUE, TXNWT))
+
+strict_analysis <- plap_data %>%
+  filter(TRANSACTION_VALUE_QF == 1) %>%
+  summarize(mean = weighted.mean(TRANSACTION_VALUE, TXNWT))
+
+cat("Full sample mean:", full_analysis$mean, "\n")
+cat("Reported-only mean:", strict_analysis$mean, "\n")</code></pre>
+                    </div>
+                </div>
+
+                <!-- Sensitivity Analysis -->
+                <div class="bg-amber-50 border border-amber-200 rounded-lg p-4">
+                    <h3 class="font-medium text-amber-900 mb-2">
+                        <i class="fas fa-flask mr-2"></i>Sensitivity Analysis Recommendation
+                    </h3>
+                    <p class="text-amber-800 text-sm">
+                        For important findings, we recommend running analyses under three scenarios:
+                    </p>
+                    <ul class="text-amber-800 text-sm mt-2 space-y-1 ml-4 list-decimal">
+                        <li><strong>Full sample:</strong> All records including imputed values</li>
+                        <li><strong>High quality:</strong> Only records with QF = 1 or 2</li>
+                        <li><strong>Reported only:</strong> Only records with QF = 1</li>
+                    </ul>
+                    <p class="text-amber-800 text-sm mt-2">
+                        If conclusions differ substantially across scenarios, discuss this in your methodology.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white mt-16">
+        <div class="max-w-7xl mx-auto px-4 py-8">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-landmark text-white"></i>
+                    </div>
+                    <div>
+                        <div class="font-semibold">Punjab Land Analytics Portal</div>
+                        <div class="text-sm text-gray-400">Punjab Land Revenue Authority</div>
+                    </div>
+                </div>
+                <div class="text-sm text-gray-400">
+                    © 2024 Government of Punjab. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+            // Remove active state from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('border-primary-500', 'text-primary-600');
+                btn.classList.add('border-transparent', 'text-gray-500');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.remove('hidden');
+            // Add active state to button
+            document.querySelector(`[data-tab="${tabName}"]`).classList.remove('border-transparent', 'text-gray-500');
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('border-primary-500', 'text-primary-600');
+        }
+    </script>
+</body>
+</html>

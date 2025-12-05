@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Tabulator - Punjab Land Analytics Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="js/tailwind-config.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .drag-area {
+            min-height: 80px;
+            transition: all 0.2s;
+        }
+        .drag-area.drag-over {
+            background-color: #dcfce7;
+            border-color: #16a34a;
+        }
+        .variable-chip {
+            cursor: grab;
+            user-select: none;
+            touch-action: none;
+        }
+        .variable-chip:active {
+            cursor: grabbing;
+        }
+        .variable-chip.dragging {
+            opacity: 0.5;
+        }
+        @media (max-width: 768px) {
+            .variable-chip {
+                padding: 12px 16px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-gray-200 fixed w-full z-30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center">
+                        <div class="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-landmark text-white text-lg"></i>
+                        </div>
+                        <div class="ml-3">
+                            <span class="text-xl font-bold text-gray-900">PLAP</span>
+                            <span class="text-xs text-gray-500 block -mt-1">Punjab Land Analytics</span>
+                        </div>
+                    </a>
+                    <div class="hidden md:flex ml-10 space-x-4">
+                        <a href="index.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Home</a>
+                        <a href="explore.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Explore Data</a>
+                        <a href="extract.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Create Extract</a>
+                        <a href="tabulator.html" class="text-primary-600 border-b-2 border-primary-600 px-3 py-2 text-sm font-medium">Tabulator</a>
+                        <a href="codebook.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Codebook</a>
+                        <a href="documentation.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Documentation</a>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-3">
+                    <a href="login.html" class="text-primary-600 hover:text-primary-800 font-medium">Login</a>
+                    <a href="register.html" class="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700">Register</a>
+                </div>
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button onclick="toggleMobileMenu()" class="text-gray-600 hover:text-primary-600">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-t">
+            <div class="px-4 py-3 space-y-2">
+                <a href="index.html" class="block px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100">Home</a>
+                <a href="explore.html" class="block px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100">Explore Data</a>
+                <a href="extract.html" class="block px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100">Create Extract</a>
+                <a href="tabulator.html" class="block px-3 py-2 rounded-lg bg-primary-50 text-primary-600 font-medium">Tabulator</a>
+                <a href="codebook.html" class="block px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100">Codebook</a>
+                <a href="documentation.html" class="block px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100">Documentation</a>
+                <div class="pt-2 border-t mt-2">
+                    <a href="login.html" class="block px-3 py-2 text-primary-600 font-medium">Login</a>
+                    <a href="register.html" class="block px-3 py-2 bg-primary-600 text-white rounded-lg text-center mt-2">Register</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <script>
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        }
+    </script>
+
+    <!-- Main Content -->
+    <main class="pt-20 pb-20">
+        <div class="max-w-4xl mx-auto px-4 py-6">
+            <!-- Header -->
+            <div class="text-center mb-6">
+                <h1 class="text-2xl font-bold text-gray-900">Quick Tabulator</h1>
+                <p class="text-gray-600 text-sm mt-1">Drag variables to create tables • Touch-friendly</p>
+            </div>
+
+            <!-- Dataset Selection -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-4">
+                <div class="flex flex-col sm:flex-row sm:items-center gap-3">
+                    <label class="text-sm font-medium text-gray-700">Dataset:</label>
+                    <select id="dataset" class="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500">
+                        <option value="registry">E-Registry Transactions (2024)</option>
+                        <option value="mutation">Mutation Records (2024)</option>
+                        <option value="stamp">E-Stamp Issuance (2024)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Variable Pool -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-4">
+                <div class="flex items-center justify-between mb-3">
+                    <h2 class="text-sm font-semibold text-gray-700 uppercase tracking-wide">Available Variables</h2>
+                    <button class="text-xs text-primary-600 hover:text-primary-700">
+                        <i class="fas fa-search mr-1"></i>Search
+                    </button>
+                </div>
+                <div id="variablePool" class="flex flex-wrap gap-2">
+                    <div class="variable-chip bg-blue-100 text-blue-800 px-3 py-2 rounded-lg text-sm font-medium" draggable="true" data-var="PROPERTY_TYPE" data-type="categorical">
+                        <i class="fas fa-th-list mr-1 text-xs"></i>Property Type
+                    </div>
+                    <div class="variable-chip bg-blue-100 text-blue-800 px-3 py-2 rounded-lg text-sm font-medium" draggable="true" data-var="DISTRICT" data-type="categorical">
+                        <i class="fas fa-th-list mr-1 text-xs"></i>District
+                    </div>
+                    <div class="variable-chip bg-blue-100 text-blue-800 px-3 py-2 rounded-lg text-sm font-medium" draggable="true" data-var="DEED_TYPE" data-type="categorical">
+                        <i class="fas fa-th-list mr-1 text-xs"></i>Deed Type
+                    </div>
+                    <div class="variable-chip bg-blue-100 text-blue-800 px-3 py-2 rounded-lg text-sm font-medium" draggable="true" data-var="URBAN_RURAL" data-type="categorical">
+                        <i class="fas fa-th-list mr-1 text-xs"></i>Urban/Rural
+                    </div>
+                    <div class="variable-chip bg-blue-100 text-blue-800 px-3 py-2 rounded-lg text-sm font-medium" draggable="true" data-var="YEAR" data-type="categorical">
+                        <i class="fas fa-th-list mr-1 text-xs"></i>Year
+                    </div>
+                    <div class="variable-chip bg-green-100 text-green-800 px-3 py-2 rounded-lg text-sm font-medium" draggable="true" data-var="TRANSACTION_VALUE" data-type="numeric">
+                        <i class="fas fa-hashtag mr-1 text-xs"></i>Transaction Value
+                    </div>
+                    <div class="variable-chip bg-green-100 text-green-800 px-3 py-2 rounded-lg text-sm font-medium" draggable="true" data-var="LAND_AREA" data-type="numeric">
+                        <i class="fas fa-hashtag mr-1 text-xs"></i>Land Area
+                    </div>
+                    <div class="variable-chip bg-green-100 text-green-800 px-3 py-2 rounded-lg text-sm font-medium" draggable="true" data-var="STAMP_DUTY" data-type="numeric">
+                        <i class="fas fa-hashtag mr-1 text-xs"></i>Stamp Duty
+                    </div>
+                </div>
+                <div class="mt-3 text-xs text-gray-500">
+                    <span class="inline-flex items-center mr-3"><span class="w-3 h-3 bg-blue-100 rounded mr-1"></span>Categorical</span>
+                    <span class="inline-flex items-center"><span class="w-3 h-3 bg-green-100 rounded mr-1"></span>Numeric</span>
+                </div>
+            </div>
+
+            <!-- Drop Zones -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <!-- Row Variable -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <h3 class="text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-arrows-alt-v text-gray-400 mr-2"></i>Row Variable
+                    </h3>
+                    <div id="rowDropZone" class="drag-area border-2 border-dashed border-gray-300 rounded-lg p-4 flex items-center justify-center text-gray-400 text-sm">
+                        <span class="drop-placeholder">Drag a categorical variable here</span>
+                    </div>
+                </div>
+
+                <!-- Column Variable -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <h3 class="text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-arrows-alt-h text-gray-400 mr-2"></i>Column Variable
+                    </h3>
+                    <div id="colDropZone" class="drag-area border-2 border-dashed border-gray-300 rounded-lg p-4 flex items-center justify-center text-gray-400 text-sm">
+                        <span class="drop-placeholder">Drag a categorical variable here</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary Statistic -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-4">
+                <h3 class="text-sm font-semibold text-gray-700 mb-2">
+                    <i class="fas fa-calculator text-gray-400 mr-2"></i>Summary Statistic
+                </h3>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    <button onclick="setStat('count')" class="stat-btn bg-primary-100 text-primary-700 border-2 border-primary-500 px-3 py-2 rounded-lg text-sm font-medium" data-stat="count">
+                        Count
+                    </button>
+                    <button onclick="setStat('sum')" class="stat-btn bg-gray-100 text-gray-700 border border-gray-300 px-3 py-2 rounded-lg text-sm font-medium" data-stat="sum">
+                        Sum
+                    </button>
+                    <button onclick="setStat('mean')" class="stat-btn bg-gray-100 text-gray-700 border border-gray-300 px-3 py-2 rounded-lg text-sm font-medium" data-stat="mean">
+                        Mean
+                    </button>
+                    <button onclick="setStat('median')" class="stat-btn bg-gray-100 text-gray-700 border border-gray-300 px-3 py-2 rounded-lg text-sm font-medium" data-stat="median">
+                        Median
+                    </button>
+                </div>
+                <div id="numericVarSelect" class="mt-3 hidden">
+                    <label class="text-sm text-gray-600">Summarize:</label>
+                    <select class="ml-2 border border-gray-300 rounded px-2 py-1 text-sm">
+                        <option>TRANSACTION_VALUE</option>
+                        <option>LAND_AREA</option>
+                        <option>STAMP_DUTY</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Generate Button -->
+            <button onclick="generateTable()" class="w-full bg-primary-600 text-white py-4 rounded-xl font-semibold text-lg hover:bg-primary-700 transition-colors shadow-lg mb-6">
+                <i class="fas fa-table mr-2"></i>Generate Table
+            </button>
+
+            <!-- Results Section -->
+            <div id="resultsSection" class="hidden">
+                <!-- Result Summary -->
+                <div class="bg-primary-50 border border-primary-200 rounded-xl p-4 mb-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="text-sm text-primary-700 font-medium">Cross-Tabulation Result</div>
+                            <div class="text-xs text-primary-600 mt-1">Property Type × District (Count)</div>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button class="bg-white text-primary-600 px-3 py-1 rounded text-sm border border-primary-300">
+                                <i class="fas fa-download mr-1"></i>CSV
+                            </button>
+                            <button class="bg-white text-primary-600 px-3 py-1 rounded text-sm border border-primary-300">
+                                <i class="fas fa-share-alt mr-1"></i>Share
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table Result -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-4">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full text-sm">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-3 py-2 text-left font-semibold text-gray-700 border-b sticky left-0 bg-gray-50">Property Type</th>
+                                    <th class="px-3 py-2 text-right font-semibold text-gray-700 border-b">Lahore</th>
+                                    <th class="px-3 py-2 text-right font-semibold text-gray-700 border-b">Faisalabad</th>
+                                    <th class="px-3 py-2 text-right font-semibold text-gray-700 border-b">Rawalpindi</th>
+                                    <th class="px-3 py-2 text-right font-semibold text-gray-700 border-b">Multan</th>
+                                    <th class="px-3 py-2 text-right font-semibold text-gray-700 border-b bg-gray-100">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="px-3 py-2 font-medium text-gray-900 border-b sticky left-0 bg-white">Agricultural</td>
+                                    <td class="px-3 py-2 text-right text-gray-700 border-b">12,456</td>
+                                    <td class="px-3 py-2 text-right text-gray-700 border-b">18,234</td>
+                                    <td class="px-3 py-2 text-right text-gray-700 border-b">8,901</td>
+                                    <td class="px-3 py-2 text-right text-gray-700 border-b">15,678</td>
+                                    <td class="px-3 py-2 text-right font-medium text-gray-900 border-b bg-gray-50">55,269</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-3 py-2 font-medium text-gray-900 border-b sticky left-0 bg-gray-50">Residential</td>
+                                    <td class="px-3 py-2 text-right text-gray-700 border-b">45,678</td>
+                                    <td class="px-3 py-2 text-right text-gray-700 border-b">23,456</td>
+                                    <td class="px-3 py-2 text-right text-gray-700 border-b">28,901</td>
+                                    <td class="px-3 py-2 text-right text-gray-700 border-b">19,234</td>
+                                    <td class="px-3 py-2 text-right font-medium text-gray-900 border-b bg-gray-100">117,269</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2 font-medium text-gray-900 border-b sticky left-0 bg-white">Commercial</td>
+                                    <td class="px-3 py-2 text-right text-gray-700 border-b">8,901</td>
+                                    <td class="px-3 py-2 text-right text-gray-700 border-b">4,567</td>
+                                    <td class="px-3 py-2 text-right text-gray-700 border-b">5,234</td>
+                                    <td class="px-3 py-2 text-right text-gray-700 border-b">3,456</td>
+                                    <td class="px-3 py-2 text-right font-medium text-gray-900 border-b bg-gray-50">22,158</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-3 py-2 font-medium text-gray-900 border-b sticky left-0 bg-gray-50">Industrial</td>
+                                    <td class="px-3 py-2 text-right text-gray-700 border-b">2,345</td>
+                                    <td class="px-3 py-2 text-right text-gray-700 border-b">3,678</td>
+                                    <td class="px-3 py-2 text-right text-gray-700 border-b">1,234</td>
+                                    <td class="px-3 py-2 text-right text-gray-700 border-b">1,890</td>
+                                    <td class="px-3 py-2 text-right font-medium text-gray-900 border-b bg-gray-100">9,147</td>
+                                </tr>
+                                <tr class="bg-gray-100">
+                                    <td class="px-3 py-2 font-semibold text-gray-900 sticky left-0 bg-gray-100">Total</td>
+                                    <td class="px-3 py-2 text-right font-semibold text-gray-900">69,380</td>
+                                    <td class="px-3 py-2 text-right font-semibold text-gray-900">49,935</td>
+                                    <td class="px-3 py-2 text-right font-semibold text-gray-900">44,270</td>
+                                    <td class="px-3 py-2 text-right font-semibold text-gray-900">40,258</td>
+                                    <td class="px-3 py-2 text-right font-bold text-gray-900 bg-gray-200">203,843</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Percentage Toggle -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-4">
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="showPercent('count')" class="percent-btn bg-primary-100 text-primary-700 px-4 py-2 rounded-lg text-sm font-medium">
+                            Count
+                        </button>
+                        <button onclick="showPercent('row')" class="percent-btn bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium">
+                            Row %
+                        </button>
+                        <button onclick="showPercent('col')" class="percent-btn bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium">
+                            Column %
+                        </button>
+                        <button onclick="showPercent('total')" class="percent-btn bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium">
+                            Total %
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="grid grid-cols-2 gap-3 mb-4">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 text-center">
+                        <div class="text-2xl font-bold text-gray-900">203,843</div>
+                        <div class="text-xs text-gray-500">Total Records</div>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 text-center">
+                        <div class="text-2xl font-bold text-gray-900">4</div>
+                        <div class="text-xs text-gray-500">Categories</div>
+                    </div>
+                </div>
+
+                <!-- New Query Button -->
+                <button onclick="newQuery()" class="w-full bg-gray-200 text-gray-700 py-3 rounded-xl font-medium hover:bg-gray-300 transition-colors">
+                    <i class="fas fa-redo mr-2"></i>New Query
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation (Mobile) -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 md:hidden">
+        <div class="flex justify-around py-2">
+            <a href="index.html" class="flex flex-col items-center text-gray-600 hover:text-primary-600 py-1 px-3">
+                <i class="fas fa-home text-lg"></i>
+                <span class="text-xs mt-1">Home</span>
+            </a>
+            <a href="explore.html" class="flex flex-col items-center text-gray-600 hover:text-primary-600 py-1 px-3">
+                <i class="fas fa-search text-lg"></i>
+                <span class="text-xs mt-1">Explore</span>
+            </a>
+            <a href="tabulator.html" class="flex flex-col items-center text-primary-600 py-1 px-3">
+                <i class="fas fa-table text-lg"></i>
+                <span class="text-xs mt-1">Tabulator</span>
+            </a>
+            <a href="researcher/analysis.html" class="flex flex-col items-center text-gray-600 hover:text-primary-600 py-1 px-3">
+                <i class="fas fa-chart-bar text-lg"></i>
+                <span class="text-xs mt-1">Analysis</span>
+            </a>
+            <a href="auth/login.html" class="flex flex-col items-center text-gray-600 hover:text-primary-600 py-1 px-3">
+                <i class="fas fa-user text-lg"></i>
+                <span class="text-xs mt-1">Account</span>
+            </a>
+        </div>
+    </nav>
+
+    <script>
+        let currentStat = 'count';
+        let rowVar = null;
+        let colVar = null;
+
+        // Drag and Drop functionality
+        document.querySelectorAll('.variable-chip').forEach(chip => {
+            chip.addEventListener('dragstart', handleDragStart);
+            chip.addEventListener('dragend', handleDragEnd);
+
+            // Touch events for mobile
+            chip.addEventListener('touchstart', handleTouchStart, { passive: false });
+            chip.addEventListener('touchmove', handleTouchMove, { passive: false });
+            chip.addEventListener('touchend', handleTouchEnd);
+        });
+
+        document.querySelectorAll('.drag-area').forEach(zone => {
+            zone.addEventListener('dragover', handleDragOver);
+            zone.addEventListener('dragenter', handleDragEnter);
+            zone.addEventListener('dragleave', handleDragLeave);
+            zone.addEventListener('drop', handleDrop);
+        });
+
+        let draggedElement = null;
+        let touchClone = null;
+
+        function handleDragStart(e) {
+            draggedElement = e.target;
+            e.target.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/plain', e.target.dataset.var);
+        }
+
+        function handleDragEnd(e) {
+            e.target.classList.remove('dragging');
+            draggedElement = null;
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+        }
+
+        function handleDragEnter(e) {
+            e.target.closest('.drag-area')?.classList.add('drag-over');
+        }
+
+        function handleDragLeave(e) {
+            e.target.closest('.drag-area')?.classList.remove('drag-over');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            const dropZone = e.target.closest('.drag-area');
+            dropZone?.classList.remove('drag-over');
+
+            if (draggedElement && dropZone) {
+                const varName = draggedElement.dataset.var;
+                const varType = draggedElement.dataset.type;
+
+                if (varType === 'numeric' && dropZone.id !== 'numericDropZone') {
+                    alert('Numeric variables can only be used for summary statistics, not rows/columns.');
+                    return;
+                }
+
+                // Clone the chip into the drop zone
+                const clone = draggedElement.cloneNode(true);
+                clone.classList.remove('dragging');
+                clone.innerHTML += ' <i class="fas fa-times text-xs ml-1 cursor-pointer" onclick="removeVar(this)"></i>';
+
+                dropZone.innerHTML = '';
+                dropZone.appendChild(clone);
+
+                if (dropZone.id === 'rowDropZone') {
+                    rowVar = varName;
+                } else if (dropZone.id === 'colDropZone') {
+                    colVar = varName;
+                }
+            }
+        }
+
+        // Touch handling for mobile
+        function handleTouchStart(e) {
+            const touch = e.touches[0];
+            draggedElement = e.target.closest('.variable-chip');
+
+            // Create a clone for visual feedback
+            touchClone = draggedElement.cloneNode(true);
+            touchClone.style.position = 'fixed';
+            touchClone.style.zIndex = '1000';
+            touchClone.style.opacity = '0.8';
+            touchClone.style.pointerEvents = 'none';
+            touchClone.style.left = (touch.clientX - 50) + 'px';
+            touchClone.style.top = (touch.clientY - 20) + 'px';
+            document.body.appendChild(touchClone);
+
+            draggedElement.classList.add('dragging');
+        }
+
+        function handleTouchMove(e) {
+            e.preventDefault();
+            if (touchClone) {
+                const touch = e.touches[0];
+                touchClone.style.left = (touch.clientX - 50) + 'px';
+                touchClone.style.top = (touch.clientY - 20) + 'px';
+
+                // Highlight drop zone under touch
+                const elemBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+                const dropZone = elemBelow?.closest('.drag-area');
+                document.querySelectorAll('.drag-area').forEach(z => z.classList.remove('drag-over'));
+                dropZone?.classList.add('drag-over');
+            }
+        }
+
+        function handleTouchEnd(e) {
+            if (touchClone) {
+                document.body.removeChild(touchClone);
+                touchClone = null;
+            }
+
+            if (draggedElement) {
+                draggedElement.classList.remove('dragging');
+
+                const touch = e.changedTouches[0];
+                const elemBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+                const dropZone = elemBelow?.closest('.drag-area');
+
+                if (dropZone) {
+                    const varName = draggedElement.dataset.var;
+                    const varType = draggedElement.dataset.type;
+
+                    if (varType === 'numeric') {
+                        alert('Numeric variables can only be used for summary statistics.');
+                        dropZone.classList.remove('drag-over');
+                        return;
+                    }
+
+                    const clone = draggedElement.cloneNode(true);
+                    clone.innerHTML += ' <i class="fas fa-times text-xs ml-1 cursor-pointer" onclick="removeVar(this)"></i>';
+
+                    dropZone.innerHTML = '';
+                    dropZone.appendChild(clone);
+                    dropZone.classList.remove('drag-over');
+
+                    if (dropZone.id === 'rowDropZone') {
+                        rowVar = varName;
+                    } else if (dropZone.id === 'colDropZone') {
+                        colVar = varName;
+                    }
+                }
+
+                draggedElement = null;
+            }
+        }
+
+        function removeVar(closeBtn) {
+            const dropZone = closeBtn.closest('.drag-area');
+            if (dropZone.id === 'rowDropZone') {
+                rowVar = null;
+                dropZone.innerHTML = '<span class="drop-placeholder">Drag a categorical variable here</span>';
+            } else if (dropZone.id === 'colDropZone') {
+                colVar = null;
+                dropZone.innerHTML = '<span class="drop-placeholder">Drag a categorical variable here</span>';
+            }
+        }
+
+        function setStat(stat) {
+            currentStat = stat;
+            document.querySelectorAll('.stat-btn').forEach(btn => {
+                btn.classList.remove('bg-primary-100', 'text-primary-700', 'border-primary-500', 'border-2');
+                btn.classList.add('bg-gray-100', 'text-gray-700', 'border-gray-300', 'border');
+            });
+            document.querySelector(`[data-stat="${stat}"]`).classList.remove('bg-gray-100', 'text-gray-700', 'border-gray-300', 'border');
+            document.querySelector(`[data-stat="${stat}"]`).classList.add('bg-primary-100', 'text-primary-700', 'border-primary-500', 'border-2');
+
+            // Show/hide numeric variable select
+            if (stat !== 'count') {
+                document.getElementById('numericVarSelect').classList.remove('hidden');
+            } else {
+                document.getElementById('numericVarSelect').classList.add('hidden');
+            }
+        }
+
+        function generateTable() {
+            if (!rowVar) {
+                alert('Please select a row variable.');
+                return;
+            }
+            document.getElementById('resultsSection').classList.remove('hidden');
+            document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showPercent(type) {
+            document.querySelectorAll('.percent-btn').forEach(btn => {
+                btn.classList.remove('bg-primary-100', 'text-primary-700');
+                btn.classList.add('bg-gray-100', 'text-gray-700');
+            });
+            event.target.classList.remove('bg-gray-100', 'text-gray-700');
+            event.target.classList.add('bg-primary-100', 'text-primary-700');
+        }
+
+        function newQuery() {
+            document.getElementById('resultsSection').classList.add('hidden');
+            rowVar = null;
+            colVar = null;
+            document.getElementById('rowDropZone').innerHTML = '<span class="drop-placeholder">Drag a categorical variable here</span>';
+            document.getElementById('colDropZone').innerHTML = '<span class="drop-placeholder">Drag a categorical variable here</span>';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

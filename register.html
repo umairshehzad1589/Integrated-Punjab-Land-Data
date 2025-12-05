@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Punjab Land Analytics Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="js/tailwind-config.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 min-h-screen py-8 px-4">
+    <div class="max-w-2xl mx-auto">
+        <!-- Logo -->
+        <div class="text-center mb-8">
+            <a href="index.html" class="inline-flex items-center gap-3">
+                <div class="w-12 h-12 bg-primary-600 rounded-full flex items-center justify-center">
+                    <i class="fas fa-landmark text-white text-xl"></i>
+                </div>
+                <div class="text-left">
+                    <h1 class="text-lg font-bold text-primary-800">Punjab Land Analytics Portal</h1>
+                    <p class="text-xs text-gray-500">Research & Policy Insights</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Registration Form -->
+        <div class="bg-white rounded-2xl shadow-lg p-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">Create an Account</h2>
+            <p class="text-gray-600 mb-6">Register to access and download research data</p>
+
+            <!-- Role Selection -->
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-3">I am registering as</label>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <label class="relative cursor-pointer">
+                        <input type="radio" name="role" value="researcher" checked class="peer sr-only">
+                        <div class="border-2 border-gray-200 rounded-xl p-4 peer-checked:border-primary-600 peer-checked:bg-primary-50 transition">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-graduation-cap text-primary-600"></i>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-gray-800">Researcher</p>
+                                    <p class="text-xs text-gray-500">Academic & Think Tanks</p>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+                    <label class="relative cursor-pointer">
+                        <input type="radio" name="role" value="government" class="peer sr-only">
+                        <div class="border-2 border-gray-200 rounded-xl p-4 peer-checked:border-primary-600 peer-checked:bg-primary-50 transition">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-building-columns text-purple-600"></i>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-gray-800">Government Official</p>
+                                    <p class="text-xs text-gray-500">Requires Approval</p>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <form action="researcher/dashboard.html" method="get">
+                <div class="grid md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
+                        <input type="text" placeholder="Dr. Ahmad Ali"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Email Address *</label>
+                        <input type="email" placeholder="ahmad@university.edu.pk"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Password *</label>
+                        <input type="password" placeholder="Minimum 8 characters"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Confirm Password *</label>
+                        <input type="password" placeholder="Re-enter password"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Institution / Organization *</label>
+                    <input type="text" placeholder="University of the Punjab"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Designation / Role</label>
+                        <input type="text" placeholder="Assistant Professor"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Phone (Optional)</label>
+                        <input type="tel" placeholder="+92 300 1234567"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Purpose of Registration *</label>
+                    <textarea rows="3" placeholder="Briefly describe your research interest or intended use of the data..."
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"></textarea>
+                </div>
+
+                <!-- Terms -->
+                <div class="mb-6 space-y-3">
+                    <label class="flex items-start gap-3 cursor-pointer">
+                        <input type="checkbox" class="mt-1 rounded text-primary-600" required>
+                        <span class="text-sm text-gray-600">
+                            I agree to the <a href="terms.html" class="text-primary-600 underline">Terms of Use</a> and
+                            <a href="#" class="text-primary-600 underline">Data Usage Agreement</a>
+                        </span>
+                    </label>
+                    <label class="flex items-start gap-3 cursor-pointer">
+                        <input type="checkbox" class="mt-1 rounded text-primary-600" required>
+                        <span class="text-sm text-gray-600">
+                            I understand that data must be cited appropriately and will not be used to identify individuals
+                        </span>
+                    </label>
+                    <label class="flex items-start gap-3 cursor-pointer">
+                        <input type="checkbox" class="mt-1 rounded text-primary-600">
+                        <span class="text-sm text-gray-600">
+                            I would like to receive updates about new datasets and features (optional)
+                        </span>
+                    </label>
+                </div>
+
+                <button type="submit" class="w-full bg-primary-600 text-white py-3 rounded-lg font-semibold hover:bg-primary-700 transition">
+                    Create Account
+                </button>
+
+                <!-- Government Notice -->
+                <div class="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-lg" id="govNotice" style="display: none;">
+                    <div class="flex gap-3">
+                        <i class="fas fa-info-circle text-amber-500 mt-0.5"></i>
+                        <div class="text-sm text-amber-800">
+                            <strong>Government Registration:</strong> Your application will be reviewed by PLRA.
+                            You will receive an email once approved. This process may take 2-3 business days.
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div class="mt-6 text-center">
+                <p class="text-gray-600">Already have an account?
+                    <a href="login.html" class="text-primary-600 hover:text-primary-800 font-medium">Sign in</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-8 text-center text-sm text-gray-500">
+            <p>&copy; 2024 Punjab Land Records Authority</p>
+        </div>
+    </div>
+
+    <script>
+        // Show government notice when government role is selected
+        document.querySelectorAll('input[name="role"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                document.getElementById('govNotice').style.display =
+                    this.value === 'government' ? 'block' : 'none';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation - Punjab Land Analytics Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="js/tailwind-config.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-16">
+                <a href="index.html" class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center">
+                        <i class="fas fa-landmark text-white"></i>
+                    </div>
+                    <h1 class="text-lg font-bold text-primary-800">PLAP</h1>
+                </a>
+
+                <nav class="hidden md:flex items-center gap-6">
+                    <a href="index.html" class="text-gray-600 hover:text-primary-600">Home</a>
+                    <a href="explore.html" class="text-gray-600 hover:text-primary-600">Explore Data</a>
+                    <a href="extract.html" class="text-gray-600 hover:text-primary-600">Create Extract</a>
+                    <a href="tabulator.html" class="text-gray-600 hover:text-primary-600">Tabulator</a>
+                    <a href="codebook.html" class="text-gray-600 hover:text-primary-600">Codebook</a>
+                    <a href="documentation.html" class="text-primary-600 font-medium border-b-2 border-primary-600 pb-1">Documentation</a>
+                </nav>
+
+                <div class="hidden md:flex items-center gap-3">
+                    <a href="login.html" class="text-primary-600 hover:text-primary-800 font-medium">Login</a>
+                    <a href="register.html" class="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700">Register</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex">
+        <!-- Sidebar Navigation -->
+        <aside class="w-64 bg-white shadow-lg min-h-screen fixed left-0 top-16 overflow-y-auto pb-20 hidden lg:block">
+            <nav class="p-4">
+                <h3 class="font-bold text-gray-800 mb-4">Documentation</h3>
+
+                <div class="space-y-1">
+                    <a href="#overview" class="block px-3 py-2 rounded-lg bg-primary-50 text-primary-700 font-medium text-sm">
+                        Overview
+                    </a>
+                    <a href="#datasets" class="block px-3 py-2 rounded-lg hover:bg-gray-100 text-gray-600 text-sm">
+                        Dataset Descriptions
+                    </a>
+                    <a href="#codebook" class="block px-3 py-2 rounded-lg hover:bg-gray-100 text-gray-600 text-sm">
+                        Variable Codebook
+                    </a>
+                    <a href="#ladm" class="block px-3 py-2 rounded-lg hover:bg-gray-100 text-gray-600 text-sm">
+                        LADM Mapping
+                    </a>
+                    <a href="#glossary" class="block px-3 py-2 rounded-lg hover:bg-gray-100 text-gray-600 text-sm">
+                        Glossary
+                    </a>
+                    <a href="#anonymization" class="block px-3 py-2 rounded-lg hover:bg-gray-100 text-gray-600 text-sm">
+                        Anonymization Rules
+                    </a>
+                    <a href="#api" class="block px-3 py-2 rounded-lg hover:bg-gray-100 text-gray-600 text-sm">
+                        API Reference
+                    </a>
+                    <a href="#faq" class="block px-3 py-2 rounded-lg hover:bg-gray-100 text-gray-600 text-sm">
+                        FAQ
+                    </a>
+                </div>
+
+                <h4 class="font-semibold text-gray-600 mt-6 mb-3 text-xs uppercase">Downloads</h4>
+                <div class="space-y-2">
+                    <a href="#" class="flex items-center gap-2 text-sm text-primary-600 hover:text-primary-800">
+                        <i class="fas fa-file-pdf"></i>
+                        Full Codebook (PDF)
+                    </a>
+                    <a href="#" class="flex items-center gap-2 text-sm text-primary-600 hover:text-primary-800">
+                        <i class="fas fa-file-excel"></i>
+                        Variable List (Excel)
+                    </a>
+                    <a href="#" class="flex items-center gap-2 text-sm text-primary-600 hover:text-primary-800">
+                        <i class="fas fa-file-pdf"></i>
+                        LADM Mapping (PDF)
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 lg:ml-64">
+            <div class="max-w-4xl mx-auto px-4 py-8">
+                <!-- Overview Section -->
+                <section id="overview" class="mb-12">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Documentation Overview</h2>
+                    <div class="bg-white rounded-xl shadow-sm border p-6">
+                        <p class="text-gray-600 mb-4">
+                            The Punjab Land Analytics Portal (PLAP) provides access to anonymized land-related datasets
+                            from Punjab, Pakistan. This documentation covers dataset descriptions, variable definitions,
+                            and technical specifications for researchers and analysts.
+                        </p>
+                        <div class="grid md:grid-cols-3 gap-4 mt-6">
+                            <div class="bg-gray-50 rounded-lg p-4 text-center">
+                                <i class="fas fa-database text-primary-600 text-2xl mb-2"></i>
+                                <p class="font-medium text-gray-800">5 Datasets</p>
+                                <p class="text-sm text-gray-500">Available for research</p>
+                            </div>
+                            <div class="bg-gray-50 rounded-lg p-4 text-center">
+                                <i class="fas fa-list text-primary-600 text-2xl mb-2"></i>
+                                <p class="font-medium text-gray-800">50+ Variables</p>
+                                <p class="text-sm text-gray-500">Documented</p>
+                            </div>
+                            <div class="bg-gray-50 rounded-lg p-4 text-center">
+                                <i class="fas fa-globe text-primary-600 text-2xl mb-2"></i>
+                                <p class="font-medium text-gray-800">LADM Compliant</p>
+                                <p class="text-sm text-gray-500">ISO 19152</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Dataset Descriptions -->
+                <section id="datasets" class="mb-12">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Dataset Descriptions</h2>
+
+                    <div class="space-y-4">
+                        <!-- Registry Transactions -->
+                        <div class="bg-white rounded-xl shadow-sm border overflow-hidden">
+                            <div class="bg-primary-600 text-white px-6 py-3 flex items-center justify-between">
+                                <h3 class="font-semibold">Registry Transactions Dataset</h3>
+                                <span class="text-sm bg-white/20 px-2 py-1 rounded">v2.1</span>
+                            </div>
+                            <div class="p-6">
+                                <p class="text-gray-600 mb-4">
+                                    Contains anonymized records of property registrations processed through the E-Registry system,
+                                    including sales (conveyance), gifts, mortgages, leases, and other deed types.
+                                </p>
+
+                                <div class="grid md:grid-cols-2 gap-4 mb-4">
+                                    <div>
+                                        <h5 class="font-medium text-gray-700 mb-2">Coverage</h5>
+                                        <ul class="text-sm text-gray-600 space-y-1">
+                                            <li><strong>Time:</strong> 2015 - Present</li>
+                                            <li><strong>Geography:</strong> All 36 Punjab Districts</li>
+                                            <li><strong>Records:</strong> ~2.5 Million</li>
+                                            <li><strong>Update:</strong> Weekly (every Sunday)</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-medium text-gray-700 mb-2">Source System</h5>
+                                        <ul class="text-sm text-gray-600 space-y-1">
+                                            <li><strong>Primary:</strong> E-Registry/ESORS</li>
+                                            <li><strong>Tables:</strong> EStampMain, Purpose, Parties</li>
+                                            <li><strong>Filter:</strong> Completed transactions only</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="bg-gray-50 rounded-lg p-4">
+                                    <h5 class="font-medium text-gray-700 mb-2">Limitations</h5>
+                                    <ul class="text-sm text-gray-600 list-disc list-inside space-y-1">
+                                        <li>Transaction values shown as ranges (not exact amounts)</li>
+                                        <li>No party/owner information included</li>
+                                        <li>Historical data before 2015 not available digitally</li>
+                                        <li>Some rural tehsils may have incomplete coverage pre-2018</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Land Ownership -->
+                        <div class="bg-white rounded-xl shadow-sm border overflow-hidden">
+                            <div class="bg-primary-700 text-white px-6 py-3 flex items-center justify-between">
+                                <h3 class="font-semibold">Land Ownership Patterns Dataset</h3>
+                                <span class="text-sm bg-white/20 px-2 py-1 rounded">v1.3</span>
+                            </div>
+                            <div class="p-6">
+                                <p class="text-gray-600 mb-4">
+                                    Aggregated statistics on land ownership distribution derived from CLRMIS (Computerized Land Record
+                                    Management Information System). Includes parcel counts, area statistics, and ownership patterns.
+                                </p>
+
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div>
+                                        <h5 class="font-medium text-gray-700 mb-2">Coverage</h5>
+                                        <ul class="text-sm text-gray-600 space-y-1">
+                                            <li><strong>Time:</strong> Latest snapshot</li>
+                                            <li><strong>Geography:</strong> All 36 Punjab Districts</li>
+                                            <li><strong>Records:</strong> ~15 Million (aggregated)</li>
+                                            <li><strong>Update:</strong> Monthly</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-medium text-gray-700 mb-2">Key Metrics</h5>
+                                        <ul class="text-sm text-gray-600 space-y-1">
+                                            <li>Khewat (ownership unit) counts</li>
+                                            <li>Khasra (parcel) counts</li>
+                                            <li>Total area by land type</li>
+                                            <li>Irrigation source distribution</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Variable Codebook -->
+                <section id="codebook" class="mb-12">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Variable Codebook</h2>
+
+                    <div class="bg-white rounded-xl shadow-sm border overflow-hidden">
+                        <div class="p-4 bg-gray-50 border-b flex items-center justify-between">
+                            <h3 class="font-semibold text-gray-800">Registry Transactions Variables</h3>
+                            <div class="flex gap-2">
+                                <button class="text-sm bg-white border px-3 py-1 rounded hover:bg-gray-100">Punjab</button>
+                                <button class="text-sm bg-primary-600 text-white px-3 py-1 rounded">LADM</button>
+                            </div>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm">
+                                <thead class="bg-gray-50 border-b">
+                                    <tr>
+                                        <th class="px-4 py-3 text-left font-semibold text-gray-600">Variable (Punjab)</th>
+                                        <th class="px-4 py-3 text-left font-semibold text-gray-600">Variable (LADM)</th>
+                                        <th class="px-4 py-3 text-left font-semibold text-gray-600">Type</th>
+                                        <th class="px-4 py-3 text-left font-semibold text-gray-600">Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y">
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-4 py-3 font-mono text-primary-600">transaction_year</td>
+                                        <td class="px-4 py-3 font-mono text-gray-600">transaction_year</td>
+                                        <td class="px-4 py-3"><span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded text-xs">Integer</span></td>
+                                        <td class="px-4 py-3 text-gray-600">Year of registration (2015-2024)</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-4 py-3 font-mono text-primary-600">district_code</td>
+                                        <td class="px-4 py-3 font-mono text-gray-600">admin_area_l2_code</td>
+                                        <td class="px-4 py-3"><span class="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs">String</span></td>
+                                        <td class="px-4 py-3 text-gray-600">District identifier (e.g., "LHR", "FSD")</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-4 py-3 font-mono text-primary-600">tehsil_code</td>
+                                        <td class="px-4 py-3 font-mono text-gray-600">admin_area_l3_code</td>
+                                        <td class="px-4 py-3"><span class="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs">String</span></td>
+                                        <td class="px-4 py-3 text-gray-600">Tehsil identifier</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-4 py-3 font-mono text-primary-600">transaction_type</td>
+                                        <td class="px-4 py-3 font-mono text-gray-600">source_type</td>
+                                        <td class="px-4 py-3"><span class="bg-purple-100 text-purple-700 px-2 py-0.5 rounded text-xs">Categorical</span></td>
+                                        <td class="px-4 py-3 text-gray-600">Type of deed (Sale, Gift, Mortgage, etc.)</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-4 py-3 font-mono text-primary-600">land_type</td>
+                                        <td class="px-4 py-3 font-mono text-gray-600">spatial_unit_type</td>
+                                        <td class="px-4 py-3"><span class="bg-purple-100 text-purple-700 px-2 py-0.5 rounded text-xs">Categorical</span></td>
+                                        <td class="px-4 py-3 text-gray-600">Land classification (Agricultural, Residential, etc.)</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-4 py-3 font-mono text-primary-600">location_type</td>
+                                        <td class="px-4 py-3 font-mono text-gray-600">location_class</td>
+                                        <td class="px-4 py-3"><span class="bg-purple-100 text-purple-700 px-2 py-0.5 rounded text-xs">Categorical</span></td>
+                                        <td class="px-4 py-3 text-gray-600">Urban or Rural classification</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-4 py-3 font-mono text-primary-600">value_category</td>
+                                        <td class="px-4 py-3 font-mono text-gray-600">value_class</td>
+                                        <td class="px-4 py-3"><span class="bg-purple-100 text-purple-700 px-2 py-0.5 rounded text-xs">Categorical</span></td>
+                                        <td class="px-4 py-3 text-gray-600">Transaction value range bucket</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Transaction Type Values -->
+                    <div class="bg-white rounded-xl shadow-sm border mt-4 p-6">
+                        <h4 class="font-semibold text-gray-800 mb-4">transaction_type Values</h4>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <table class="w-full text-sm">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-3 py-2 text-left font-medium text-gray-600">Code</th>
+                                        <th class="px-3 py-2 text-left font-medium text-gray-600">Punjab Label</th>
+                                        <th class="px-3 py-2 text-left font-medium text-gray-600">LADM Label</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y">
+                                    <tr><td class="px-3 py-2">1</td><td class="px-3 py-2">Bai (Sale)</td><td class="px-3 py-2">Deed-Sale</td></tr>
+                                    <tr><td class="px-3 py-2">2</td><td class="px-3 py-2">Hiba (Gift)</td><td class="px-3 py-2">Deed-Gift</td></tr>
+                                    <tr><td class="px-3 py-2">3</td><td class="px-3 py-2">Rehn (Mortgage)</td><td class="px-3 py-2">Mortgage</td></tr>
+                                    <tr><td class="px-3 py-2">4</td><td class="px-3 py-2">Wirasat (Inheritance)</td><td class="px-3 py-2">Probate</td></tr>
+                                    <tr><td class="px-3 py-2">5</td><td class="px-3 py-2">Taqseem (Partition)</td><td class="px-3 py-2">Deed-Partition</td></tr>
+                                    <tr><td class="px-3 py-2">6</td><td class="px-3 py-2">Ijara (Lease)</td><td class="px-3 py-2">Lease</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- LADM Mapping -->
+                <section id="ladm" class="mb-12">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">LADM Mapping (ISO 19152)</h2>
+
+                    <div class="bg-white rounded-xl shadow-sm border p-6">
+                        <p class="text-gray-600 mb-6">
+                            The Land Administration Domain Model (LADM) is the international standard (ISO 19152) for land administration.
+                            PLAP datasets can be exported with LADM-compliant terminology to enable international comparisons.
+                        </p>
+
+                        <h4 class="font-semibold text-gray-800 mb-4">Core Class Mappings</h4>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm border">
+                                <thead class="bg-primary-50">
+                                    <tr>
+                                        <th class="px-4 py-3 text-left font-semibold text-primary-800 border">Punjab Entity</th>
+                                        <th class="px-4 py-3 text-left font-semibold text-primary-800 border">LADM Class</th>
+                                        <th class="px-4 py-3 text-left font-semibold text-primary-800 border">ISO Reference</th>
+                                        <th class="px-4 py-3 text-left font-semibold text-primary-800 border">Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="px-4 py-3 border font-medium">Khewat</td>
+                                        <td class="px-4 py-3 border font-mono text-sm">LA_BAUnit</td>
+                                        <td class="px-4 py-3 border">Section 5.3</td>
+                                        <td class="px-4 py-3 border text-gray-600">Basic Administrative Unit - ownership grouping</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-3 border font-medium">Khasra</td>
+                                        <td class="px-4 py-3 border font-mono text-sm">LA_SpatialUnit</td>
+                                        <td class="px-4 py-3 border">Section 6.2</td>
+                                        <td class="px-4 py-3 border text-gray-600">Spatial Unit / Parcel - individual plot</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-3 border font-medium">Khatuni</td>
+                                        <td class="px-4 py-3 border font-mono text-sm">LA_RRR</td>
+                                        <td class="px-4 py-3 border">Section 5.4</td>
+                                        <td class="px-4 py-3 border text-gray-600">Rights, Restrictions, Responsibilities</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-3 border font-medium">Mauza</td>
+                                        <td class="px-4 py-3 border font-mono text-sm">LA_SpatialUnitGroup</td>
+                                        <td class="px-4 py-3 border">Section 6.4</td>
+                                        <td class="px-4 py-3 border text-gray-600">Revenue village / settlement unit</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-3 border font-medium">Intiqal</td>
+                                        <td class="px-4 py-3 border font-mono text-sm">LA_AdministrativeSource</td>
+                                        <td class="px-4 py-3 border">Section 5.5</td>
+                                        <td class="px-4 py-3 border text-gray-600">Administrative transaction / mutation</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-3 border font-medium">Owner</td>
+                                        <td class="px-4 py-3 border font-mono text-sm">LA_Party</td>
+                                        <td class="px-4 py-3 border">Section 5.2</td>
+                                        <td class="px-4 py-3 border text-gray-600">Person or organization with rights</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Glossary -->
+                <section id="glossary" class="mb-12">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Glossary of Terms</h2>
+
+                    <div class="bg-white rounded-xl shadow-sm border p-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="space-y-4">
+                                <div>
+                                    <h5 class="font-semibold text-gray-800">Khewat (کھیوٹ)</h5>
+                                    <p class="text-sm text-gray-600">A group of land parcels under common ownership. Primary unit of ownership records.</p>
+                                </div>
+                                <div>
+                                    <h5 class="font-semibold text-gray-800">Khatuni (کھتونی)</h5>
+                                    <p class="text-sm text-gray-600">Sub-unit of Khewat representing possession or cultivation rights.</p>
+                                </div>
+                                <div>
+                                    <h5 class="font-semibold text-gray-800">Khasra (کھسرہ)</h5>
+                                    <p class="text-sm text-gray-600">Individual plot of land with specific measurements and boundaries.</p>
+                                </div>
+                                <div>
+                                    <h5 class="font-semibold text-gray-800">Mauza (موضع)</h5>
+                                    <p class="text-sm text-gray-600">Revenue village or settlement - the basic geographic unit.</p>
+                                </div>
+                                <div>
+                                    <h5 class="font-semibold text-gray-800">Tehsil (تحصیل)</h5>
+                                    <p class="text-sm text-gray-600">Administrative sub-division of a district.</p>
+                                </div>
+                            </div>
+                            <div class="space-y-4">
+                                <div>
+                                    <h5 class="font-semibold text-gray-800">Intiqal (انتقال)</h5>
+                                    <p class="text-sm text-gray-600">Transfer/mutation of land ownership from one party to another.</p>
+                                </div>
+                                <div>
+                                    <h5 class="font-semibold text-gray-800">Fard (فرد)</h5>
+                                    <p class="text-sm text-gray-600">Official copy of land ownership record (Record of Rights).</p>
+                                </div>
+                                <div>
+                                    <h5 class="font-semibold text-gray-800">Jamabandi (جمع بندی)</h5>
+                                    <p class="text-sm text-gray-600">Compiled record of rights, prepared periodically.</p>
+                                </div>
+                                <div>
+                                    <h5 class="font-semibold text-gray-800">Patwari (پٹواری)</h5>
+                                    <p class="text-sm text-gray-600">Village-level land record officer.</p>
+                                </div>
+                                <div>
+                                    <h5 class="font-semibold text-gray-800">Qanoon Goi (قانون گوئی)</h5>
+                                    <p class="text-sm text-gray-600">Revenue circle within a tehsil.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Anonymization Rules -->
+                <section id="anonymization" class="mb-12">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Anonymization Rules</h2>
+
+                    <div class="bg-white rounded-xl shadow-sm border p-6">
+                        <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+                            <div class="flex gap-3">
+                                <i class="fas fa-shield-alt text-red-500 mt-1"></i>
+                                <div>
+                                    <h5 class="font-semibold text-red-800">Privacy Protection</h5>
+                                    <p class="text-sm text-red-700">
+                                        All personal identifiable information (PII) is removed before data is made available.
+                                        Re-identification of individuals is not possible from the published datasets.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h4 class="font-semibold text-gray-800 mb-3">Fields Removed</h4>
+                        <ul class="list-disc list-inside text-sm text-gray-600 space-y-1 mb-6">
+                            <li>CNIC (National ID numbers)</li>
+                            <li>Owner names and father/spouse names</li>
+                            <li>Phone numbers and email addresses</li>
+                            <li>Exact street addresses</li>
+                            <li>Biometric data</li>
+                            <li>Bank account details</li>
+                        </ul>
+
+                        <h4 class="font-semibold text-gray-800 mb-3">Fields Aggregated</h4>
+                        <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
+                            <li>Transaction values: Converted to ranges (e.g., 1M-5M PKR)</li>
+                            <li>Land areas: Converted to size categories</li>
+                            <li>Dates: Reduced to month/year (no exact dates)</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- FAQ -->
+                <section id="faq" class="mb-12">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Frequently Asked Questions</h2>
+
+                    <div class="space-y-4">
+                        <div class="bg-white rounded-xl shadow-sm border overflow-hidden">
+                            <button class="w-full px-6 py-4 text-left flex items-center justify-between" onclick="toggleFaq(this)">
+                                <span class="font-medium text-gray-800">How often is the data updated?</span>
+                                <i class="fas fa-chevron-down text-gray-400 transition-transform"></i>
+                            </button>
+                            <div class="px-6 pb-4 hidden">
+                                <p class="text-gray-600 text-sm">
+                                    Registry transaction data is updated weekly (every Sunday night).
+                                    Land ownership patterns are updated monthly. The last update timestamp
+                                    is shown on each dataset page.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-xl shadow-sm border overflow-hidden">
+                            <button class="w-full px-6 py-4 text-left flex items-center justify-between" onclick="toggleFaq(this)">
+                                <span class="font-medium text-gray-800">Can I get exact transaction values?</span>
+                                <i class="fas fa-chevron-down text-gray-400 transition-transform"></i>
+                            </button>
+                            <div class="px-6 pb-4 hidden">
+                                <p class="text-gray-600 text-sm">
+                                    No, exact transaction values are not provided to protect privacy and prevent
+                                    potential misuse. Values are shown as ranges (e.g., 1-5 Million PKR).
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-xl shadow-sm border overflow-hidden">
+                            <button class="w-full px-6 py-4 text-left flex items-center justify-between" onclick="toggleFaq(this)">
+                                <span class="font-medium text-gray-800">How do I cite this data in my research?</span>
+                                <i class="fas fa-chevron-down text-gray-400 transition-transform"></i>
+                            </button>
+                            <div class="px-6 pb-4 hidden">
+                                <p class="text-gray-600 text-sm">
+                                    Please cite as: "Punjab Land Analytics Portal (PLAP), Punjab Land Records Authority,
+                                    [Dataset Name], accessed [Date]. https://plap.plra.punjab.gov.pk"
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-primary-900 text-gray-300 py-8 lg:ml-64">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2024 Punjab Land Records Authority. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleFaq(button) {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('i');
+            content.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
+        }
+    </script>
+</body>
+</html>

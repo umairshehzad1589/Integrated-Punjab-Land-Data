@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistical Analysis - Punjab Land Analytics Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/tailwind-config.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <style>
+        .tab-active { border-bottom: 3px solid #1e3a5f; color: #1e3a5f; font-weight: 600; }
+        .correlation-high { background-color: #166534; color: white; }
+        .correlation-medium { background-color: #84cc16; color: black; }
+        .correlation-low { background-color: #fef3c7; color: black; }
+        .correlation-negative { background-color: #ef4444; color: white; }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="flex items-center justify-between px-4 h-16">
+            <a href="../index.html" class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center">
+                    <i class="fas fa-landmark text-white text-sm"></i>
+                </div>
+                <span class="font-bold text-primary-700">PLAP</span>
+            </a>
+            <div class="flex items-center gap-4">
+                <a href="../explore.html" class="text-gray-600 hover:text-primary-600 text-sm">Explore</a>
+                <a href="download.html" class="text-gray-600 hover:text-primary-600 text-sm">Download</a>
+                <a href="analysis.html" class="text-primary-600 font-medium text-sm">Analysis</a>
+            </div>
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm">DR</div>
+                <a href="../login.html" class="text-gray-400 hover:text-red-500 ml-2"><i class="fas fa-sign-out-alt"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white shadow-lg min-h-screen fixed left-0 top-16 hidden lg:block">
+            <nav class="p-4">
+                <a href="dashboard.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100">
+                    <i class="fas fa-home w-5"></i> Dashboard
+                </a>
+                <a href="../explore.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 mt-1">
+                    <i class="fas fa-search w-5"></i> Explore Data
+                </a>
+                <a href="analysis.html" class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary-50 text-primary-700 font-medium mt-1">
+                    <i class="fas fa-chart-bar w-5"></i> Statistical Analysis
+                </a>
+                <a href="download.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 mt-1">
+                    <i class="fas fa-download w-5"></i> Download Data
+                </a>
+                <a href="history.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 mt-1">
+                    <i class="fas fa-history w-5"></i> History
+                </a>
+                <div class="border-t my-3"></div>
+                <a href="api.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100">
+                    <i class="fas fa-code w-5"></i> API Access
+                </a>
+                <a href="../documentation.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 mt-1">
+                    <i class="fas fa-book w-5"></i> Documentation
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 lg:ml-64 p-6">
+            <div class="max-w-7xl mx-auto">
+                <!-- Header -->
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800">Statistical Analysis</h1>
+                        <p class="text-gray-500 text-sm mt-1">Perform online analysis without downloading data</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="border border-gray-300 bg-white px-4 py-2 rounded-lg text-sm hover:bg-gray-50">
+                            <i class="fas fa-save mr-2"></i>Save Analysis
+                        </button>
+                        <button class="border border-gray-300 bg-white px-4 py-2 rounded-lg text-sm hover:bg-gray-50">
+                            <i class="fas fa-file-export mr-2"></i>Export Results
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Analysis Type Tabs -->
+                <div class="bg-white rounded-xl shadow-sm mb-6">
+                    <div class="border-b">
+                        <nav class="flex">
+                            <button class="px-6 py-4 text-sm tab-active" onclick="showTab('means')">
+                                <i class="fas fa-balance-scale mr-2"></i>Comparison of Means
+                            </button>
+                            <button class="px-6 py-4 text-sm text-gray-500 hover:text-gray-700" onclick="showTab('correlation')">
+                                <i class="fas fa-project-diagram mr-2"></i>Correlation Matrix
+                            </button>
+                            <button class="px-6 py-4 text-sm text-gray-500 hover:text-gray-700" onclick="showTab('corr-compare')">
+                                <i class="fas fa-not-equal mr-2"></i>Comparison of Correlations
+                            </button>
+                            <button class="px-6 py-4 text-sm text-gray-500 hover:text-gray-700" onclick="showTab('crosstab')">
+                                <i class="fas fa-table mr-2"></i>Cross-tabulation
+                            </button>
+                            <button class="px-6 py-4 text-sm text-gray-500 hover:text-gray-700" onclick="showTab('regression')">
+                                <i class="fas fa-chart-line mr-2"></i>Regression
+                            </button>
+                        </nav>
+                    </div>
+
+                    <!-- Tab Content: Comparison of Means -->
+                    <div id="means-tab" class="p-6">
+                        <div class="grid lg:grid-cols-3 gap-6">
+                            <!-- Variable Selection -->
+                            <div class="lg:col-span-1 space-y-4">
+                                <h3 class="font-semibold text-gray-800">Variable Selection</h3>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Dataset</label>
+                                    <select class="w-full border rounded-lg px-3 py-2 text-sm">
+                                        <option>Registry Transactions (2015-2024)</option>
+                                        <option>Land Ownership Patterns</option>
+                                        <option>Mutation Trends</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Dependent Variable (Mean of)</label>
+                                    <select class="w-full border rounded-lg px-3 py-2 text-sm">
+                                        <option>Transaction Value (PKR)</option>
+                                        <option>Land Area (Marla)</option>
+                                        <option>Processing Time (Days)</option>
+                                        <option>Stamp Duty Amount</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Row Variable (Categories)</label>
+                                    <select class="w-full border rounded-lg px-3 py-2 text-sm">
+                                        <option>District (Zila)</option>
+                                        <option>Transaction Type</option>
+                                        <option>Land Type</option>
+                                        <option>Year</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Column Variable (Optional)</label>
+                                    <select class="w-full border rounded-lg px-3 py-2 text-sm">
+                                        <option value="">-- None --</option>
+                                        <option>Transaction Type</option>
+                                        <option>Land Type</option>
+                                        <option>Year</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Control Variable (Optional)</label>
+                                    <select class="w-full border rounded-lg px-3 py-2 text-sm">
+                                        <option value="">-- None --</option>
+                                        <option>Urban/Rural</option>
+                                        <option>Year</option>
+                                    </select>
+                                </div>
+
+                                <div class="border-t pt-4">
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Display Options</h4>
+                                    <div class="space-y-2">
+                                        <label class="flex items-center gap-2 text-sm">
+                                            <input type="checkbox" checked class="rounded"> Show Means
+                                        </label>
+                                        <label class="flex items-center gap-2 text-sm">
+                                            <input type="checkbox" checked class="rounded"> Show Std. Deviation
+                                        </label>
+                                        <label class="flex items-center gap-2 text-sm">
+                                            <input type="checkbox" class="rounded"> Show Std. Error
+                                        </label>
+                                        <label class="flex items-center gap-2 text-sm">
+                                            <input type="checkbox" checked class="rounded"> Show Count (N)
+                                        </label>
+                                        <label class="flex items-center gap-2 text-sm">
+                                            <input type="checkbox" class="rounded"> Show 95% Confidence Interval
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="border-t pt-4">
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Statistical Tests</h4>
+                                    <div class="space-y-2">
+                                        <label class="flex items-center gap-2 text-sm">
+                                            <input type="checkbox" checked class="rounded"> ANOVA F-test
+                                        </label>
+                                        <label class="flex items-center gap-2 text-sm">
+                                            <input type="checkbox" class="rounded"> t-test (pairwise)
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <button class="w-full bg-primary-500 text-white py-3 rounded-lg font-medium hover:bg-primary-700">
+                                    <i class="fas fa-calculator mr-2"></i>Run Analysis
+                                </button>
+                            </div>
+
+                            <!-- Results -->
+                            <div class="lg:col-span-2">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h3 class="font-semibold text-gray-800">Results: Mean Transaction Value by District</h3>
+                                    <div class="flex gap-2">
+                                        <button class="text-sm text-primary-600 hover:text-primary-800">
+                                            <i class="fas fa-download mr-1"></i>CSV
+                                        </button>
+                                        <button class="text-sm text-primary-600 hover:text-primary-800">
+                                            <i class="fas fa-copy mr-1"></i>Copy
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Results Table -->
+                                <div class="overflow-x-auto border rounded-lg mb-4">
+                                    <table class="w-full text-sm">
+                                        <thead class="bg-gray-50">
+                                            <tr>
+                                                <th class="text-left px-4 py-3 font-medium text-gray-600">District</th>
+                                                <th class="text-right px-4 py-3 font-medium text-gray-600">Mean (PKR)</th>
+                                                <th class="text-right px-4 py-3 font-medium text-gray-600">Std. Dev.</th>
+                                                <th class="text-right px-4 py-3 font-medium text-gray-600">N</th>
+                                                <th class="text-right px-4 py-3 font-medium text-gray-600">Diff from Avg</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y">
+                                            <tr class="hover:bg-gray-50">
+                                                <td class="px-4 py-3 font-medium">Lahore</td>
+                                                <td class="px-4 py-3 text-right">4,567,890</td>
+                                                <td class="px-4 py-3 text-right">2,345,678</td>
+                                                <td class="px-4 py-3 text-right">125,432</td>
+                                                <td class="px-4 py-3 text-right text-green-600">+42.3%</td>
+                                            </tr>
+                                            <tr class="hover:bg-gray-50">
+                                                <td class="px-4 py-3 font-medium">Rawalpindi</td>
+                                                <td class="px-4 py-3 text-right">3,892,450</td>
+                                                <td class="px-4 py-3 text-right">1,987,234</td>
+                                                <td class="px-4 py-3 text-right">98,765</td>
+                                                <td class="px-4 py-3 text-right text-green-600">+21.2%</td>
+                                            </tr>
+                                            <tr class="hover:bg-gray-50">
+                                                <td class="px-4 py-3 font-medium">Faisalabad</td>
+                                                <td class="px-4 py-3 text-right">2,456,780</td>
+                                                <td class="px-4 py-3 text-right">1,234,567</td>
+                                                <td class="px-4 py-3 text-right">87,654</td>
+                                                <td class="px-4 py-3 text-right text-red-600">-23.5%</td>
+                                            </tr>
+                                            <tr class="hover:bg-gray-50">
+                                                <td class="px-4 py-3 font-medium">Multan</td>
+                                                <td class="px-4 py-3 text-right">2,123,456</td>
+                                                <td class="px-4 py-3 text-right">987,654</td>
+                                                <td class="px-4 py-3 text-right">76,543</td>
+                                                <td class="px-4 py-3 text-right text-red-600">-33.8%</td>
+                                            </tr>
+                                            <tr class="hover:bg-gray-50">
+                                                <td class="px-4 py-3 font-medium">Gujranwala</td>
+                                                <td class="px-4 py-3 text-right">2,987,654</td>
+                                                <td class="px-4 py-3 text-right">1,456,789</td>
+                                                <td class="px-4 py-3 text-right">65,432</td>
+                                                <td class="px-4 py-3 text-right text-red-600">-6.9%</td>
+                                            </tr>
+                                            <tr class="bg-gray-100 font-semibold">
+                                                <td class="px-4 py-3">Overall</td>
+                                                <td class="px-4 py-3 text-right">3,210,567</td>
+                                                <td class="px-4 py-3 text-right">1,802,384</td>
+                                                <td class="px-4 py-3 text-right">453,826</td>
+                                                <td class="px-4 py-3 text-right">-</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- ANOVA Results -->
+                                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                                    <h4 class="font-medium text-blue-800 mb-2">ANOVA Results</h4>
+                                    <div class="grid grid-cols-4 gap-4 text-sm">
+                                        <div>
+                                            <span class="text-blue-600">F-statistic:</span>
+                                            <span class="font-mono font-medium ml-2">245.67</span>
+                                        </div>
+                                        <div>
+                                            <span class="text-blue-600">p-value:</span>
+                                            <span class="font-mono font-medium ml-2">&lt; 0.001</span>
+                                        </div>
+                                        <div>
+                                            <span class="text-blue-600">df (between):</span>
+                                            <span class="font-mono font-medium ml-2">4</span>
+                                        </div>
+                                        <div>
+                                            <span class="text-blue-600">df (within):</span>
+                                            <span class="font-mono font-medium ml-2">453,821</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm text-blue-700 mt-2">
+                                        <i class="fas fa-info-circle mr-1"></i>
+                                        The difference in means across districts is statistically significant (p &lt; 0.001).
+                                    </p>
+                                </div>
+
+                                <!-- Chart -->
+                                <div class="border rounded-lg p-4">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <h4 class="font-medium text-gray-700">Visualization</h4>
+                                        <div class="flex gap-2">
+                                            <button class="px-3 py-1 text-xs bg-primary-500 text-white rounded">Bar</button>
+                                            <button class="px-3 py-1 text-xs border rounded hover:bg-gray-50">Line</button>
+                                            <button class="px-3 py-1 text-xs border rounded hover:bg-gray-50">Box Plot</button>
+                                        </div>
+                                    </div>
+                                    <div id="meansChart"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab Content: Correlation Matrix (Hidden by default) -->
+                    <div id="correlation-tab" class="p-6 hidden">
+                        <div class="grid lg:grid-cols-3 gap-6">
+                            <!-- Variable Selection -->
+                            <div class="lg:col-span-1 space-y-4">
+                                <h3 class="font-semibold text-gray-800">Variable Selection</h3>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Dataset</label>
+                                    <select class="w-full border rounded-lg px-3 py-2 text-sm">
+                                        <option>Registry Transactions (2015-2024)</option>
+                                        <option>Land Ownership Patterns</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Select Variables (2-10)</label>
+                                    <div class="border rounded-lg p-3 max-h-64 overflow-y-auto space-y-2">
+                                        <label class="flex items-center gap-2 text-sm">
+                                            <input type="checkbox" checked class="rounded"> Transaction Value
+                                        </label>
+                                        <label class="flex items-center gap-2 text-sm">
+                                            <input type="checkbox" checked class="rounded"> Land Area (Marla)
+                                        </label>
+                                        <label class="flex items-center gap-2 text-sm">
+                                            <input type="checkbox" checked class="rounded"> Stamp Duty
+                                        </label>
+                                        <label class="flex items-center gap-2 text-sm">
+                                            <input type="checkbox" checked class="rounded"> Processing Days
+                                        </label>
+                                        <label class="flex items-center gap-2 text-sm">
+                                            <input type="checkbox" checked class="rounded"> Year
+                                        </label>
+                                        <label class="flex items-center gap-2 text-sm">
+                                            <input type="checkbox" class="rounded"> Buyer Age
+                                        </label>
+                                        <label class="flex items-center gap-2 text-sm">
+                                            <input type="checkbox" class="rounded"> Seller Age
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="border-t pt-4">
+                                    <h4 class="text-sm font-medium text-gray-700 mb-2">Options</h4>
+                                    <div class="space-y-2">
+                                        <label class="flex items-center gap-2 text-sm">
+                                            <input type="radio" name="corr-type" checked> Pearson Correlation
+                                        </label>
+                                        <label class="flex items-center gap-2 text-sm">
+                                            <input type="radio" name="corr-type"> Spearman Rank
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-2">
+                                    <label class="flex items-center gap-2 text-sm">
+                                        <input type="checkbox" checked class="rounded"> Show p-values
+                                    </label>
+                                    <label class="flex items-center gap-2 text-sm">
+                                        <input type="checkbox" checked class="rounded"> Color-code cells
+                                    </label>
+                                    <label class="flex items-center gap-2 text-sm">
+                                        <input type="checkbox" class="rounded"> Show Cronbach's Alpha
+                                    </label>
+                                </div>
+
+                                <button class="w-full bg-primary-500 text-white py-3 rounded-lg font-medium hover:bg-primary-700">
+                                    <i class="fas fa-calculator mr-2"></i>Calculate Correlations
+                                </button>
+                            </div>
+
+                            <!-- Results -->
+                            <div class="lg:col-span-2">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h3 class="font-semibold text-gray-800">Correlation Matrix</h3>
+                                    <div class="flex gap-2">
+                                        <button class="text-sm text-primary-600 hover:text-primary-800">
+                                            <i class="fas fa-download mr-1"></i>CSV
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Correlation Matrix Table -->
+                                <div class="overflow-x-auto border rounded-lg mb-4">
+                                    <table class="w-full text-sm">
+                                        <thead class="bg-gray-50">
+                                            <tr>
+                                                <th class="text-left px-3 py-2 font-medium text-gray-600"></th>
+                                                <th class="text-center px-3 py-2 font-medium text-gray-600">Trans. Value</th>
+                                                <th class="text-center px-3 py-2 font-medium text-gray-600">Land Area</th>
+                                                <th class="text-center px-3 py-2 font-medium text-gray-600">Stamp Duty</th>
+                                                <th class="text-center px-3 py-2 font-medium text-gray-600">Proc. Days</th>
+                                                <th class="text-center px-3 py-2 font-medium text-gray-600">Year</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="px-3 py-2 font-medium bg-gray-50">Trans. Value</td>
+                                                <td class="px-3 py-2 text-center bg-gray-200">1.000</td>
+                                                <td class="px-3 py-2 text-center correlation-high">0.847***</td>
+                                                <td class="px-3 py-2 text-center correlation-high">0.923***</td>
+                                                <td class="px-3 py-2 text-center correlation-low">0.123***</td>
+                                                <td class="px-3 py-2 text-center correlation-medium">0.456***</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-3 py-2 font-medium bg-gray-50">Land Area</td>
+                                                <td class="px-3 py-2 text-center correlation-high">0.847***</td>
+                                                <td class="px-3 py-2 text-center bg-gray-200">1.000</td>
+                                                <td class="px-3 py-2 text-center correlation-high">0.789***</td>
+                                                <td class="px-3 py-2 text-center correlation-low">0.087***</td>
+                                                <td class="px-3 py-2 text-center correlation-medium">0.312***</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-3 py-2 font-medium bg-gray-50">Stamp Duty</td>
+                                                <td class="px-3 py-2 text-center correlation-high">0.923***</td>
+                                                <td class="px-3 py-2 text-center correlation-high">0.789***</td>
+                                                <td class="px-3 py-2 text-center bg-gray-200">1.000</td>
+                                                <td class="px-3 py-2 text-center correlation-low">0.145***</td>
+                                                <td class="px-3 py-2 text-center correlation-medium">0.523***</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-3 py-2 font-medium bg-gray-50">Proc. Days</td>
+                                                <td class="px-3 py-2 text-center correlation-low">0.123***</td>
+                                                <td class="px-3 py-2 text-center correlation-low">0.087***</td>
+                                                <td class="px-3 py-2 text-center correlation-low">0.145***</td>
+                                                <td class="px-3 py-2 text-center bg-gray-200">1.000</td>
+                                                <td class="px-3 py-2 text-center correlation-negative">-0.234***</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-3 py-2 font-medium bg-gray-50">Year</td>
+                                                <td class="px-3 py-2 text-center correlation-medium">0.456***</td>
+                                                <td class="px-3 py-2 text-center correlation-medium">0.312***</td>
+                                                <td class="px-3 py-2 text-center correlation-medium">0.523***</td>
+                                                <td class="px-3 py-2 text-center correlation-negative">-0.234***</td>
+                                                <td class="px-3 py-2 text-center bg-gray-200">1.000</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- Legend -->
+                                <div class="flex items-center gap-4 text-xs mb-4">
+                                    <span class="flex items-center gap-1"><span class="w-4 h-4 correlation-high rounded"></span> Strong (+)</span>
+                                    <span class="flex items-center gap-1"><span class="w-4 h-4 correlation-medium rounded"></span> Moderate</span>
+                                    <span class="flex items-center gap-1"><span class="w-4 h-4 correlation-low rounded"></span> Weak</span>
+                                    <span class="flex items-center gap-1"><span class="w-4 h-4 correlation-negative rounded"></span> Negative</span>
+                                    <span class="ml-4">*** p &lt; 0.001, ** p &lt; 0.01, * p &lt; 0.05</span>
+                                </div>
+
+                                <!-- Scatter Plot Matrix -->
+                                <div class="border rounded-lg p-4">
+                                    <h4 class="font-medium text-gray-700 mb-3">Scatter Plot: Transaction Value vs Land Area</h4>
+                                    <div id="scatterChart"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab Content: Comparison of Correlations (Hidden by default) -->
+                    <div id="corr-compare-tab" class="p-6 hidden">
+                        <div class="grid lg:grid-cols-3 gap-6">
+                            <div class="lg:col-span-1 space-y-4">
+                                <h3 class="font-semibold text-gray-800">Correlation Comparison</h3>
+                                <p class="text-sm text-gray-500">Compare correlations between two variables across categories</p>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Variable 1</label>
+                                    <select class="w-full border rounded-lg px-3 py-2 text-sm">
+                                        <option>Transaction Value</option>
+                                        <option>Land Area</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Variable 2</label>
+                                    <select class="w-full border rounded-lg px-3 py-2 text-sm">
+                                        <option>Land Area</option>
+                                        <option>Transaction Value</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Compare Across (Row)</label>
+                                    <select class="w-full border rounded-lg px-3 py-2 text-sm">
+                                        <option>District</option>
+                                        <option>Transaction Type</option>
+                                        <option>Year</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Compare Across (Column)</label>
+                                    <select class="w-full border rounded-lg px-3 py-2 text-sm">
+                                        <option value="">-- None --</option>
+                                        <option>Land Type</option>
+                                        <option>Year</option>
+                                    </select>
+                                </div>
+
+                                <button class="w-full bg-primary-500 text-white py-3 rounded-lg font-medium hover:bg-primary-700">
+                                    <i class="fas fa-calculator mr-2"></i>Compare Correlations
+                                </button>
+                            </div>
+
+                            <div class="lg:col-span-2">
+                                <h3 class="font-semibold text-gray-800 mb-4">Correlation: Transaction Value × Land Area by District</h3>
+
+                                <div class="overflow-x-auto border rounded-lg mb-4">
+                                    <table class="w-full text-sm">
+                                        <thead class="bg-gray-50">
+                                            <tr>
+                                                <th class="text-left px-4 py-3 font-medium text-gray-600">District</th>
+                                                <th class="text-center px-4 py-3 font-medium text-gray-600">Correlation (r)</th>
+                                                <th class="text-center px-4 py-3 font-medium text-gray-600">Std. Error</th>
+                                                <th class="text-center px-4 py-3 font-medium text-gray-600">N</th>
+                                                <th class="text-center px-4 py-3 font-medium text-gray-600">Diff from Overall</th>
+                                                <th class="text-center px-4 py-3 font-medium text-gray-600">t-statistic</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y">
+                                            <tr class="hover:bg-gray-50">
+                                                <td class="px-4 py-3 font-medium">Lahore</td>
+                                                <td class="px-4 py-3 text-center font-mono">0.912</td>
+                                                <td class="px-4 py-3 text-center font-mono">0.008</td>
+                                                <td class="px-4 py-3 text-center">125,432</td>
+                                                <td class="px-4 py-3 text-center text-green-600">+0.065</td>
+                                                <td class="px-4 py-3 text-center font-mono">8.12***</td>
+                                            </tr>
+                                            <tr class="hover:bg-gray-50">
+                                                <td class="px-4 py-3 font-medium">Rawalpindi</td>
+                                                <td class="px-4 py-3 text-center font-mono">0.876</td>
+                                                <td class="px-4 py-3 text-center font-mono">0.011</td>
+                                                <td class="px-4 py-3 text-center">98,765</td>
+                                                <td class="px-4 py-3 text-center text-green-600">+0.029</td>
+                                                <td class="px-4 py-3 text-center font-mono">2.64**</td>
+                                            </tr>
+                                            <tr class="hover:bg-gray-50">
+                                                <td class="px-4 py-3 font-medium">Faisalabad</td>
+                                                <td class="px-4 py-3 text-center font-mono">0.823</td>
+                                                <td class="px-4 py-3 text-center font-mono">0.014</td>
+                                                <td class="px-4 py-3 text-center">87,654</td>
+                                                <td class="px-4 py-3 text-center text-red-600">-0.024</td>
+                                                <td class="px-4 py-3 text-center font-mono">-1.71</td>
+                                            </tr>
+                                            <tr class="hover:bg-gray-50">
+                                                <td class="px-4 py-3 font-medium">Multan</td>
+                                                <td class="px-4 py-3 text-center font-mono">0.798</td>
+                                                <td class="px-4 py-3 text-center font-mono">0.016</td>
+                                                <td class="px-4 py-3 text-center">76,543</td>
+                                                <td class="px-4 py-3 text-center text-red-600">-0.049</td>
+                                                <td class="px-4 py-3 text-center font-mono">-3.06**</td>
+                                            </tr>
+                                            <tr class="bg-gray-100 font-semibold">
+                                                <td class="px-4 py-3">Overall</td>
+                                                <td class="px-4 py-3 text-center font-mono">0.847</td>
+                                                <td class="px-4 py-3 text-center font-mono">0.005</td>
+                                                <td class="px-4 py-3 text-center">453,826</td>
+                                                <td class="px-4 py-3 text-center">-</td>
+                                                <td class="px-4 py-3 text-center">-</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="bg-amber-50 border border-amber-200 rounded-lg p-4">
+                                    <h4 class="font-medium text-amber-800 mb-2">Interpretation</h4>
+                                    <p class="text-sm text-amber-700">
+                                        The correlation between Transaction Value and Land Area varies significantly across districts.
+                                        Lahore shows the strongest relationship (r=0.912), suggesting more consistent pricing per unit area,
+                                        while Multan shows a weaker relationship (r=0.798), indicating more price variability.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Placeholder for other tabs -->
+                    <div id="crosstab-tab" class="p-6 hidden">
+                        <div class="text-center py-12 text-gray-500">
+                            <i class="fas fa-table text-4xl mb-4"></i>
+                            <p>Cross-tabulation analysis interface</p>
+                            <p class="text-sm">Generate frequency tables with row/column percentages</p>
+                        </div>
+                    </div>
+
+                    <div id="regression-tab" class="p-6 hidden">
+                        <p class="text-center py-4 text-gray-500">
+                            <a href="regression.html" class="text-primary-600 hover:text-primary-800">
+                                <i class="fas fa-external-link-alt mr-2"></i>Open Full Regression Analysis Tool
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('[id$="-tab"]').forEach(tab => tab.classList.add('hidden'));
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.remove('hidden');
+            // Update tab styles
+            document.querySelectorAll('nav button').forEach(btn => {
+                btn.classList.remove('tab-active');
+                btn.classList.add('text-gray-500');
+            });
+            event.target.classList.add('tab-active');
+            event.target.classList.remove('text-gray-500');
+        }
+
+        // Means Chart
+        var meansOptions = {
+            series: [{
+                name: 'Mean Transaction Value (PKR)',
+                data: [4567890, 3892450, 2456780, 2123456, 2987654]
+            }],
+            chart: { type: 'bar', height: 250, toolbar: { show: false } },
+            colors: ['#1e3a5f'],
+            plotOptions: { bar: { horizontal: false, columnWidth: '60%' } },
+            xaxis: { categories: ['Lahore', 'Rawalpindi', 'Faisalabad', 'Multan', 'Gujranwala'] },
+            yaxis: { labels: { formatter: val => (val/1000000).toFixed(1) + 'M' } },
+            annotations: {
+                yaxis: [{ y: 3210567, borderColor: '#ef4444', strokeDashArray: 5, label: { text: 'Overall Mean', style: { color: '#ef4444' } } }]
+            }
+        };
+        new ApexCharts(document.querySelector("#meansChart"), meansOptions).render();
+
+        // Scatter Chart
+        var scatterData = [];
+        for(var i = 0; i < 100; i++) {
+            scatterData.push([Math.random() * 50 + 5, Math.random() * 8000000 + 500000]);
+        }
+        var scatterOptions = {
+            series: [{ name: 'Transactions', data: scatterData }],
+            chart: { type: 'scatter', height: 250, toolbar: { show: false } },
+            colors: ['#1e3a5f'],
+            xaxis: { title: { text: 'Land Area (Marla)' }, tickAmount: 10 },
+            yaxis: { title: { text: 'Transaction Value (PKR)' }, labels: { formatter: val => (val/1000000).toFixed(1) + 'M' } }
+        };
+        new ApexCharts(document.querySelector("#scatterChart"), scatterOptions).render();
+    </script>
+</body>
+</html>

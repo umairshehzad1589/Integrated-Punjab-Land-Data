@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regression Analysis - Punjab Land Analytics Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/tailwind-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- MathJax for formulas -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-gray-200 fixed w-full z-30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="../index.html" class="flex items-center">
+                        <div class="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-landmark text-white text-lg"></i>
+                        </div>
+                        <div class="ml-3">
+                            <span class="text-xl font-bold text-gray-900">PLAP</span>
+                            <span class="text-xs text-gray-500 block -mt-1">Punjab Land Analytics</span>
+                        </div>
+                    </a>
+                    <div class="hidden md:flex ml-10 space-x-4">
+                        <a href="../explore.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Explore Data</a>
+                        <a href="../extract.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Create Extract</a>
+                        <a href="analysis.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Analysis</a>
+                        <a href="regression.html" class="text-primary-600 border-b-2 border-primary-600 px-3 py-2 text-sm font-medium">Regression</a>
+                        <a href="../codebook.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Codebook</a>
+                        <a href="api.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">API</a>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="saved-queries.html" class="text-gray-600 hover:text-primary-600">
+                        <i class="fas fa-bookmark"></i>
+                    </a>
+                    <div class="relative">
+                        <button class="flex items-center space-x-2 text-gray-700 hover:text-primary-600">
+                            <div class="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
+                                <span class="text-primary-700 font-medium text-sm">DR</span>
+                            </div>
+                            <span class="text-sm font-medium">Dr. Researcher</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Header -->
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-gray-900">Regression Analysis</h1>
+                <p class="text-gray-600 mt-2">Run regression models with proper survey weights and variance estimation</p>
+            </div>
+
+            <!-- Model Type Selection -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">Select Model Type</h2>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <button onclick="selectModel('ols')" class="model-btn p-4 border-2 border-primary-500 bg-primary-50 rounded-lg text-left" data-model="ols">
+                        <div class="font-medium text-primary-700">OLS Regression</div>
+                        <div class="text-sm text-gray-600 mt-1">Continuous dependent variable</div>
+                    </button>
+                    <button onclick="selectModel('logit')" class="model-btn p-4 border border-gray-300 rounded-lg text-left hover:border-primary-300 hover:bg-primary-50" data-model="logit">
+                        <div class="font-medium text-gray-700">Logistic Regression</div>
+                        <div class="text-sm text-gray-600 mt-1">Binary dependent variable</div>
+                    </button>
+                    <button onclick="selectModel('probit')" class="model-btn p-4 border border-gray-300 rounded-lg text-left hover:border-primary-300 hover:bg-primary-50" data-model="probit">
+                        <div class="font-medium text-gray-700">Probit Regression</div>
+                        <div class="text-sm text-gray-600 mt-1">Binary with normal distribution</div>
+                    </button>
+                    <button onclick="selectModel('mlogit')" class="model-btn p-4 border border-gray-300 rounded-lg text-left hover:border-primary-300 hover:bg-primary-50" data-model="mlogit">
+                        <div class="font-medium text-gray-700">Multinomial Logit</div>
+                        <div class="text-sm text-gray-600 mt-1">Categorical dependent variable</div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Variable Selection -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                <!-- Dependent Variable -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Dependent Variable</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Select Variable</label>
+                            <select id="depVar" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                                <option value="">-- Select --</option>
+                                <option value="TRANSACTION_VALUE" selected>TRANSACTION_VALUE</option>
+                                <option value="LAND_AREA">LAND_AREA</option>
+                                <option value="STAMP_DUTY">STAMP_DUTY</option>
+                                <option value="PROCESSING_DAYS">PROCESSING_DAYS</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Transformation</label>
+                            <select class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                                <option value="none">None</option>
+                                <option value="log" selected>Natural Log (ln)</option>
+                                <option value="log10">Log Base 10</option>
+                                <option value="sqrt">Square Root</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Independent Variables -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Independent Variables</h3>
+                    <div class="space-y-2 max-h-64 overflow-y-auto">
+                        <label class="flex items-center p-2 hover:bg-gray-50 rounded">
+                            <input type="checkbox" checked class="h-4 w-4 text-primary-600 border-gray-300 rounded">
+                            <span class="ml-2 text-sm text-gray-700">LAND_AREA (continuous)</span>
+                        </label>
+                        <label class="flex items-center p-2 hover:bg-gray-50 rounded">
+                            <input type="checkbox" checked class="h-4 w-4 text-primary-600 border-gray-300 rounded">
+                            <span class="ml-2 text-sm text-gray-700">PROPERTY_TYPE (categorical)</span>
+                        </label>
+                        <label class="flex items-center p-2 hover:bg-gray-50 rounded">
+                            <input type="checkbox" checked class="h-4 w-4 text-primary-600 border-gray-300 rounded">
+                            <span class="ml-2 text-sm text-gray-700">DISTRICT (categorical)</span>
+                        </label>
+                        <label class="flex items-center p-2 hover:bg-gray-50 rounded">
+                            <input type="checkbox" class="h-4 w-4 text-primary-600 border-gray-300 rounded">
+                            <span class="ml-2 text-sm text-gray-700">YEAR (continuous)</span>
+                        </label>
+                        <label class="flex items-center p-2 hover:bg-gray-50 rounded">
+                            <input type="checkbox" class="h-4 w-4 text-primary-600 border-gray-300 rounded">
+                            <span class="ml-2 text-sm text-gray-700">URBAN_RURAL (binary)</span>
+                        </label>
+                        <label class="flex items-center p-2 hover:bg-gray-50 rounded">
+                            <input type="checkbox" class="h-4 w-4 text-primary-600 border-gray-300 rounded">
+                            <span class="ml-2 text-sm text-gray-700">OWNER_GENDER (binary)</span>
+                        </label>
+                        <label class="flex items-center p-2 hover:bg-gray-50 rounded">
+                            <input type="checkbox" class="h-4 w-4 text-primary-600 border-gray-300 rounded">
+                            <span class="ml-2 text-sm text-gray-700">DEED_TYPE (categorical)</span>
+                        </label>
+                    </div>
+                    <button class="mt-3 text-sm text-primary-600 hover:text-primary-700">
+                        <i class="fas fa-plus mr-1"></i>Add Interaction Term
+                    </button>
+                </div>
+
+                <!-- Model Options -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Model Options</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Weight Variable</label>
+                            <select class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                                <option value="TXNWT" selected>TXNWT (Transaction Weight)</option>
+                                <option value="PROPWT">PROPWT (Property Weight)</option>
+                                <option value="none">No weights</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Standard Errors</label>
+                            <select class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                                <option value="replicate" selected>Replicate weights (SDR)</option>
+                                <option value="robust">Robust (Sandwich)</option>
+                                <option value="cluster">Clustered by District</option>
+                                <option value="standard">Standard (homoskedastic)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Reference Category</label>
+                            <select class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                                <option value="first">First category</option>
+                                <option value="last">Last category</option>
+                                <option value="modal" selected>Modal category</option>
+                            </select>
+                        </div>
+                        <label class="flex items-center">
+                            <input type="checkbox" checked class="h-4 w-4 text-primary-600 border-gray-300 rounded">
+                            <span class="ml-2 text-sm text-gray-700">Include constant term</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Run Button -->
+            <div class="flex justify-center mb-8">
+                <button onclick="runRegression()" class="bg-primary-600 text-white px-8 py-3 rounded-lg hover:bg-primary-700 transition-colors font-medium">
+                    <i class="fas fa-play mr-2"></i>Run Regression
+                </button>
+            </div>
+
+            <!-- Results Section -->
+            <div id="resultsSection">
+                <!-- Model Summary -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900">Model Summary</h3>
+                        <div class="flex items-center space-x-2">
+                            <button class="px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50">
+                                <i class="fas fa-download mr-1"></i>Export
+                            </button>
+                            <button class="px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50">
+                                <i class="fas fa-code mr-1"></i>R Code
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 rounded-lg p-4 mb-4 font-mono text-sm">
+                        <div class="text-gray-600">Model: <span class="text-gray-900">OLS Regression (Weighted)</span></div>
+                        <div class="text-gray-600">Dependent Variable: <span class="text-gray-900">ln(TRANSACTION_VALUE)</span></div>
+                        <div class="text-gray-600">Weight: <span class="text-gray-900">TXNWT</span></div>
+                        <div class="text-gray-600">Standard Errors: <span class="text-gray-900">SDR Replicate Weights (80 replicates)</span></div>
+                    </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="bg-gray-50 rounded-lg p-4 text-center">
+                            <div class="text-sm text-gray-500">Observations (Unweighted)</div>
+                            <div class="text-2xl font-bold text-gray-900 mt-1">124,567</div>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-4 text-center">
+                            <div class="text-sm text-gray-500">Population Size</div>
+                            <div class="text-2xl font-bold text-gray-900 mt-1">478,923</div>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-4 text-center">
+                            <div class="text-sm text-gray-500">R-squared</div>
+                            <div class="text-2xl font-bold text-gray-900 mt-1">0.687</div>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-4 text-center">
+                            <div class="text-sm text-gray-500">F-statistic</div>
+                            <div class="text-2xl font-bold text-gray-900 mt-1">1,234.5***</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coefficients Table -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
+                    <div class="p-4 border-b border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900">Regression Coefficients</h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Variable</th>
+                                    <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Coefficient</th>
+                                    <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Std. Error</th>
+                                    <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">t-value</th>
+                                    <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">p-value</th>
+                                    <th class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase">Sig.</th>
+                                    <th class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase">95% CI</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-medium text-gray-900">(Intercept)</td>
+                                    <td class="px-4 py-3 text-sm text-right font-mono">12.4523</td>
+                                    <td class="px-4 py-3 text-sm text-right font-mono text-gray-600">0.0892</td>
+                                    <td class="px-4 py-3 text-sm text-right font-mono">139.60</td>
+                                    <td class="px-4 py-3 text-sm text-right font-mono">&lt;0.001</td>
+                                    <td class="px-4 py-3 text-center text-primary-600 font-bold">***</td>
+                                    <td class="px-4 py-3 text-sm text-center font-mono text-gray-600">[12.277, 12.627]</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-medium text-gray-900">ln(LAND_AREA)</td>
+                                    <td class="px-4 py-3 text-sm text-right font-mono">0.8234</td>
+                                    <td class="px-4 py-3 text-sm text-right font-mono text-gray-600">0.0156</td>
+                                    <td class="px-4 py-3 text-sm text-right font-mono">52.78</td>
+                                    <td class="px-4 py-3 text-sm text-right font-mono">&lt;0.001</td>
+                                    <td class="px-4 py-3 text-center text-primary-600 font-bold">***</td>
+                                    <td class="px-4 py-3 text-sm text-center font-mono text-gray-600">[0.793, 0.854]</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm text-gray-700" colspan="7">
+                                        <span class="font-medium">PROPERTY_TYPE</span> <span class="text-gray-500">(ref: Agricultural)</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm text-gray-700 pl-8">Residential</td>
+                                    <td class="px-4 py-3 text-sm text-right font-mono">1.2456</td>
+                                    <td class="px-4 py-3 text-sm text-right font-mono text-gray-600">0.0423</td>
+                                    <td class="px-4 py-3 text-sm text-right font-mono">29.45</td>
+                                    <td class="px-4 py-3 text-sm text-right font-mono">&lt;0.001</td>
+                                    <td class="px-4 py-3 text-center text-primary-600 font-bold">***</td>
+                                    <td class="px-4 py-3 text-sm text-center font-mono text-gray-600">[1.163, 1.329]</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm text-gray-700 pl-8">Commercial</td>
+                                    <td class="px-4 py-3 text-sm text-right font-mono">1.8923</td>
+                                    <td class="px-4 py-3 text-sm text-right font-mono text-gray-600">0.0567</td>
+                                    <td class="px-4 py-3 text-sm text-right font-mono">33.38</td>
+                                    <td class="px-4 py-3 text-sm text-right font-mono">&lt;0.001</td>
+                                    <td class="px-4 py-3 text-center text-primary-600 font-bold">***</td>
+                                    <td class="px-4 py-3 text-sm text-center font-mono text-gray-600">[1.781, 2.004]</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm text-gray-700 pl-8">Industrial</td>
+                                    <td class="px-4 py-3 text-sm text-right font-mono">1.5678</td>
+                                    <td class="px-4 py-3 text-sm text-right font-mono text-gray-600">0.0892</td>
+                                    <td class="px-4 py-3 text-sm text-right font-mono">17.58</td>
+                                    <td class="px-4 py-3 text-sm text-right font-mono">&lt;0.001</td>
+                                    <td class="px-4 py-3 text-center text-primary-600 font-bold">***</td>
+                                    <td class="px-4 py-3 text-sm text-center font-mono text-gray-600">[1.393, 1.743]</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm text-gray-700" colspan="7">
+                                        <span class="font-medium">DISTRICT</span> <span class="text-gray-500">(ref: Lahore)</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm text-gray-700 pl-8">Faisalabad</td>
+                                    <td class="px-4 py-3 text-sm text-right font-mono">-0.4523</td>
+                                    <td class="px-4 py-3 text-sm text-right font-mono text-gray-600">0.0345</td>
+                                    <td class="px-4 py-3 text-sm text-right font-mono">-13.11</td>
+                                    <td class="px-4 py-3 text-sm text-right font-mono">&lt;0.001</td>
+                                    <td class="px-4 py-3 text-center text-primary-600 font-bold">***</td>
+                                    <td class="px-4 py-3 text-sm text-center font-mono text-gray-600">[-0.520, -0.385]</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm text-gray-700 pl-8">Rawalpindi</td>
+                                    <td class="px-4 py-3 text-sm text-right font-mono">-0.1234</td>
+                                    <td class="px-4 py-3 text-sm text-right font-mono text-gray-600">0.0378</td>
+                                    <td class="px-4 py-3 text-sm text-right font-mono">-3.26</td>
+                                    <td class="px-4 py-3 text-sm text-right font-mono">0.001</td>
+                                    <td class="px-4 py-3 text-center text-primary-600 font-bold">**</td>
+                                    <td class="px-4 py-3 text-sm text-center font-mono text-gray-600">[-0.197, -0.049]</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm text-gray-700 pl-8">Multan</td>
+                                    <td class="px-4 py-3 text-sm text-right font-mono">-0.5678</td>
+                                    <td class="px-4 py-3 text-sm text-right font-mono text-gray-600">0.0412</td>
+                                    <td class="px-4 py-3 text-sm text-right font-mono">-13.78</td>
+                                    <td class="px-4 py-3 text-sm text-right font-mono">&lt;0.001</td>
+                                    <td class="px-4 py-3 text-center text-primary-600 font-bold">***</td>
+                                    <td class="px-4 py-3 text-sm text-center font-mono text-gray-600">[-0.649, -0.487]</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm text-gray-500 italic pl-8" colspan="7">
+                                        ... 32 more district coefficients (click to expand)
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="p-4 bg-gray-50 border-t border-gray-200 text-sm text-gray-600">
+                        Significance codes: *** p&lt;0.001, ** p&lt;0.01, * p&lt;0.05, . p&lt;0.1
+                    </div>
+                </div>
+
+                <!-- Coefficient Plot -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900">Coefficient Plot (Property Type)</h3>
+                        <select class="border border-gray-300 rounded px-3 py-1 text-sm">
+                            <option>Property Type</option>
+                            <option>District</option>
+                            <option>All Variables</option>
+                        </select>
+                    </div>
+                    <div id="coefficientPlot" style="height: 300px;"></div>
+                </div>
+
+                <!-- Diagnostics -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Residuals vs Fitted</h3>
+                        <div id="residualsPlot" style="height: 250px;"></div>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Q-Q Plot</h3>
+                        <div id="qqPlot" style="height: 250px;"></div>
+                    </div>
+                </div>
+
+                <!-- Interpretation Help -->
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                    <div class="flex">
+                        <i class="fas fa-info-circle text-blue-500 mt-0.5 mr-3"></i>
+                        <div>
+                            <h3 class="font-medium text-blue-900">Interpreting Log-Linear Results</h3>
+                            <p class="text-blue-800 text-sm mt-1">
+                                Since the dependent variable is log-transformed, coefficients represent <strong>semi-elasticities</strong>.
+                                For continuous predictors, a one-unit increase in X is associated with approximately (β × 100)% change in Y.
+                                For categorical predictors, the coefficient represents the percentage difference from the reference category.
+                            </p>
+                            <p class="text-blue-800 text-sm mt-2">
+                                <strong>Example:</strong> The coefficient 1.245 for Residential property type means residential properties
+                                are associated with approximately exp(1.245) = 3.47× or <strong>247% higher</strong> transaction values than agricultural land,
+                                holding other variables constant.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- R Code Output -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900">Reproducible R Code</h3>
+                        <button class="text-sm text-primary-600 hover:text-primary-700">
+                            <i class="fas fa-copy mr-1"></i>Copy to Clipboard
+                        </button>
+                    </div>
+                    <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+                        <pre class="text-green-400 text-sm"><code>library(survey)
+library(plap)  # PLAP R client
+
+# Load data
+plap_data <- plap_extract(
+  dataset = "registry_2024",
+  variables = c("TRANSACTION_VALUE", "LAND_AREA", "PROPERTY_TYPE",
+                "DISTRICT", "TXNWT", paste0("REPWT", 1:80))
+)
+
+# Define survey design
+plap_design <- svrepdesign(
+  data = plap_data,
+  weights = ~TXNWT,
+  repweights = "REPWT[0-9]+",
+  type = "successive-difference",
+  mse = TRUE
+)
+
+# Run weighted OLS regression
+model <- svyglm(
+  log(TRANSACTION_VALUE) ~ log(LAND_AREA) + PROPERTY_TYPE + DISTRICT,
+  design = plap_design
+)
+
+# View results
+summary(model)
+confint(model)</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white mt-16">
+        <div class="max-w-7xl mx-auto px-4 py-8">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-landmark text-white"></i>
+                    </div>
+                    <div>
+                        <div class="font-semibold">Punjab Land Analytics Portal</div>
+                        <div class="text-sm text-gray-400">Punjab Land Revenue Authority</div>
+                    </div>
+                </div>
+                <div class="text-sm text-gray-400">
+                    © 2024 Government of Punjab. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function selectModel(modelType) {
+            document.querySelectorAll('.model-btn').forEach(btn => {
+                btn.classList.remove('border-primary-500', 'bg-primary-50');
+                btn.classList.add('border-gray-300');
+            });
+            document.querySelector(`[data-model="${modelType}"]`).classList.remove('border-gray-300');
+            document.querySelector(`[data-model="${modelType}"]`).classList.add('border-primary-500', 'bg-primary-50');
+        }
+
+        function runRegression() {
+            console.log('Running regression...');
+            document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Coefficient Plot
+        var coeffOptions = {
+            series: [{
+                name: 'Coefficient',
+                data: [
+                    { x: 'Agricultural (ref)', y: 0, fillColor: '#9ca3af' },
+                    { x: 'Residential', y: 1.246 },
+                    { x: 'Commercial', y: 1.892 },
+                    { x: 'Industrial', y: 1.568 }
+                ]
+            }],
+            chart: {
+                type: 'bar',
+                height: 300,
+                toolbar: { show: false }
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: true,
+                    borderRadius: 4,
+                    dataLabels: {
+                        position: 'top'
+                    }
+                }
+            },
+            colors: ['#16a34a'],
+            dataLabels: {
+                enabled: true,
+                formatter: function(val) {
+                    return val.toFixed(3);
+                },
+                offsetX: 30,
+                style: {
+                    fontSize: '12px',
+                    colors: ['#333']
+                }
+            },
+            xaxis: {
+                title: {
+                    text: 'Coefficient (log scale)'
+                }
+            },
+            annotations: {
+                xaxis: [{
+                    x: 0,
+                    borderColor: '#000',
+                    strokeDashArray: 0
+                }]
+            }
+        };
+
+        var coeffChart = new ApexCharts(document.querySelector("#coefficientPlot"), coeffOptions);
+        coeffChart.render();
+
+        // Residuals Plot (scatter)
+        var residualsData = [];
+        for (var i = 0; i < 100; i++) {
+            residualsData.push({
+                x: 14 + Math.random() * 4,
+                y: (Math.random() - 0.5) * 2
+            });
+        }
+
+        var residualsOptions = {
+            series: [{
+                name: 'Residuals',
+                data: residualsData
+            }],
+            chart: {
+                type: 'scatter',
+                height: 250,
+                toolbar: { show: false }
+            },
+            colors: ['#16a34a'],
+            xaxis: {
+                title: { text: 'Fitted Values' },
+                tickAmount: 5
+            },
+            yaxis: {
+                title: { text: 'Residuals' }
+            },
+            annotations: {
+                yaxis: [{
+                    y: 0,
+                    borderColor: '#ef4444',
+                    strokeDashArray: 5
+                }]
+            }
+        };
+
+        var residualsChart = new ApexCharts(document.querySelector("#residualsPlot"), residualsOptions);
+        residualsChart.render();
+
+        // Q-Q Plot
+        var qqData = [];
+        for (var i = 0; i < 50; i++) {
+            var theoretical = -2.5 + (i / 49) * 5;
+            var sample = theoretical + (Math.random() - 0.5) * 0.5;
+            qqData.push({ x: theoretical, y: sample });
+        }
+
+        var qqOptions = {
+            series: [{
+                name: 'Sample Quantiles',
+                data: qqData
+            }],
+            chart: {
+                type: 'scatter',
+                height: 250,
+                toolbar: { show: false }
+            },
+            colors: ['#16a34a'],
+            xaxis: {
+                title: { text: 'Theoretical Quantiles' },
+                tickAmount: 5
+            },
+            yaxis: {
+                title: { text: 'Sample Quantiles' }
+            },
+            annotations: {
+                points: [],
+                yaxis: [],
+                xaxis: []
+            }
+        };
+
+        // Add reference line for Q-Q
+        qqOptions.annotations.points = [
+            { x: -2.5, y: -2.5, marker: { size: 0 } },
+            { x: 2.5, y: 2.5, marker: { size: 0 } }
+        ];
+
+        var qqChart = new ApexCharts(document.querySelector("#qqPlot"), qqOptions);
+        qqChart.render();
+    </script>
+</body>
+</html>

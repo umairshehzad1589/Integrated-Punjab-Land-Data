@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R & Python Libraries - Punjab Land Analytics Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/tailwind-config.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/r.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/python.min.js"></script>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-gray-200 fixed w-full z-30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="../index.html" class="flex items-center">
+                        <div class="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-landmark text-white text-lg"></i>
+                        </div>
+                        <div class="ml-3">
+                            <span class="text-xl font-bold text-gray-900">PLAP</span>
+                            <span class="text-xs text-gray-500 block -mt-1">Punjab Land Analytics</span>
+                        </div>
+                    </a>
+                    <div class="hidden md:flex ml-10 space-x-4">
+                        <a href="../explore.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Explore Data</a>
+                        <a href="../extract.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Create Extract</a>
+                        <a href="analysis.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">Analysis</a>
+                        <a href="api.html" class="text-gray-600 hover:text-primary-600 px-3 py-2 text-sm font-medium">API</a>
+                        <a href="libraries.html" class="text-primary-600 border-b-2 border-primary-600 px-3 py-2 text-sm font-medium">Libraries</a>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="saved-queries.html" class="text-gray-600 hover:text-primary-600">
+                        <i class="fas fa-bookmark"></i>
+                    </a>
+                    <div class="relative">
+                        <button class="flex items-center space-x-2 text-gray-700 hover:text-primary-600">
+                            <div class="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
+                                <span class="text-primary-700 font-medium text-sm">DR</span>
+                            </div>
+                            <span class="text-sm font-medium">Dr. Researcher</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Breadcrumb -->
+            <nav class="text-sm text-gray-500 mb-6">
+                <a href="../index.html" class="hover:text-primary-600">Home</a>
+                <span class="mx-2">/</span>
+                <a href="../documentation.html" class="hover:text-primary-600">Documentation</a>
+                <span class="mx-2">/</span>
+                <span class="text-gray-900">Client Libraries</span>
+            </nav>
+
+            <!-- Header -->
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-gray-900">R & Python Client Libraries</h1>
+                <p class="text-gray-600 mt-2">Official client libraries for programmatic access to PLAP data</p>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <!-- R Package -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-blue-100 p-3 rounded-lg mr-4">
+                            <i class="fab fa-r-project text-blue-600 text-2xl"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-semibold text-gray-900">plap</h2>
+                            <p class="text-gray-500 text-sm">R Package v1.2.0</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-4">
+                        Access PLAP data directly from R with full support for survey weights and the tidyverse ecosystem.
+                    </p>
+                    <div class="flex space-x-3">
+                        <a href="#r-package" class="bg-primary-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-primary-700">
+                            <i class="fas fa-book mr-1"></i>Documentation
+                        </a>
+                        <a href="https://github.com/plra/plap-r" class="border border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm hover:bg-gray-50">
+                            <i class="fab fa-github mr-1"></i>GitHub
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Python Package -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-yellow-100 p-3 rounded-lg mr-4">
+                            <i class="fab fa-python text-yellow-600 text-2xl"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-semibold text-gray-900">plapdata</h2>
+                            <p class="text-gray-500 text-sm">Python Package v1.1.0</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-4">
+                        Python client with pandas integration for data science workflows and Jupyter notebooks.
+                    </p>
+                    <div class="flex space-x-3">
+                        <a href="#python-package" class="bg-primary-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-primary-700">
+                            <i class="fas fa-book mr-1"></i>Documentation
+                        </a>
+                        <a href="https://github.com/plra/plapdata" class="border border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm hover:bg-gray-50">
+                            <i class="fab fa-github mr-1"></i>GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- R Package Section -->
+            <div id="r-package" class="mb-12">
+                <div class="flex items-center mb-6">
+                    <div class="bg-blue-100 p-2 rounded-lg mr-3">
+                        <i class="fab fa-r-project text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-900">R Package: plap</h2>
+                </div>
+
+                <!-- Installation -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Installation</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-sm text-gray-600 mb-2">Install from CRAN:</p>
+                            <div class="bg-gray-900 rounded-lg p-4">
+                                <pre class="text-green-400 text-sm"><code class="language-r">install.packages("plap")</code></pre>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-600 mb-2">Or install the development version from GitHub:</p>
+                            <div class="bg-gray-900 rounded-lg p-4">
+                                <pre class="text-green-400 text-sm"><code class="language-r"># install.packages("devtools")
+devtools::install_github("plra/plap-r")</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Setup -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Setup & Authentication</h3>
+                    <div class="bg-gray-900 rounded-lg p-4">
+                        <pre class="text-green-400 text-sm"><code class="language-r">library(plap)
+
+# Set your API key (get one at https://plap.punjab.gov.pk/account/api)
+plap_set_key("your-api-key-here")
+
+# Or set it in your .Renviron file for persistent use:
+# PLAP_API_KEY=your-api-key-here
+
+# Verify connection
+plap_whoami()
+#> Authenticated as: Dr. Researcher (dr.researcher@university.edu)
+#> Organization: Research Institute
+#> Rate limit: 10,000 requests/day (8,234 remaining)</code></pre>
+                    </div>
+                </div>
+
+                <!-- Quick Start -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Quick Start</h3>
+                    <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+                        <pre class="text-green-400 text-sm"><code class="language-r">library(plap)
+library(dplyr)
+library(survey)
+
+# List available datasets
+plap_datasets()
+#> # A tibble: 12 × 4
+#>    id                  name                        records  years
+#>    <chr>               <chr>                       <int>    <chr>
+#>  1 registry            E-Registry Transactions     2,456,789 2019-2024
+#>  2 mutation            Mutation Records            1,234,567 2020-2024
+#>  3 stamp               E-Stamp Issuance            5,678,901 2018-2024
+#> ...
+
+# Get a sample extract
+df <- plap_get_extract(
+  dataset = "registry",
+  variables = c("TRANSACTION_VALUE", "LAND_AREA", "PROPERTY_TYPE",
+                "DISTRICT", "YEAR", "TXNWT"),
+  filters = list(YEAR = c(2023, 2024)),
+  sample_size = 10000
+)
+
+# View the data
+glimpse(df)
+#> Rows: 10,000
+#> Columns: 6
+#> $ TRANSACTION_VALUE <dbl> 2500000, 8750000, 1200000, ...
+#> $ LAND_AREA         <dbl> 4.5, 12.0, 2.0, ...
+#> $ PROPERTY_TYPE     <chr> "Residential", "Agricultural", ...
+#> $ DISTRICT          <chr> "Lahore", "Faisalabad", ...
+#> $ YEAR              <int> 2023, 2024, 2023, ...
+#> $ TXNWT             <dbl> 1.23, 0.98, 1.45, ...</code></pre>
+                    </div>
+                </div>
+
+                <!-- Survey Design -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Working with Survey Weights</h3>
+                    <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+                        <pre class="text-green-400 text-sm"><code class="language-r"># Get extract with replicate weights
+df <- plap_get_extract(
+  dataset = "registry",
+  variables = c("TRANSACTION_VALUE", "PROPERTY_TYPE", "DISTRICT"),
+  include_weights = TRUE,  # Includes TXNWT and REPWT1-REPWT80
+  years = 2024
+)
+
+# Create survey design object
+design <- plap_survey_design(df)
+# Equivalent to:
+# svrepdesign(data = df, weights = ~TXNWT, repweights = "REPWT[0-9]+",
+#             type = "successive-difference", mse = TRUE)
+
+# Weighted mean with proper standard errors
+svymean(~TRANSACTION_VALUE, design)
+#>                      mean       SE
+#> TRANSACTION_VALUE 4567890   123456
+
+# Weighted regression
+model <- svyglm(log(TRANSACTION_VALUE) ~ PROPERTY_TYPE + DISTRICT,
+                design = design)
+summary(model)</code></pre>
+                    </div>
+                </div>
+
+                <!-- Function Reference -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
+                    <div class="p-4 border-b border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900">Function Reference</h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Function</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600">plap_set_key()</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">Set API key for authentication</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600">plap_datasets()</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">List available datasets</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600">plap_variables()</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">List variables in a dataset</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600">plap_codebook()</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">Get variable documentation</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600">plap_get_extract()</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">Download data extract</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600">plap_submit_extract()</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">Submit extract request (async)</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600">plap_extract_status()</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">Check extract processing status</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600">plap_download_extract()</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">Download completed extract</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600">plap_survey_design()</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">Create survey design object</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600">plap_citation()</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">Generate citation for extract</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Python Package Section -->
+            <div id="python-package" class="mb-12">
+                <div class="flex items-center mb-6">
+                    <div class="bg-yellow-100 p-2 rounded-lg mr-3">
+                        <i class="fab fa-python text-yellow-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-900">Python Package: plapdata</h2>
+                </div>
+
+                <!-- Installation -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Installation</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-sm text-gray-600 mb-2">Install from PyPI:</p>
+                            <div class="bg-gray-900 rounded-lg p-4">
+                                <pre class="text-green-400 text-sm"><code class="language-python">pip install plapdata</code></pre>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-600 mb-2">Or with conda:</p>
+                            <div class="bg-gray-900 rounded-lg p-4">
+                                <pre class="text-green-400 text-sm"><code class="language-python">conda install -c conda-forge plapdata</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Setup -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Setup & Authentication</h3>
+                    <div class="bg-gray-900 rounded-lg p-4">
+                        <pre class="text-green-400 text-sm"><code class="language-python">import plapdata as plap
+
+# Set your API key
+plap.set_api_key("your-api-key-here")
+
+# Or use environment variable: PLAP_API_KEY
+
+# Verify connection
+plap.whoami()
+# {'user': 'Dr. Researcher', 'email': 'dr.researcher@university.edu',
+#  'organization': 'Research Institute', 'rate_limit_remaining': 8234}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Quick Start -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Quick Start</h3>
+                    <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+                        <pre class="text-green-400 text-sm"><code class="language-python">import plapdata as plap
+import pandas as pd
+
+# List available datasets
+datasets = plap.list_datasets()
+print(datasets)
+#                    id                       name    records       years
+# 0            registry  E-Registry Transactions   2456789  2019-2024
+# 1            mutation          Mutation Records   1234567  2020-2024
+# 2               stamp         E-Stamp Issuance   5678901  2018-2024
+
+# Get variables for a dataset
+vars = plap.list_variables("registry")
+print(vars.head())
+
+# Create an extract
+df = plap.get_extract(
+    dataset="registry",
+    variables=["TRANSACTION_VALUE", "LAND_AREA", "PROPERTY_TYPE",
+               "DISTRICT", "YEAR", "TXNWT"],
+    filters={"YEAR": [2023, 2024]},
+    sample_size=10000
+)
+
+# Returns a pandas DataFrame
+print(df.head())
+#    TRANSACTION_VALUE  LAND_AREA PROPERTY_TYPE    DISTRICT  YEAR  TXNWT
+# 0          2500000.0        4.5   Residential      Lahore  2023   1.23
+# 1          8750000.0       12.0  Agricultural  Faisalabad  2024   0.98
+# ...</code></pre>
+                    </div>
+                </div>
+
+                <!-- Weighted Analysis -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Weighted Analysis</h3>
+                    <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+                        <pre class="text-green-400 text-sm"><code class="language-python">import plapdata as plap
+import numpy as np
+from statsmodels.stats.weightstats import DescrStatsW
+
+# Get data with weights
+df = plap.get_extract(
+    dataset="registry",
+    variables=["TRANSACTION_VALUE", "PROPERTY_TYPE", "DISTRICT", "TXNWT"],
+    include_weights=True,
+    years=2024
+)
+
+# Weighted statistics using statsmodels
+weighted_stats = DescrStatsW(df["TRANSACTION_VALUE"], weights=df["TXNWT"])
+print(f"Weighted Mean: {weighted_stats.mean:,.0f}")
+print(f"Weighted Std:  {weighted_stats.std:,.0f}")
+
+# Weighted regression with linearmodels
+from linearmodels.panel import PooledOLS
+
+# Prepare data
+df["log_value"] = np.log(df["TRANSACTION_VALUE"])
+df = pd.get_dummies(df, columns=["PROPERTY_TYPE", "DISTRICT"])
+
+# Fit weighted OLS
+model = PooledOLS(
+    dependent=df["log_value"],
+    exog=df.filter(regex="PROPERTY_TYPE_|DISTRICT_"),
+    weights=df["TXNWT"]
+)
+results = model.fit(cov_type="robust")
+print(results.summary)</code></pre>
+                    </div>
+                </div>
+
+                <!-- Async Operations -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Async Extract Requests</h3>
+                    <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+                        <pre class="text-green-400 text-sm"><code class="language-python">import plapdata as plap
+
+# For large extracts, use async operations
+extract_request = plap.submit_extract(
+    dataset="registry",
+    variables=["TRANSACTION_VALUE", "LAND_AREA", "PROPERTY_TYPE",
+               "DISTRICT", "TEHSIL", "YEAR"],
+    years=range(2019, 2025),
+    include_weights=True
+)
+
+print(f"Extract ID: {extract_request['id']}")
+print(f"Status: {extract_request['status']}")
+
+# Check status (or use wait=True in submit_extract)
+status = plap.extract_status(extract_request['id'])
+print(f"Progress: {status['progress']}%")
+
+# Download when ready
+if status['status'] == 'completed':
+    df = plap.download_extract(extract_request['id'])
+
+# Or use the wait parameter
+df = plap.submit_extract(..., wait=True)  # Blocks until complete</code></pre>
+                    </div>
+                </div>
+
+                <!-- Class Reference -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
+                    <div class="p-4 border-b border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900">Module Reference</h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Function/Class</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600">set_api_key()</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">Set API key for authentication</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600">list_datasets()</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">List available datasets</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600">list_variables()</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">List variables in a dataset</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600">get_codebook()</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">Get variable documentation</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600">get_extract()</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">Download data extract (sync)</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600">submit_extract()</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">Submit extract request (async)</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600">extract_status()</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">Check extract processing status</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600">download_extract()</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">Download completed extract</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600">weighted_mean()</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">Calculate weighted mean</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600">sdr_variance()</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">Calculate SDR variance estimate</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 text-sm font-mono text-primary-600">generate_citation()</td>
+                                    <td class="px-4 py-3 text-sm text-gray-700">Generate citation for extract</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Jupyter Notebook Integration -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                    <i class="fas fa-book-open text-orange-500 mr-2"></i>Jupyter Notebook Integration
+                </h3>
+                <p class="text-gray-600 mb-4">
+                    The Python package includes rich display formatting for Jupyter notebooks.
+                </p>
+                <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+                    <pre class="text-green-400 text-sm"><code class="language-python"># In Jupyter, datasets and variables display as interactive tables
+import plapdata as plap
+
+# Rich display of datasets
+plap.list_datasets()  # Displays as formatted HTML table
+
+# Variable search with filtering
+plap.search_variables("transaction", dataset="registry")
+
+# Codebook entries render as formatted documentation
+plap.get_codebook("registry", "TRANSACTION_VALUE")
+# Displays: Description, Universe, Codes, Comparability notes, etc.
+
+# Extract progress displays a progress bar
+df = plap.submit_extract(..., wait=True)
+# [████████████████████████████████████████] 100% Complete</code></pre>
+                </div>
+            </div>
+
+            <!-- Common Issues -->
+            <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
+                <h3 class="font-medium text-amber-900 mb-2">
+                    <i class="fas fa-question-circle mr-2"></i>Common Issues
+                </h3>
+                <div class="space-y-3 text-amber-800 text-sm">
+                    <div>
+                        <strong>Rate Limiting:</strong> If you exceed your daily API limit, requests will return 429 errors.
+                        Use <code class="bg-amber-100 px-1 rounded">plap.rate_limit()</code> to check remaining requests.
+                    </div>
+                    <div>
+                        <strong>Large Extracts:</strong> For extracts over 100,000 records, use asynchronous methods to avoid timeouts.
+                    </div>
+                    <div>
+                        <strong>Memory:</strong> When working with very large datasets, use the <code class="bg-amber-100 px-1 rounded">chunk_size</code>
+                        parameter to stream data in manageable chunks.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Support -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Support & Resources</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <a href="#" class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50">
+                        <i class="fab fa-github text-gray-600 text-xl mr-3"></i>
+                        <div>
+                            <div class="font-medium text-gray-900">GitHub Issues</div>
+                            <div class="text-sm text-gray-500">Report bugs & request features</div>
+                        </div>
+                    </a>
+                    <a href="#" class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50">
+                        <i class="fas fa-book text-gray-600 text-xl mr-3"></i>
+                        <div>
+                            <div class="font-medium text-gray-900">Full Documentation</div>
+                            <div class="text-sm text-gray-500">Detailed API reference</div>
+                        </div>
+                    </a>
+                    <a href="#" class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50">
+                        <i class="fas fa-envelope text-gray-600 text-xl mr-3"></i>
+                        <div>
+                            <div class="font-medium text-gray-900">Email Support</div>
+                            <div class="text-sm text-gray-500">support@plap.punjab.gov.pk</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white mt-16">
+        <div class="max-w-7xl mx-auto px-4 py-8">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-landmark text-white"></i>
+                    </div>
+                    <div>
+                        <div class="font-semibold">Punjab Land Analytics Portal</div>
+                        <div class="text-sm text-gray-400">Punjab Land Revenue Authority</div>
+                    </div>
+                </div>
+                <div class="text-sm text-gray-400">
+                    © 2024 Government of Punjab. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        hljs.highlightAll();
+    </script>
+</body>
+</html>
